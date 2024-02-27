@@ -1,5 +1,5 @@
 {
-  "name": "dapp-voting/monorepo",
+  "name": "@oasisprotocol/dapp-voting",
   "version": "0.0.0",
   "private": true,
   "scripts": {
