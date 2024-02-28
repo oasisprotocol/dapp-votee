@@ -1,0 +1,27 @@
+{
+  "name": "@oasisprotocol/dapp-voting-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "license": "See License in ../LICENSE",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "packageManager": "pnpm@8.15.4",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.56",
+    "@types/react-dom": "^18.2.19",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.4"
+  }
+}
