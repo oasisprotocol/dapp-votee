@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "eslint": "eslint . --cache --ext .js,.ts,.tsx --max-warnings 0"
+    "eslint": "eslint . --cache --ext .js,.ts,.tsx --max-warnings 0",
+    "prettier": "prettier --write . --ignore-path .eslintignore"
   },
   "license": "See License in LICENSE",
   "packageManager": "pnpm@8.15.4",
@@ -15,7 +16,9 @@
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
     "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5"
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "prettier": "^3.2.5"
   }
 }
