@@ -3,11 +3,19 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "eslint": "eslint . --cache --ext .js,.ts,.tsx --max-warnings 0"
   },
   "license": "See License in LICENSE",
   "packageManager": "pnpm@8.15.4",
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5"
   }
 }
