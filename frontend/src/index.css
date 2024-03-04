@@ -1,31 +1,31 @@
 :root {
-    --white: #fff;
-    --palatinate-blue: #2c3bd5;
-    --bright-gray: #eae6f0;
-    --dark-gunmetal: #242629;
+  --white: #fff;
+  --palatinate-blue: #2c3bd5;
+  --bright-gray: #eae6f0;
+  --dark-gunmetal: #242629;
 }
 
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: normal;
-    line-height: 150%;
-    color: var(--white);
-    text-align: left;
-    background-color: var(--palatinate-blue);
-    background-image: url('/background.webp');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    min-height: 100dvh;
+  margin: 0;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 150%;
+  color: var(--white);
+  text-align: left;
+  background-color: var(--palatinate-blue);
+  background-image: url('/background.webp');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  min-height: 100dvh;
 }
 
 h1,
@@ -35,19 +35,19 @@ h4,
 h5,
 h6,
 p {
-    margin: 0;
+  margin: 0;
 }
 
 h1 {
-    font-size: 56px;
-    font-weight: 500;
-    line-height: 130%;
-    letter-spacing: -0.03em;
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 130%;
+  letter-spacing: -0.03em;
 }
 
 h2 {
-    font-size: 26px;
-    font-weight: 500;
-    line-height: 130%;
-    letter-spacing: -0.03em;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 130%;
+  letter-spacing: -0.03em;
 }
