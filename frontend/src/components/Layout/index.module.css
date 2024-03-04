@@ -1,0 +1,28 @@
+.layout {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.main {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  vertical-align: middle;
+  align-items: center;
+  padding-top: 2.8125rem;
+  padding-bottom: 1.5625rem;
+  border-bottom: 1px solid var(--white);
+}
+
+.subHeader {
+  margin: 1.125rem 0 0.5625rem;
+  text-align: center;
+  padding: 1.875rem 0;
+}
