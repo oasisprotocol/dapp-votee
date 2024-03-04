@@ -1,0 +1,37 @@
+.cardHeaderText {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 23px;
+    letter-spacing: 0;
+    text-align: center;
+    margin-bottom: 1.5625rem;
+    opacity: 0.8;
+}
+
+.mascotCards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2.0625rem;
+    margin-bottom: 2.5rem;
+}
+
+.mascotCardActions {
+    display: flex;
+    justify-content: center;
+}
+
+.cardAction {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.cardFooterText {
+    font-family: Poppins, system-ui;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    letter-spacing: 0;
+    text-align: center;
+    color: var(--palatinate-blue);
+}
