@@ -6,6 +6,7 @@
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky",
     "eslint": "eslint . --cache --ext .js,.ts,.tsx --max-warnings 0",
+    "lint-git": "node ./internals/scripts/gitlint.mjs",
     "prettier": "prettier --write . --ignore-path .eslintignore"
   },
   "license": "See License in LICENSE",
