@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { Layout } from './components/Layout'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { HomePage } from './pages/HomePage'
+import { EIP1193ContextProvider } from './providers/EIP1193Provider.tsx'
 
 const router = createHashRouter([
   {
@@ -17,5 +18,9 @@ const router = createHashRouter([
 ])
 
 export const App: FC = () => {
-  return <RouterProvider router={router} />
+  return (
+    <EIP1193ContextProvider>
+      <RouterProvider router={router} />
+    </EIP1193ContextProvider>
+  )
 }
