@@ -3,6 +3,7 @@ import { useWeb3 } from '../../hooks/useWeb3.ts'
 import { METAMASK_HOME_PAGE } from '../../constants/config.ts'
 import { Button } from '../Button'
 import { UnknownNetworkError } from '../../utils/errors.ts'
+import { ConnectedAccount } from '../ConnectedAccount'
 
 export const ConnectWallet: FC = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -11,7 +12,7 @@ export const ConnectWallet: FC = () => {
   const [, setError] = useState('')
 
   const {
-    state: { isConnected },
+    state: { isConnected, account, networkName },
     connectWallet,
     switchNetwork,
     isProviderAvailable,
@@ -74,7 +75,7 @@ export const ConnectWallet: FC = () => {
           Connect wallet
         </Button>
       )}
-      {isConnected && <span>ConnectedAccount</span>}
+      {isConnected && account && <ConnectedAccount address={account} networkName={networkName!} />}
     </>
   )
 }
