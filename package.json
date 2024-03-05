@@ -7,6 +7,7 @@
     "prepare": "husky",
     "eslint": "eslint . --cache --ext .js,.ts,.tsx --max-warnings 0",
     "lint-git": "node ./internals/scripts/gitlint.mjs",
+    "lint-docs": "markdownlint --ignore '**/node_modules/**' '**/*.md'",
     "prettier": "prettier --write . --ignore-path .eslintignore"
   },
   "license": "See License in LICENSE",
@@ -27,6 +28,7 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
+    "markdownlint-cli": "^0.39.0",
     "prettier": "^3.2.5"
   }
 }

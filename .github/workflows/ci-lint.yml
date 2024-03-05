@@ -55,6 +55,11 @@ jobs:
       - name: Install gitlint
         run: |
           python -m pip install gitlint
+      - name: Lint documentation
+        run: |
+          pnpm lint-docs
+        # Always run this step so that all linting errors can be seen at once.
+        if: always()
       - name: Lint git commits
         run: |
           pnpm lint-git
