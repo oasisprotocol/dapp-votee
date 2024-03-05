@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "prepare": "husky",
     "eslint": "eslint . --cache --ext .js,.ts,.tsx --max-warnings 0",
     "prettier": "prettier --write . --ignore-path .eslintignore"
   },
@@ -19,6 +20,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^9.0.11",
     "prettier": "^3.2.5"
   }
 }
