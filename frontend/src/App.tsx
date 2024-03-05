@@ -3,6 +3,7 @@ import { Layout } from './components/Layout'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { HomePage } from './pages/HomePage'
 import { EIP1193ContextProvider } from './providers/EIP1193Provider.tsx'
+import { Web3ContextProvider } from './providers/Web3Provider.tsx'
 
 const router = createHashRouter([
   {
@@ -20,7 +21,9 @@ const router = createHashRouter([
 export const App: FC = () => {
   return (
     <EIP1193ContextProvider>
-      <RouterProvider router={router} />
+      <Web3ContextProvider>
+        <RouterProvider router={router} />
+      </Web3ContextProvider>
     </EIP1193ContextProvider>
   )
 }
