@@ -1,3 +1,11 @@
+/// <reference types="vite-plugin-svgr/client" />
+
 import { FC } from 'react'
-import caretRightRegular from '@phosphor-icons/core/assets/regular/caret-right.svg'
-export const CaretRightIcon: FC = () => caretRightRegular
+import CaretRightSvg from '@phosphor-icons/core/assets/bold/caret-right-bold.svg?react'
+import { Icon } from '../Icon'
+
+export const CaretRightIcon: FC = () => (
+  <Icon>
+    <CaretRightSvg />
+  </Icon>
+)
