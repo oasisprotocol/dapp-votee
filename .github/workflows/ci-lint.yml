@@ -1,5 +1,5 @@
 # NOTE: This name appears in GitHub's Checks API and in workflow's status badge.
-name: ci-build
+name: ci-lint
 
 # Trigger the workflow when:
 on:
@@ -12,13 +12,22 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  lint:
     # NOTE: This name appears in GitHub's Checks API.
-    name: build
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # Checkout pull request HEAD commit instead of merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
+          # Fetch all history so gitlint can check the relevant commits.
+          fetch-depth: '0'
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
       - name: Set up Node.js 20
         uses: actions/setup-node@v4
         with:
@@ -43,12 +52,22 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: Install
         run: pnpm install --frozen-lockfile --ignore-scripts
-      - name: Build frontend app
-        run: pnpm --filter @oasisprotocol/dapp-voting-frontend build
-      - name: Upload frontend build artifacts
-        # Upload build artifacts on push event.
-        if: github.event_name == 'push'
-        uses: actions/upload-artifact@v3
-        with:
-          name: oasis-voTEE-frontend-${{ steps.vars.outputs.SHORT_SHA }}
-          path: frontend/dist
+      - name: Install gitlint
+        run: |
+          python -m pip install gitlint
+      - name: Lint documentation
+        run: |
+          pnpm lint-docs
+        # Always run this step so that all linting errors can be seen at once.
+        if: always()
+      - name: Lint git commits
+        run: |
+          pnpm lint-git
+        # Always run this step so that all linting errors can be seen at once.
+        if: always()
+      - name: ESLint
+        run: pnpm eslint
+        # Always run this step so that all linting errors can be seen at once.
+        if: always()
+      - name: Validate TypeScript
+        run: pnpm --filter @oasisprotocol/dapp-voting-frontend checkTs
