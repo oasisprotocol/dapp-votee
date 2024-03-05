@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@phosphor-icons/core": "^2.0.8",
+    "@oasisprotocol/sapphire-paratime": "^1.3.2",
     "ethers": "^6.11.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
