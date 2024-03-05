@@ -13,6 +13,10 @@
   "engines": {
     "node": ">=20"
   },
+  "lint-staged": {
+    "*.{js,ts,tsx}": "eslint --ext .js,.ts,.tsx  --max-warnings 0",
+    "*.{js,ts,tsx,css}": "prettier --write --ignore-path .eslintignore"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
