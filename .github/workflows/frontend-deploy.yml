@@ -1,0 +1,69 @@
+# NOTE: This name appears in GitHub's Checks API and in workflow's status badge.
+name: frontend-deploy
+
+# Trigger the workflow when:
+on:
+  # A push occurs to one of the matched branches and when frontend files are changed.
+  push:
+    branches: [master]
+    paths:
+      - 'frontend/**'
+      - 'package.json'
+  # Trigger manually by an user.
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    # NOTE: This name appears in GitHub's Checks API.
+    name: frontend-deploy
+    # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    # Setup github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - uses: pnpm/action-setup@v3
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+      - name: Set workflow variables
+        # Id is needed to access output in a next step.
+        id: vars
+        run: |
+          echo "PNPM_CACHE_DIR=$(pnpm store path)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.vars.outputs.PNPM_CACHE_DIR }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Install
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Build frontend app
+        run: pnpm --filter @oasisprotocol/dapp-voting-frontend build
+      # https://github.com/actions/upload-pages-artifact#example-permissions-fix-for-linux
+      - name: Ensure build files have proper permissions
+        run: |
+          chmod -c -R +rX "frontend/dist/" | while read line; do
+            echo "::warning title=Invalid file permissions automatically fixed::$line"
+          done
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: 'frontend/dist/'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v3
