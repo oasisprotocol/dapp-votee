@@ -4,10 +4,38 @@ import { Button } from '../../components/Button'
 import { Card } from '../../components/Card'
 import classes from './index.module.css'
 import { MascotCard } from '../../components/MascotCard'
+import { Alert } from '../../components/Alert'
 
 export const HomePage: FC = () => {
   return (
     <div>
+      <Alert type="insufficient-balance">
+        Please note there is a 100 ROSE threshold in order to cast your vote.
+      </Alert>
+      <br />
+      <br />
+      <Alert type="loading" actions={<span>Submitting vote...</span>}>
+        Once you confirm this vote you will not be able to cancel it.
+      </Alert>
+      <br />
+      <br />
+      <Alert
+        type="success"
+        actions={
+          <span>
+            Your vote has successfully submitted.
+            <br />
+            Thank you for your participation.
+          </span>
+        }
+      />
+      <br />
+      <br />
+      <Alert type="error">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod Ipsum
+      </Alert>
+      <br />
+      <br />
       <Card>
         <p className={classes.cardHeaderText}>
           Select your preferred mascot option. Once you confirm this vote you will not be able to cancel it.
