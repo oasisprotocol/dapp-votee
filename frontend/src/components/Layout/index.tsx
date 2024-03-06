@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Outlet } from 'react-router-dom'
 import classes from './index.module.css'
 import { LogoIcon } from '../icons/LogoIcon'
-import { Button } from '../Button'
+import { ConnectWallet } from '../ConnectWallet'
 
 export const Layout: FC = () => {
   return (
@@ -10,7 +10,7 @@ export const Layout: FC = () => {
       <main className={classes.main}>
         <header className={classes.header}>
           <LogoIcon />
-          <Button color="secondary">Connect Wallet</Button>
+          <ConnectWallet />
         </header>
         <section className={classes.subHeader}>
           <h1>Oasis Mascot</h1>

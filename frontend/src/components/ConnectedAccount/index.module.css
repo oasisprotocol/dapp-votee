@@ -1,0 +1,45 @@
+.connectedAccount {
+  display: flex;
+  justify-items: center;
+  gap: 1rem;
+  min-width: 350px;
+  border-radius: 12px;
+  background: var(--white);
+  padding: 0.9375rem 0.75rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.connectedAccountDetails {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 270px;
+  color: var(--navy-blue);
+  text-align: end;
+  margin-bottom: 0;
+}
+
+.connectedAccountAddress {
+  flex: 1 1 60%;
+  font-family: monospace;
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 140%;
+  letter-spacing: 0;
+  text-align: right;
+}
+
+.network {
+  flex: 0 0 40%;
+  overflow: hidden;
+  max-height: 28px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: capitalize;
+}
