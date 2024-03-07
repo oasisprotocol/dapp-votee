@@ -30,6 +30,9 @@
 }
 
 .mascotPollData {
+  display: flex;
+  gap: 2.125rem;
+  justify-content: space-between;
   margin-bottom: 2.5rem;
 }
 
@@ -40,4 +43,33 @@
   letter-spacing: -0.03em;
   text-align: center;
   color: var(--palatinate-blue);
+}
+
+.mascotResultsTable {
+  table-layout: fixed;
+
+  tr {
+    th,
+    td {
+      &:last-child {
+        text-align: right;
+      }
+      &:nth-child(2) {
+        text-align: center;
+      }
+    }
+  }
+}
+
+.answerColName {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 137%;
+  letter-spacing: -0.03em;
+
+  &::before {
+    padding-right: 10px;
+    content: '\2B24';
+    vertical-align: text-bottom;
+  }
 }

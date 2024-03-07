@@ -1,11 +1,7 @@
 import { FC } from 'react'
 import classes from './index.module.css'
-import { Pie, ResponsiveContainer, PieChart as RechartsPieChart, Cell } from 'recharts'
-
-interface DataEntry {
-  name: string
-  value: number
-}
+import { Cell, Pie, PieChart as RechartsPieChart, ResponsiveContainer } from 'recharts'
+import { DataEntry } from '../../types/data-entry.ts'
 
 interface Props {
   data: DataEntry[]

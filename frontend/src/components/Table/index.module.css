@@ -1,0 +1,41 @@
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+  border-collapse: collapse;
+
+  thead {
+    th {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 150%;
+      letter-spacing: -0.03em;
+      vertical-align: bottom;
+      padding-bottom: 1.125rem;
+      border-bottom: 1px solid var(--table-border-dark);
+      color: var(--palatinate-blue);
+    }
+  }
+
+  tbody {
+    tr {
+      &:not(:last-child) {
+        border-bottom: 1px solid var(--table-border-light);
+      }
+
+      &:last-child {
+        border-bottom: 1px solid var(--table-border-dark);
+      }
+    }
+
+    td {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 150%;
+      letter-spacing: -0.03em;
+    }
+  }
+}

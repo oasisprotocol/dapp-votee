@@ -4,6 +4,7 @@ import classes from './index.module.css'
 import { MascotCard } from '../../components/MascotCard'
 import { TrophyIcon } from '../../components/icons/TrophyIcon.tsx'
 import { PieChart } from '../../components/PieChart'
+import { Table } from '../../components/Table'
 
 const data = [
   {
@@ -20,11 +21,15 @@ const data = [
   },
 ]
 
-const dataColorMap = {
+const dataValueSum = data.reduce((acc, curr) => acc + curr.value, 0)
+
+const dataColorMap: Record<string, string> = {
   'Desert Fox': '#006dd2',
   Capybara: '#45f1f4',
   Camel: '#bbbbbb',
 }
+
+const tableHeaders = ['Answer', 'Votes', '%']
 
 export const ResultsPage: FC = () => {
   return (
@@ -48,6 +53,17 @@ export const ResultsPage: FC = () => {
         </div>
         <div className={classes.mascotPollData}>
           <PieChart data={data} colorMap={dataColorMap} />
+          <Table className={classes.mascotResultsTable} headers={tableHeaders} data={data}>
+            {({ name, value }) => (
+              <tr key={name.replace(/ /g, '-')} style={{ color: dataColorMap[name] }}>
+                <td>
+                  <span className={classes.answerColName}>{name}</span>
+                </td>
+                <td>{value.toLocaleString()}</td>
+                <td>{((value / dataValueSum) * 100).toFixed(2).replace('.00', '')}%</td>
+              </tr>
+            )}
+          </Table>
         </div>
         <p className={classes.cardFooterText}>
           Poll opened from March 31/03/2024 (00:00 CET) until 31/12/2024 (00:00 CET).
