@@ -1,6 +1,6 @@
 import { cloneElement, FC, ReactElement, SVGProps } from 'react'
 
-type IconSize = 'medium' | 'large' | 'xlarge'
+type IconSize = 'small' | 'medium' | 'large' | 'xlarge'
 
 interface Props {
   children: ReactElement
@@ -8,6 +8,10 @@ interface Props {
 }
 
 const sizeMap: Record<IconSize, Partial<SVGProps<SVGSVGElement>>> = {
+  small: {
+    width: 14,
+    height: 14,
+  },
   medium: {
     width: 30,
     height: 30,
