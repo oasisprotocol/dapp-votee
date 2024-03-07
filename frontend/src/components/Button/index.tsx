@@ -1,5 +1,6 @@
 import classes from './index.module.css'
 import { FC, MouseEventHandler, PropsWithChildren } from 'react'
+import { StringUtils } from '../../utils/string.utils.ts'
 
 type ButtonSize = 'small' | 'medium'
 type ButtonColor = 'primary' | 'secondary'
@@ -43,15 +44,15 @@ export const Button: FC<Props> = ({
   type,
 }) => (
   <button
-    className={[
+    className={StringUtils.clsx(
       className,
       classes.button,
-      ...(disabled ? [classes.buttonDisabled] : []),
-      ...(fullWidth ? [classes.fullWidth] : []),
+      disabled ? classes.buttonDisabled : undefined,
+      fullWidth ? classes.fullWidth : undefined,
       colorMap[color],
       sizeMap[size],
-      variantMap[variant],
-    ].join(' ')}
+      variantMap[variant]
+    )}
     onClick={onClick}
     disabled={disabled}
     type={type}

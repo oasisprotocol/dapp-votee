@@ -12,4 +12,11 @@ export abstract class StringUtils {
   static getTransactionUrl = (baseUrl: string, txHash: string) => `${baseUrl}/tx/${txHash}`
 
   static getAccountUrl = (baseUrl: string, address: string) => `${baseUrl}/address/${address}`
+
+  static clsx = (...classNames: (string | undefined)[]) => {
+    return classNames
+      .map(className => (className ? [className] : []))
+      .flat()
+      .join(' ')
+  }
 }
