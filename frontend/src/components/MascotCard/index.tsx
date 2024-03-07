@@ -12,7 +12,7 @@ export const MascotCard: FC<Props> = ({ image, title, description, actions }) =>
   return (
     <div className={classes.mascotCard}>
       {image}
-      <h2 className={classes.mascotCardTitle}>{title}</h2>
+      <h3 className={classes.mascotCardTitle}>{title}</h3>
       <p className={classes.mascotCardDescription}>{description}</p>
       {actions}
     </div>

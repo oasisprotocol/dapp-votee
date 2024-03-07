@@ -1,6 +1,11 @@
 import { FC, PropsWithChildren } from 'react'
 import classes from './index.module.css'
+import { StringUtils } from '../../utils/string.utils.ts'
 
-export const Card: FC<PropsWithChildren> = ({ children }) => {
-  return <div className={classes.card}>{children}</div>
+interface Props extends PropsWithChildren {
+  className?: string
+}
+
+export const Card: FC<Props> = ({ children, className }) => {
+  return <div className={StringUtils.clsx(classes.card, className)}>{children}</div>
 }

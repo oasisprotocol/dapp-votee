@@ -4,6 +4,11 @@
   --bright-gray: #eae6f0;
   --dark-gunmetal: #242629;
   --navy-blue: #000062;
+  --mystic: #d44c7d;
+  --green-sheen: #66bfa0;
+  --azure: #008cff;
+  --rose-red: #cc1e5c;
+  --medium-blue: #0d00d2;
 }
 
 *,
@@ -47,6 +52,13 @@ h1 {
 }
 
 h2 {
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 140%;
+  letter-spacing: -0.03em;
+}
+
+h3 {
   font-size: 26px;
   font-weight: 500;
   line-height: 130%;
