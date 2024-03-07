@@ -29,6 +29,10 @@
   letter-spacing: -0.03em;
 }
 
+.mascotPollData {
+  margin-bottom: 2.5rem;
+}
+
 .cardFooterText {
   font-size: 14px;
   font-weight: 500;
