@@ -9,6 +9,8 @@
   --azure: #008cff;
   --rose-red: #cc1e5c;
   --medium-blue: #0d00d2;
+  --table-border-light: rgba(143, 142, 223, 0.39);
+  --table-border-dark: rgba(36, 38, 41, 0.8);
 }
 
 *,
