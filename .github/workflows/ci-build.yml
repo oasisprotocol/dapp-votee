@@ -45,6 +45,8 @@ jobs:
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Build frontend app
         run: pnpm --filter @oasisprotocol/dapp-voting-frontend build
+      - name: Build frontend app
+        run: pnpm --filter @oasisprotocol/dapp-voting-backend test
       - name: Upload frontend build artifacts
         # Upload build artifacts on push event.
         if: github.event_name == 'push'

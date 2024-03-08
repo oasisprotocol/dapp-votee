@@ -54,15 +54,8 @@ describe("PollManager", function () {
   it("Proposals", async function () {
     const acl_nativebalance_addr = await acl_nativebalance.getAddress();
 
-    const signers = await ethers.getSigners();
-
-    for( const s of signers ) {
-      const sa = await s.getAddress();
-      const b = await s.provider.getBalance(sa);
-      console.log(sa, formatEther(b));
-    }
-
-    const aclData = getBytes(AbiCoder.defaultAbiCoder().encode(['uint256'], [parseEther('1')]));
+    const aclData = getBytes(AbiCoder.defaultAbiCoder().encode(
+      ['uint256'], [parseEther('1')]));
 
     const proposalId = await addProposal(pm, {
       ipfsHash: "0xdef0",
@@ -70,7 +63,6 @@ describe("PollManager", function () {
       closeTimestamp: 0n,
       acl: acl_nativebalance_addr
     }, aclData);
-    console.log(' - Proposal created', proposalId);
 
     await closeProposal(pm, proposalId)
   });
