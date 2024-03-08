@@ -60,7 +60,13 @@ export const ResultsPage: FC = () => {
                   <span className={classes.answerColName}>{name}</span>
                 </td>
                 <td>{value.toLocaleString()}</td>
-                <td>{((value / dataValueSum) * 100).toFixed(2).replace('.00', '')}%</td>
+                <td>
+                  {new Intl.NumberFormat(undefined, {
+                    style: 'percent',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2,
+                  }).format(value / dataValueSum)}
+                </td>
               </tr>
             )}
           </Table>
