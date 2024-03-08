@@ -15,7 +15,12 @@ export const PieChart: FC<Props> = ({ data, colorMap }) => {
         <RechartsPieChart>
           <Pie dataKey="value" data={data} innerRadius={50} outerRadius={100} legendType="none">
             {data.map(({ name }) => (
-              <Cell key={name.replace(/ /g, '-')} fill={colorMap[name]} />
+              <Cell
+                key={name.replace(/ /g, '-')}
+                className={classes.pieChartCell}
+                fill={colorMap[name]}
+                stroke={colorMap[name]}
+              />
             ))}
           </Pie>
         </RechartsPieChart>
