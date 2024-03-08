@@ -138,7 +138,7 @@ contract PollManager is IERC165, IPollManager {
         ProposalParams calldata in_params,
         bytes calldata in_aclData
     )
-        external payable
+        external
         returns (bytes32)
     {
         if (!s_managerACL.canCreatePoll(address(this), msg.sender)) {
@@ -353,7 +353,7 @@ contract PollManager is IERC165, IPollManager {
             revert Poll_StillActive();
         }
 
-        uint256[] memory unmaskedVoteCounts = new uint256[](MAX_CHOICES);
+        uint256[] memory unmaskedVoteCounts = new uint256[](proposal.params.numChoices);
         uint256 xorMask = ballot.xorMask;
         for (uint256 i; i<unmaskedVoteCounts.length; i++) {
             unmaskedVoteCounts[i] = ballot.voteCounts[i] ^ xorMask;

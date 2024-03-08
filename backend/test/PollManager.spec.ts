@@ -1,13 +1,10 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { AbiCoder, BytesLike, EventLog, formatEther, getBytes, parseEther } from "ethers";
+import { AbiCoder, BytesLike, EventLog, getBytes, parseEther } from "ethers";
 import { PollManager, AllowAllACL, NativeBalanceACL } from "../src/contracts";
 
-async function addProposal(dao:PollManager, proposal:PollManager.ProposalParamsStruct, aclData?:Uint8Array, value?:bigint) {
-  if( ! value ) {
-    value = 0n;
-  }
-  const tx = await dao.create(proposal, aclData ?? new Uint8Array([]), {value});
+async function addProposal(dao:PollManager, proposal:PollManager.ProposalParamsStruct, aclData?:Uint8Array) {
+  const tx = await dao.create(proposal, aclData ?? new Uint8Array([]));
   const receipt = await tx.wait();
   expect(receipt!.logs).to.not.be.undefined;
   const createEvent = receipt!.logs.find(event => (event as EventLog).fragment.name === 'ProposalCreated') as EventLog;
@@ -64,6 +61,14 @@ describe("PollManager", function () {
       acl: acl_nativebalance_addr
     }, aclData);
 
-    await closeProposal(pm, proposalId)
+    const voteTx = await pm.vote(proposalId, 1, new Uint8Array([]));
+    await voteTx.wait();
+
+    await closeProposal(pm, proposalId);
+
+    const counts = await pm.getVoteCounts(proposalId);
+    expect(counts[0]).eq(0n);
+    expect(counts[1]).eq(1n);
+    expect(counts[2]).eq(0n);
   });
 });

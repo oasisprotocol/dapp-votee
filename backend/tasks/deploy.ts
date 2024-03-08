@@ -1,7 +1,7 @@
 import { task } from 'hardhat/config';
 import { existsSync, promises as fs } from 'fs';
 import { HardhatRuntimeEnvironment, HttpNetworkUserConfig } from 'hardhat/types';
-
+import { AbiCoder, BytesLike, EventLog, parseEther } from 'ethers';
 
 function maketee(filename?:string) {
   return async function tee(line?:string) {
@@ -91,8 +91,14 @@ task('deploy')
       ipfsHash: new Uint8Array([]),
       numChoices: 3,
       closeTimestamp: 0,
-      acl: addr_NativeBalanceACL
-    }, new Uint8Array());
-    const receipt = tx.wait();
-    console.log('Receipt', receipt);
+      acl: addr_NativeBalanceACL,
+    }, AbiCoder.defaultAbiCoder().encode(['uint256'], [parseEther('100')]));
+
+    const receipt = await tx.wait();
+    const createEvent = receipt!.logs.find(event => (event as EventLog).fragment.name === 'ProposalCreated') as EventLog;
+    const proposalId = createEvent!.args![0] as BytesLike;
+
+    await tee('');
+    await tee('# Proposal ID for poll pre-created poll')
+    await tee(`VITE_PROPOSAL_ID=${proposalId}`);
   });
