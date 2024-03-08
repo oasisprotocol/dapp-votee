@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { BytesLike, EventLog } from "ethers";
+import { AbiCoder, BytesLike, EventLog, formatEther, getBytes, parseEther } from "ethers";
 import { PollManager, AllowAllACL, NativeBalanceACL } from "../src/contracts";
 
 async function addProposal(dao:PollManager, proposal:PollManager.ProposalParamsStruct, aclData?:Uint8Array, value?:bigint) {
@@ -54,9 +54,23 @@ describe("PollManager", function () {
   it("Proposals", async function () {
     const acl_nativebalance_addr = await acl_nativebalance.getAddress();
 
-    const proposalId = await addProposal(pm, {ipfsHash: "0xdef0", numChoices: 3n, closeTimestamp: 0n, acl: acl_nativebalance_addr});
+    const signers = await ethers.getSigners();
 
-    // TODO: vote on proposal
+    for( const s of signers ) {
+      const sa = await s.getAddress();
+      const b = await s.provider.getBalance(sa);
+      console.log(sa, formatEther(b));
+    }
+
+    const aclData = getBytes(AbiCoder.defaultAbiCoder().encode(['uint256'], [parseEther('1')]));
+
+    const proposalId = await addProposal(pm, {
+      ipfsHash: "0xdef0",
+      numChoices: 3n,
+      closeTimestamp: 0n,
+      acl: acl_nativebalance_addr
+    }, aclData);
+    console.log(' - Proposal created', proposalId);
 
     await closeProposal(pm, proposalId)
   });

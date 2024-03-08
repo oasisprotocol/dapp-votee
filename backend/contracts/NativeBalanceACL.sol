@@ -49,17 +49,15 @@ contract NativeBalanceACL is IPollACL, IPollManagerACL
         return true;
     }
 
-    function onPollCreated(bytes32 in_proposalId, address in_pm, bytes calldata in_data)
+    function onPollCreated(bytes32 in_proposalId, address in_creator, bytes calldata in_data)
         external
     {
-        (address owner, uint256 minBalance) = abi.decode(in_data, (address,uint256));
+        (uint256 minBalance) = abi.decode(in_data, (uint256));
 
-        require( owner != address(0), "owner!" );
-
-        bytes32 id = internal_id(in_proposalId, in_pm);
+        bytes32 id = internal_id(in_proposalId, msg.sender);
         require( m_proposals[id].owner == address(0), "404" );
 
-        m_proposals[id] = ProposalOptions(owner, minBalance);
+        m_proposals[id] = ProposalOptions(in_creator, minBalance);
     }
 
     function onPollClosed(bytes32 in_proposalId)

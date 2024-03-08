@@ -298,17 +298,19 @@ contract PollManager is IERC165, IPollManager {
             revert Close_NotActive();
         }
 
-        // If no timestamp is specified, only poll creator can close (at any time)
-        uint closeTimestamp = proposal.params.closeTimestamp;
-        if( closeTimestamp == 0 )
+        if (!proposal.params.acl.canManagePoll(address(this), in_proposalId, msg.sender))
         {
-            if (!proposal.params.acl.canManagePoll(address(this), in_proposalId, msg.sender)) {
-                revert Close_NotAllowed();
+            // If no timestamp is specified, only poll creator can close (at any time)
+            uint closeTimestamp = proposal.params.closeTimestamp;
+            if( closeTimestamp != 0 )
+            {
+                // Otherwise, anybody can close, $now >= closeTimestamp
+                if( block.timestamp < closeTimestamp )
+                {
+                    revert Close_NotAllowed();
+                }
             }
-        }
-        else {
-            // Otherwise, anybody can close, $now >= closeTimestamp
-            if( block.timestamp < closeTimestamp ) {
+            else {
                 revert Close_NotAllowed();
             }
         }
