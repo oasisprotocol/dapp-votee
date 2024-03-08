@@ -55,7 +55,7 @@ export const ResultsPage: FC = () => {
           <PieChart data={data} colorMap={dataColorMap} />
           <Table className={classes.mascotResultsTable} headers={tableHeaders} data={data}>
             {({ name, value }) => (
-              <tr key={name.replace(/ /g, '-')} style={{ color: dataColorMap[name] }}>
+              <tr key={name} style={{ color: dataColorMap[name] }}>
                 <td>
                   <span className={classes.answerColName}>{name}</span>
                 </td>

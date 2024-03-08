@@ -16,7 +16,7 @@ export const Table: FC<Props> = ({ headers, data, className, children }) => {
       <thead>
         <tr>
           {headers.map(headerName => (
-            <th key={headerName.replace(/ /g, '-')}>{headerName}</th>
+            <th key={headerName}>{headerName}</th>
           ))}
         </tr>
       </thead>
