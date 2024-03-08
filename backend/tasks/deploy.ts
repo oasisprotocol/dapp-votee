@@ -1,17 +1,17 @@
 import { task } from 'hardhat/config';
 import { existsSync, promises as fs } from 'fs';
-import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import { HardhatRuntimeEnvironment, HttpNetworkUserConfig } from 'hardhat/types';
 
 
 function maketee(filename?:string) {
-    return async function tee(line?:string) {
-        if( line !== undefined ) {
-            console.log(line);
-            if( filename ) {
-                await fs.appendFile(filename, line + "\n");
-            }
-        }
+  return async function tee(line?:string) {
+    if( line !== undefined ) {
+      console.log(line);
+      if( filename ) {
+        await fs.appendFile(filename, line + "\n");
+      }
     }
+  }
 }
 
 
@@ -32,7 +32,6 @@ async function deploy_acls(hre:HardhatRuntimeEnvironment, tee:ReturnType<typeof 
   await tee(`VITE_CONTRACT_ACL_ALLOWALL=${addr_AllowAllACL}`);
 
   // Deploy NativeBalanceACL
-
   const factory_NativeBalanceACL = await hre.ethers.getContractFactory('NativeBalanceACL');
   const contract_NativeBalanceACL = await factory_NativeBalanceACL.deploy();
   await tee('');
@@ -63,7 +62,7 @@ task('deploy')
 
     // Export RPC info etc. from current hardhat config
     const currentNetwork = Object.values(hre.config.networks).find((x) => x.chainId === hre.network.config.chainId);
-    const currentNetworkUrl = (currentNetwork as any).url;
+    const currentNetworkUrl = (currentNetwork! as HttpNetworkUserConfig).url;
     tee(`VITE_NETWORK=${hre.network.config.chainId}`);
     if( ! currentNetworkUrl ) {
       tee('VITE_WEB3_GATEWAY=http://localhost:8545');
@@ -85,5 +84,15 @@ task('deploy')
     // Set the default PollManager ACL, so frontend doesn't have to query contract
     await tee('');
     await tee('# IPollManagerACL used by PollManager');
-    await tee(`VITE_CONTRACT_POLLMANAGER_ACL=${addr_AllowAllACL}`)
-});
+    await tee(`VITE_CONTRACT_POLLMANAGER_ACL=${addr_AllowAllACL}`);
+
+    // Create a poll with 3 options
+    const tx = await contract_PollManager.create({
+      ipfsHash: new Uint8Array([]),
+      numChoices: 3,
+      closeTimestamp: 0,
+      acl: addr_NativeBalanceACL
+    }, new Uint8Array());
+    const receipt = tx.wait();
+    console.log('Receipt', receipt);
+  });

@@ -51,10 +51,8 @@ contract PollManager is IERC165, IPollManager {
     // DATA STRUCTURES
 
     struct ProposalParams {
-        string ipfsHash;
-        bytes32 ipfsSecret;
+        bytes ipfsHash;
         uint8 numChoices;
-        bool publishVotes;
         uint64 closeTimestamp;
         IPollACL acl;
     }
@@ -280,11 +278,6 @@ contract PollManager is IERC165, IPollManager {
         if( 0 == existingWeight )
         {
             ballot.totalVotes += existingWeight;
-
-            if (proposal.params.publishVotes)
-            {
-                ballot.voters.push(in_voter);
-            }
         }
 
         existingVote.weight = weight;
@@ -297,59 +290,7 @@ contract PollManager is IERC165, IPollManager {
         internal_castVote(msg.sender, in_proposalId, in_choiceId, in_data);
     }
 
-    /// Paginated access to the active proposals
-    /// Pagination is in reverse order, so most recent first
-    function getActiveProposals(uint256 in_offset, uint256 in_limit)
-        external view
-        returns (uint out_count, ProposalWithId[] memory out_proposals)
-    {
-        out_count = ACTIVE_PROPOSALS.length();
-
-        if ((in_offset + in_limit) > out_count)
-        {
-            in_limit = out_count - in_offset;
-        }
-
-        out_proposals = new ProposalWithId[](in_limit);
-
-        for (uint256 i; i < in_limit; ++i)
-        {
-            bytes32 id = ACTIVE_PROPOSALS.at(out_count - 1 - in_offset - i);
-
-            out_proposals[i] = ProposalWithId({
-                id: id,
-                proposal: PROPOSALS[id]
-            });
-        }
-    }
-
-    /// Past proposals are in reverse order
-    /// So the most recently closed proposal pops up in the list after closure
-    function getPastProposals(uint256 in_offset, uint256 in_limit)
-        external view
-        returns (uint out_count, ProposalWithId[] memory out_proposals)
-    {
-        out_count = PAST_PROPOSALS.length;
-
-        if ((in_offset + in_limit) > out_count)
-        {
-            in_limit = out_count - in_offset;
-        }
-
-        out_proposals = new ProposalWithId[](in_limit);
-
-        for (uint256 i; i < in_limit; ++i)
-        {
-            bytes32 id = PAST_PROPOSALS[out_count - 1 - in_offset - i];
-
-            out_proposals[i] = ProposalWithId({
-                id: id,
-                proposal: PROPOSALS[id]
-            });
-        }
-    }
-
-   function close(bytes32 in_proposalId)
+    function close(bytes32 in_proposalId)
         external
     {
         Proposal storage proposal = PROPOSALS[in_proposalId];
@@ -397,27 +338,6 @@ contract PollManager is IERC165, IPollManager {
         emit ProposalClosed(in_proposalId, topChoice);
     }
 
-    function getVoteOf(bytes32 in_proposalId, address in_voter)
-        external view
-        returns (Choice memory)
-    {
-        Proposal storage proposal = PROPOSALS[in_proposalId];
-
-        Ballot storage ballot = s_ballots[in_proposalId];
-
-        // Cannot get individual votes when poll still active
-        if( ! proposal.active ) {
-            revert Poll_NotActive();
-        }
-
-        // Individual votes only revealed if creator has set the 'publishVotes' flag
-        if (!proposal.params.publishVotes) {
-            revert Poll_NotPublishingVotes();
-        }
-
-        return ballot.votes[in_voter];
-    }
-
     function getVoteCounts(bytes32 in_proposalId)
         external view
         returns (uint256[] memory)
@@ -437,43 +357,6 @@ contract PollManager is IERC165, IPollManager {
             unmaskedVoteCounts[i] = ballot.voteCounts[i] ^ xorMask;
         }
         return unmaskedVoteCounts;
-    }
-
-    function getVotes(bytes32 in_proposalId, uint in_offset, uint in_limit)
-        external view
-        returns (
-            uint out_count,
-            address[] memory out_voters,
-            Choice[] memory out_choices
-        )
-    {
-        Proposal storage proposal = PROPOSALS[in_proposalId];
-        Ballot storage ballot = s_ballots[in_proposalId];
-
-        if (!proposal.params.publishVotes) {
-            revert Poll_NotPublishingVotes();
-        }
-
-        if (proposal.active) {
-            revert Poll_StillActive();
-        }
-
-        out_count = ballot.voters.length;
-
-        if ((in_offset + in_limit) > out_count)
-        {
-            in_limit = out_count - in_offset;
-        }
-
-        out_choices = new Choice[](in_limit);
-        out_voters = new address[](in_limit);
-
-        for (uint256 i; i < in_limit; i++)
-        {
-            address voter = ballot.voters[in_offset + i];
-            out_choices[i] = ballot.votes[voter];
-            out_voters[i] = voter;
-        }
     }
 
     function ballotIsActive(bytes32 in_id)

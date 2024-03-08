@@ -7,6 +7,33 @@ import { IPollManagerACL } from "../interfaces/IPollManagerACL.sol";
 
 contract NativeBalanceACL is IPollACL, IPollManagerACL
 {
+    struct ProposalOptions {
+        address owner;
+        uint256 minBalance;
+    }
+
+    mapping(bytes32 => ProposalOptions) private m_proposals;
+
+    function internal_id(bytes32 in_proposalId, address in_pm)
+        internal pure
+        returns (bytes32)
+    {
+        return keccak256(abi.encodePacked(in_proposalId, in_pm));
+    }
+
+    function internal_getProposal(bytes32 in_proposalId, address in_pm)
+        internal view
+        returns (ProposalOptions storage)
+    {
+        bytes32 id = internal_id(in_proposalId, in_pm);
+
+        ProposalOptions storage prop = m_proposals[id];
+
+        require( prop.owner != address(0), "404" );
+
+        return prop;
+    }
+
     function supportsInterface(bytes4 interfaceId)
         public pure
         returns(bool)
@@ -22,31 +49,48 @@ contract NativeBalanceACL is IPollACL, IPollManagerACL
         return true;
     }
 
-    function onPollCreated(bytes32, address, bytes calldata)
+    function onPollCreated(bytes32 in_proposalId, address in_pm, bytes calldata in_data)
         external
     {
-        // Do nothing
+        (address owner, uint256 minBalance) = abi.decode(in_data, (address,uint256));
+
+        require( owner != address(0), "owner!" );
+
+        bytes32 id = internal_id(in_proposalId, in_pm);
+        require( m_proposals[id].owner == address(0), "404" );
+
+        m_proposals[id] = ProposalOptions(owner, minBalance);
     }
 
-    function onPollClosed(bytes32)
+    function onPollClosed(bytes32 in_proposalId)
         external
     {
-        // Do nothing
+        bytes32 id = internal_id(in_proposalId, msg.sender);
+
+        ProposalOptions storage prop = m_proposals[id];
+
+        require( prop.owner != address(0), "404" );
+
+        delete m_proposals[id];
     }
 
-    function canManagePoll(address, bytes32, address)
-        external pure
+    function canManagePoll(address in_pm, bytes32 in_proposalId, address in_who)
+        external view
         returns(bool)
     {
-        // Anyone can manage any poll
-        return true;
+        ProposalOptions storage prop = internal_getProposal(in_proposalId, in_pm);
+
+        return prop.owner == in_who;
     }
 
-    function canVoteOnPoll(address, bytes32, address who, bytes calldata)
+    function canVoteOnPoll(address in_pm, bytes32 in_proposalId, address who, bytes calldata)
         external view
         returns(uint)
     {
-        require(who.balance > 100 ether);
+        ProposalOptions storage prop = internal_getProposal(in_proposalId, in_pm);
+
+        require(who.balance > prop.minBalance);
+
         return 1;
     }
 }
