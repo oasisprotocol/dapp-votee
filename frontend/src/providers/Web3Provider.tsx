@@ -1,18 +1,22 @@
-import { FC, PropsWithChildren, useCallback, useState } from 'react'
+import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import * as sapphire from '@oasisprotocol/sapphire-paratime'
 import { NETWORKS, VITE_NETWORK } from '../constants/config'
 import { UnknownNetworkError } from '../utils/errors'
 import { Web3Context, Web3ProviderContext, Web3ProviderState } from './Web3Context'
 import { useEIP1193 } from '../hooks/useEIP1193.ts'
-import { BrowserProvider } from 'ethers'
+import { BigNumberish, BrowserProvider, JsonRpcProvider, toBeHex } from 'ethers'
+import { PollManager__factory } from '@oasisprotocol/dapp-voting-backend/src/contracts'
 
 const web3ProviderInitialState: Web3ProviderState = {
   isConnected: false,
+  isVoidSignerConnected: false,
   ethProvider: null,
   sapphireEthProvider: null,
   account: null,
   explorerBaseUrl: null,
   networkName: null,
+  pollManager: null,
+  pollManagerVoidSigner: null,
 }
 
 export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -25,6 +29,29 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, setState] = useState<Web3ProviderState>({
     ...web3ProviderInitialState,
   })
+
+  useEffect(() => {
+    const initVoidSinger = async () => {
+      if (!VITE_WEB3_GATEWAY || !VITE_CONTRACT_POLLMANAGER) return
+
+      const staticNetworkJsonRpcProvider = new JsonRpcProvider(VITE_WEB3_GATEWAY, undefined, {
+        staticNetwork: true,
+      })
+
+      const pollManagerWithoutSigner = await PollManager__factory.connect(
+        VITE_CONTRACT_POLLMANAGER,
+        staticNetworkJsonRpcProvider
+      )
+
+      setState(prevState => ({
+        ...prevState,
+        pollManagerVoidSigner: pollManagerWithoutSigner,
+        isVoidSignerConnected: true,
+      }))
+    }
+
+    initVoidSinger()
+  }, [])
 
   const _connectionChanged = (isConnected: boolean) => {
     setState(prevState => ({
@@ -100,12 +127,15 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
       const network = await sapphireEthProvider.getNetwork()
       _setNetworkSpecificVars(network.chainId, sapphireEthProvider)
 
+      const pollManager = PollManager__factory.connect(VITE_CONTRACT_POLLMANAGER, sapphireEthProvider)
+
       setState(prevState => ({
         ...prevState,
         isConnected: true,
         ethProvider,
         sapphireEthProvider,
         account,
+        pollManager,
       }))
     } catch (ex) {
       setState(prevState => ({
@@ -167,6 +197,44 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     return await sapphireEthProvider.getTransaction(txHash)
   }
 
+  const getPoll = async () => {
+    const { pollManagerVoidSigner } = state
+
+    if (!pollManagerVoidSigner) {
+      throw new Error('[pollManagerWithoutSigner] not initialized!')
+    }
+
+    return await pollManagerVoidSigner.PROPOSALS(toBeHex(VITE_PROPOSAL_ID))
+  }
+
+  const canVoteOnPoll = async () => {
+    const { pollManager, account } = state
+
+    if (!pollManager) {
+      throw new Error('[pollManager] not initialized!')
+    }
+
+    if (!account) {
+      throw new Error('[account] Wallet not connected!')
+    }
+
+    return (await pollManager.canVoteOnPoll(VITE_PROPOSAL_ID, account, '0x0')) === 1n
+  }
+
+  const vote = async (choiceId: BigNumberish) => {
+    const { pollManager, account } = state
+
+    if (!pollManager) {
+      throw new Error('[pollManager] not initialized!')
+    }
+
+    if (!account) {
+      throw new Error('[account] Wallet not connected!')
+    }
+
+    return await pollManager.vote(VITE_PROPOSAL_ID, choiceId, '0x0')
+  }
+
   const providerState: Web3ProviderContext = {
     state,
     isProviderAvailable,
@@ -174,6 +242,9 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     switchNetwork,
     getBalance,
     getTransaction,
+    getPoll,
+    canVoteOnPoll,
+    vote,
   }
 
   return <Web3Context.Provider value={providerState}>{children}</Web3Context.Provider>
