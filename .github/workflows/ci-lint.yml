@@ -65,6 +65,10 @@ jobs:
           pnpm lint-git
         # Always run this step so that all linting errors can be seen at once.
         if: always()
+      - name: Prettier
+        run: pnpm prettier-check
+        # Always run this step so that all linting errors can be seen at once.
+        if: always()
       - name: ESLint
         run: pnpm eslint
         # Always run this step so that all linting errors can be seen at once.

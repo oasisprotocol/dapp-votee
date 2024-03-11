@@ -8,6 +8,7 @@
     "eslint": "eslint . --cache --ext .js,.ts,.tsx --max-warnings 0",
     "lint-git": "node ./internals/scripts/gitlint.mjs",
     "lint-docs": "markdownlint --ignore '**/node_modules/**' '**/*.md'",
+    "prettier-check": "prettier --check . --ignore-path .eslintignore",
     "prettier": "prettier --write . --ignore-path .eslintignore"
   },
   "license": "See License in LICENSE",
