@@ -5,6 +5,7 @@ import { HomePage } from './pages/HomePage'
 import { EIP1193ContextProvider } from './providers/EIP1193Provider.tsx'
 import { Web3ContextProvider } from './providers/Web3Provider.tsx'
 import { ResultsPage } from './pages/ResultsPage'
+import { ConfigContextProvider } from './providers/ConfigProvider.tsx'
 
 const router = createHashRouter([
   {
@@ -25,10 +26,12 @@ const router = createHashRouter([
 
 export const App: FC = () => {
   return (
-    <EIP1193ContextProvider>
-      <Web3ContextProvider>
-        <RouterProvider router={router} />
-      </Web3ContextProvider>
-    </EIP1193ContextProvider>
+    <ConfigContextProvider>
+      <EIP1193ContextProvider>
+        <Web3ContextProvider>
+          <RouterProvider router={router} />
+        </Web3ContextProvider>
+      </EIP1193ContextProvider>
+    </ConfigContextProvider>
   )
 }
