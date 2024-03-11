@@ -203,7 +203,7 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
       throw new Error('[sapphireEthProvider] not initialized!')
     }
 
-    const txReceipt = await sapphireEthProvider.waitForTransaction(txHash, 1, 60000)
+    const txReceipt = await sapphireEthProvider.waitForTransaction(txHash)
     if (txReceipt?.status === 0) throw new Error('Transaction failed')
 
     return await sapphireEthProvider.getTransaction(txHash)
@@ -220,17 +220,20 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   const canVoteOnPoll = async () => {
-    const { pollManager, account } = state
+    const { pollManagerVoidSigner, account } = state
 
-    if (!pollManager) {
-      throw new Error('[pollManager] not initialized!')
+    if (!pollManagerVoidSigner) {
+      throw new Error('[pollManagerVoidSigner] not initialized!')
     }
 
     if (!account) {
       throw new Error('[account] Wallet not connected!')
     }
 
-    return (await pollManager.canVoteOnPoll(VITE_PROPOSAL_ID, account, EMPTY_IN_DATA)) === 1n
+    return await pollManagerVoidSigner
+      .canVoteOnPoll(VITE_PROPOSAL_ID, account, EMPTY_IN_DATA)
+      .then(canVoteBigint => Promise.resolve(canVoteBigint === 1n))
+      .catch(() => Promise.resolve(false))
   }
 
   const vote = async (choiceId: BigNumberish) => {

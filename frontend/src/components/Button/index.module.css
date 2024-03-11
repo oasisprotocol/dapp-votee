@@ -61,6 +61,22 @@
   }
 }
 
+.buttonText {
+  &.buttonPrimary,
+  &.buttonSecondary {
+    background-color: transparent;
+    color: var(--old-silver);
+    border: transparent;
+    text-decoration: underline;
+    text-underline-offset: 0.5rem;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 137%;
+    letter-spacing: -0.03em;
+    padding: 0.5rem;
+  }
+}
+
 .buttonDisabled {
   cursor: not-allowed;
   background-color: var(--bright-gray);
