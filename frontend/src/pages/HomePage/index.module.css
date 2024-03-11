@@ -26,6 +26,16 @@
   margin-bottom: 2rem;
 }
 
+.voteBtnLabel {
+  cursor: pointer;
+  user-select: none;
+}
+
+.voteBtnDisabled {
+  cursor: not-allowed;
+  user-select: none;
+}
+
 .cardFooterText {
   font-size: 14px;
   font-weight: 500;
