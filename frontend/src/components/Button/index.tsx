@@ -4,7 +4,7 @@ import { StringUtils } from '../../utils/string.utils.ts'
 
 type ButtonSize = 'small' | 'medium'
 type ButtonColor = 'primary' | 'secondary'
-type ButtonVariant = 'solid' | 'outline'
+type ButtonVariant = 'solid' | 'outline' | 'text'
 
 interface Props extends PropsWithChildren {
   disabled?: boolean
@@ -30,6 +30,7 @@ const colorMap: Record<ButtonColor, string> = {
 const variantMap: Record<ButtonVariant, string> = {
   solid: classes.buttonSolid,
   outline: classes.buttonOutline,
+  text: classes.buttonText,
 }
 
 export const Button: FC<Props> = ({

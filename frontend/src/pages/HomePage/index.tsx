@@ -9,26 +9,41 @@ import { useWeb3 } from '../../hooks/useWeb3.ts'
 import { Alert } from '../../components/Alert'
 import { StringUtils } from '../../utils/string.utils.ts'
 
+type MascotChoices = 0 | 1 | 2
+
 export const HomePage: FC = () => {
   const {
     state: { isConnected },
     vote,
+    canVoteOnPoll,
   } = useWeb3()
 
-  const [selectedChoice, setSelectedChoice] = useState<0 | 1 | 2 | null>(null)
-  const [pageStatus, setPageStatus] = useState<'loading' | 'error' | 'success' | null>(null)
+  const [selectedChoice, setSelectedChoice] = useState<MascotChoices | null>(null)
+  const [pageStatus, setPageStatus] = useState<
+    'loading' | 'error' | 'success' | 'insufficient-balance' | null
+  >(null)
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const handleSelectChoice = (choice: 0 | 1 | 2) => {
+  const handleSelectChoice = (choice: MascotChoices) => {
     setSelectedChoice(choice)
   }
 
   const handleVote = async () => {
     if (selectedChoice === null) return
 
-    setPageStatus('loading')
+    setIsLoading(true)
 
     try {
+      const canVote = await canVoteOnPoll()
+
+      if (!canVote) {
+        setPageStatus('insufficient-balance')
+        return
+      }
+
+      setPageStatus('loading')
+
       await vote(selectedChoice)
 
       setPageStatus('success')
@@ -37,7 +52,13 @@ export const HomePage: FC = () => {
       setError((ex as Error).message ?? JSON.stringify(ex))
 
       setPageStatus('error')
+    } finally {
+      setIsLoading(false)
     }
+  }
+
+  const resetPageState = () => {
+    setPageStatus(null)
   }
 
   return (
@@ -47,7 +68,18 @@ export const HomePage: FC = () => {
           Once you confirm this vote you will not be able to cancel it.
         </Alert>
       )}
-      {pageStatus === 'error' && error && <Alert type="error">{error}</Alert>}
+      {pageStatus === 'error' && error && (
+        <Alert
+          type="error"
+          actions={
+            <Button disabled={isLoading} onClick={resetPageState}>
+              Try again
+            </Button>
+          }
+        >
+          {error}
+        </Alert>
+      )}
       {pageStatus === 'success' && (
         <Alert
           type="success"
@@ -59,6 +91,23 @@ export const HomePage: FC = () => {
             </span>
           }
         />
+      )}
+      {pageStatus === 'insufficient-balance' && (
+        <Alert
+          type="insufficient-balance"
+          actions={
+            <div className={classes.insufficientBalanceAlertActions}>
+              <Button disabled={isLoading} onClick={handleVote}>
+                Try again
+              </Button>
+              <Button variant="text" disabled={isLoading} onClick={resetPageState}>
+                &lt; Cancel&nbsp;
+              </Button>
+            </div>
+          }
+        >
+          Please note there is a 100 ROSE threshold in order to cast your vote.
+        </Alert>
       )}
       {pageStatus === null && (
         <Card>
@@ -80,7 +129,8 @@ export const HomePage: FC = () => {
                       variant="outline"
                       size="small"
                       color="secondary"
-                      onClick={() => handleSelectChoice(choiceId as 0 | 1 | 2)}
+                      disabled={isLoading}
+                      onClick={() => handleSelectChoice(choiceId as MascotChoices)}
                     >
                       Select
                     </Button>
@@ -90,10 +140,12 @@ export const HomePage: FC = () => {
             ))}
           </div>
           <div className={classes.cardAction}>
-            <Button disabled={selectedChoice === null || !isConnected} onClick={handleVote}>
+            <Button disabled={isLoading || selectedChoice === null || !isConnected} onClick={handleVote}>
               <label
                 className={StringUtils.clsx(
-                  selectedChoice === null || !isConnected ? classes.voteBtnDisabled : classes.voteBtnLabel
+                  selectedChoice === null || !isConnected
+                    ? classes.voteBtnLabelDisabled
+                    : classes.voteBtnLabel
                 )}
               >
                 {(isConnected || selectedChoice === null) && <>Continue</>}
