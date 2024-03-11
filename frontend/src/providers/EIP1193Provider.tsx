@@ -4,6 +4,7 @@ import * as sapphire from '@oasisprotocol/sapphire-paratime'
 import { EIP1193Error } from '../utils/errors'
 import detectEthereumProvider from '@metamask/detect-provider'
 import { EIP1193Context, EIP1193ProviderContext } from './EIP1193Context.ts'
+import { useConfig } from '../hooks/useConfig.ts'
 
 declare global {
   interface Window {
@@ -12,6 +13,10 @@ declare global {
 }
 
 export const EIP1193ContextProvider: FC<PropsWithChildren> = ({ children }) => {
+  const {
+    state: { VITE_NETWORK },
+  } = useConfig()
+
   const isEIP1193ProviderAvailable = async () => {
     const provider = await detectEthereumProvider({
       // Explicitly set, provider doesn't have to be MetaMask
@@ -32,8 +37,8 @@ export const EIP1193ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     return accounts[0]
   }
 
-  const _addNetwork = (chainId = 0x5afe) => {
-    if (chainId === 0x5afe) {
+  const _addNetwork = (chainId = VITE_NETWORK) => {
+    if (chainId === 23294n) {
       return window.ethereum?.request?.({
         method: 'wallet_addEthereumChain',
         params: [
@@ -55,7 +60,7 @@ export const EIP1193ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     throw new Error('Unable to automatically add the network, please do it manually!')
   }
 
-  const switchNetwork = async (toChainId = 0x5afe) => {
+  const switchNetwork = async (toChainId = VITE_NETWORK) => {
     const ethProvider = new BrowserProvider(window.ethereum!)
     const sapphireEthProvider = sapphire.wrap(ethProvider) as BrowserProvider & sapphire.SapphireAnnex
 

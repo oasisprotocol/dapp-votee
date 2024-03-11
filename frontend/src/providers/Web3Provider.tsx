@@ -5,6 +5,7 @@ import { UnknownNetworkError } from '../utils/errors'
 import { Web3Context, Web3ProviderContext, Web3ProviderState } from './Web3Context'
 import { useEIP1193 } from '../hooks/useEIP1193.ts'
 import { BrowserProvider } from 'ethers'
+import { useConfig } from '../hooks/useConfig.ts'
 
 const web3ProviderInitialState: Web3ProviderState = {
   isConnected: false,
@@ -16,6 +17,9 @@ const web3ProviderInitialState: Web3ProviderState = {
 }
 
 export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
+  const {
+    state: { VITE_NETWORK },
+  } = useConfig()
   const {
     isEIP1193ProviderAvailable,
     connectWallet: connectWalletEIP1193,
@@ -146,7 +150,7 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     _addEventListenersOnce(window.ethereum)
   }
 
-  const switchNetwork = async (chainId = 0x5afe) => {
+  const switchNetwork = async (chainId = VITE_NETWORK) => {
     return switchNetworkEIP1193(chainId)
   }
 
