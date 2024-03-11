@@ -42,15 +42,16 @@ const alertTypeClassMap: Record<AlertType, string> = {
 interface Props extends PropsWithChildren {
   type: AlertType
   actions?: ReactElement
+  headerText?: string
 }
 
-export const Alert: FC<Props> = ({ children, type, actions }) => {
+export const Alert: FC<Props> = ({ children, type, actions, headerText }) => {
   const { header, icon } = alertTypeValuesMap[type]
 
   return (
     <Card className={alertTypeClassMap[type]}>
       <div className={classes.alert}>
-        <h2>{header}</h2>
+        <h2>{headerText ?? header}</h2>
         <p>{children}</p>
         <div className={classes.icon}>{icon}</div>
         <div className={classes.actions}>{actions}</div>
