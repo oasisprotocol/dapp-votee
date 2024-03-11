@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import * as sapphire from '@oasisprotocol/sapphire-paratime'
-import { NETWORKS } from '../constants/config'
+import { MAX_GAS_LIMIT, NETWORKS } from '../constants/config'
 import { UnknownNetworkError } from '../utils/errors'
 import { Web3Context, Web3ProviderContext, Web3ProviderState } from './Web3Context'
 import { useEIP1193 } from '../hooks/useEIP1193.ts'
@@ -8,11 +8,14 @@ import { BigNumberish, BrowserProvider, JsonRpcProvider, toBeHex } from 'ethers'
 import { useConfig } from '../hooks/useConfig.ts'
 import { PollManager__factory } from '@oasisprotocol/dapp-voting-backend/src/contracts'
 
+const EMPTY_IN_DATA = new Uint8Array([])
+
 const web3ProviderInitialState: Web3ProviderState = {
   isConnected: false,
   isVoidSignerConnected: false,
   ethProvider: null,
   sapphireEthProvider: null,
+  signer: null,
   account: null,
   explorerBaseUrl: null,
   networkName: null,
@@ -131,7 +134,8 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
       const network = await sapphireEthProvider.getNetwork()
       _setNetworkSpecificVars(network.chainId, sapphireEthProvider)
 
-      const pollManager = PollManager__factory.connect(VITE_CONTRACT_POLLMANAGER, sapphireEthProvider)
+      const signer = await sapphireEthProvider.getSigner()
+      const pollManager = PollManager__factory.connect(VITE_CONTRACT_POLLMANAGER, signer)
 
       setState(prevState => ({
         ...prevState,
@@ -139,6 +143,7 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
         ethProvider,
         sapphireEthProvider,
         account,
+        signer,
         pollManager,
       }))
     } catch (ex) {
@@ -222,21 +227,27 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
       throw new Error('[account] Wallet not connected!')
     }
 
-    return (await pollManager.canVoteOnPoll(VITE_PROPOSAL_ID, account, '0x0')) === 1n
+    return (await pollManager.canVoteOnPoll(VITE_PROPOSAL_ID, account, EMPTY_IN_DATA)) === 1n
   }
 
   const vote = async (choiceId: BigNumberish) => {
-    const { pollManager, account } = state
+    const { pollManager, signer } = state
 
     if (!pollManager) {
       throw new Error('[pollManager] not initialized!')
     }
 
-    if (!account) {
-      throw new Error('[account] Wallet not connected!')
+    if (!signer) {
+      throw new Error('[signer] Signer not connected!')
     }
 
-    return await pollManager.vote(VITE_PROPOSAL_ID, choiceId, '0x0')
+    const unsignedTx = await pollManager.vote.populateTransaction(VITE_PROPOSAL_ID, choiceId, EMPTY_IN_DATA)
+    unsignedTx.gasLimit = MAX_GAS_LIMIT
+    unsignedTx.value = 0n
+
+    const txResponse = await signer.sendTransaction(unsignedTx)
+
+    return await getTransaction(txResponse.hash)
   }
 
   const providerState: Web3ProviderContext = {
