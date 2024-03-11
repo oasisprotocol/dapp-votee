@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, useCallback, useState } from 'react'
 import * as sapphire from '@oasisprotocol/sapphire-paratime'
-import { NETWORKS } from '../constants/config'
+import { NETWORKS, VITE_NETWORK } from '../constants/config'
 import { UnknownNetworkError } from '../utils/errors'
 import { Web3Context, Web3ProviderContext, Web3ProviderState } from './Web3Context'
 import { useEIP1193 } from '../hooks/useEIP1193.ts'
@@ -146,7 +146,7 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     _addEventListenersOnce(window.ethereum)
   }
 
-  const switchNetwork = async (chainId = 0x5afe) => {
+  const switchNetwork = async (chainId = VITE_NETWORK) => {
     return switchNetworkEIP1193(chainId)
   }
 
