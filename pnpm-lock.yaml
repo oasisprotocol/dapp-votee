@@ -102,6 +102,9 @@ importers:
       '@metamask/jazzicon':
         specifier: ^2.0.0
         version: 2.0.0
+      '@oasisprotocol/dapp-voting-backend':
+        specifier: workspace:^
+        version: link:../backend
       '@oasisprotocol/sapphire-paratime':
         specifier: ^1.3.2
         version: 1.3.2
