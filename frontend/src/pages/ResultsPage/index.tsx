@@ -6,6 +6,8 @@ import { TrophyIcon } from '../../components/icons/TrophyIcon.tsx'
 import { PieChart } from '../../components/PieChart'
 import { Table } from '../../components/Table'
 import { POLL_CHOICES } from '../../constants/config.ts'
+import { Navigate } from 'react-router-dom'
+import { useAppState } from '../../hooks/useAppState.ts'
 
 /**
  * TODO: Temp function marked for removal
@@ -33,6 +35,14 @@ const [winningDataPoint] = data
 const winningMascot = POLL_CHOICES.find(({ name }) => name === winningDataPoint.name)!
 
 export const ResultsPage: FC = () => {
+  const {
+    state: { poll },
+  } = useAppState()
+
+  if (poll?.active === true) {
+    return <Navigate to="/" replace={true} />
+  }
+
   return (
     <div>
       <Card>
