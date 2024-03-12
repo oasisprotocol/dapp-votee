@@ -37,18 +37,21 @@ interface PollChoice {
 export const POLL_CHOICES: readonly PollChoice[] = Object.freeze([
   {
     name: 'Desert Owl',
-    description: 'Lorem ipsum dolor sit amet. A repellendus illo.',
-    imagePath: 'https://fakeimg.pl/182x175',
+    description:
+      'A wise owl with scrolls in its claws, symbolizing the knowledge pioneered by the Oasis Network.',
+    imagePath: 'https://fakeimg.pl/182x182',
   },
   {
     name: 'Capybara',
-    description: 'Lorem ipsum dolor sit amet. A repellendus illo.',
-    imagePath: 'https://fakeimg.pl/182x175',
+    description:
+      'A friendly capybara with a rose on its head, symbolizing the interoperability pioneered by the Oasis Network.',
+    imagePath: 'https://fakeimg.pl/182x182',
   },
   {
     name: 'Fennec Fox',
-    description: 'Lorem ipsum dolor sit amet. A repellendus illo.',
-    imagePath: 'https://fakeimg.pl/182x175',
+    description:
+      'A nimble fox with sunglasses on its eyes, symbolizing the integrity pioneered by the Oasis Network.',
+    imagePath: 'https://fakeimg.pl/182x182',
   },
 ])
 
