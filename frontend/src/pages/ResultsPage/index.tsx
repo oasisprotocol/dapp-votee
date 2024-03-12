@@ -5,31 +5,32 @@ import { MascotCard } from '../../components/MascotCard'
 import { TrophyIcon } from '../../components/icons/TrophyIcon.tsx'
 import { PieChart } from '../../components/PieChart'
 import { Table } from '../../components/Table'
+import { POLL_CHOICES } from '../../constants/config.ts'
 
-const data = [
-  {
-    name: 'Desert Fox',
-    value: 1000000,
-  },
-  {
-    name: 'Capybara',
-    value: 500000,
-  },
-  {
-    name: 'Camel',
-    value: 500000,
-  },
-]
-
-const dataValueSum = data.reduce((acc, curr) => acc + curr.value, 0)
-
-const dataColorMap: Record<string, string> = {
-  'Desert Fox': '#006dd2',
-  Capybara: '#45f1f4',
-  Camel: '#bbbbbb',
+/**
+ * TODO: Temp function marked for removal
+ * @param min
+ * @param max
+ */
+function getRandomInt(min: number, max: number) {
+  // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 const tableHeaders = ['Answer', 'Votes', '%']
+const data = POLL_CHOICES.map(({ name }) => ({ name, value: getRandomInt(100000, 200000) })).sort(
+  ({ value: valueA }, { value: valueB }) => valueB - valueA
+)
+const dataValueSum = data.reduce((acc, curr) => acc + curr.value, 0)
+
+const dataColorMap: Record<string, string> = {
+  [data[0].name]: '#006dd2',
+  [data[1].name]: '#45f1f4',
+  [data[2].name]: '#bbbbbb',
+}
+
+const [winningDataPoint] = data
+const winningMascot = POLL_CHOICES.find(({ name }) => name === winningDataPoint.name)!
 
 export const ResultsPage: FC = () => {
   return (
@@ -40,9 +41,9 @@ export const ResultsPage: FC = () => {
           <MascotCard
             selected
             orientation="horizontal"
-            title="Desert Fox"
-            description="Winning mascot"
-            image={<img alt="Desert Fox" src="https://fakeimg.pl/182x175" />}
+            title={winningMascot.name}
+            description={winningMascot.description}
+            image={<img alt={winningMascot.name} src={winningMascot.imagePath} />}
             actions={
               <div className={classes.winningMascotBadge}>
                 Winning mascot
