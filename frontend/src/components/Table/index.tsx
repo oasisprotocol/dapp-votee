@@ -1,16 +1,21 @@
-import { FC, ReactElement } from 'react'
+import { ReactElement } from 'react'
 import classes from './index.module.css'
 import { DataEntry } from '../../types/data-entry.ts'
 import { StringUtils } from '../../utils/string.utils.ts'
 
-interface Props {
+interface Props<T extends DataEntry> {
   headers: string[]
-  data: DataEntry[]
+  data: T[]
   className?: string
-  children: (entry: DataEntry) => ReactElement
+  children: (entry: T) => ReactElement
 }
 
-export const Table: FC<Props> = ({ headers, data, className, children }) => {
+export const Table = <T extends DataEntry>({
+  headers,
+  data,
+  className,
+  children,
+}: Props<T>): ReactElement => {
   return (
     <table className={StringUtils.clsx(classes.table, className)}>
       <thead>

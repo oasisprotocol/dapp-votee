@@ -48,7 +48,7 @@ export const NETWORK_NAMES: Record<string, string> = {
 
 export const MAX_GAS_LIMIT = 150000n
 
-interface PollChoice {
+export interface PollChoice {
   name: string
   description: string
   imagePath: string
