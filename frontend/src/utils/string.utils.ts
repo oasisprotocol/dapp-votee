@@ -1,3 +1,5 @@
+import { NETWORK_NAMES } from '../constants/config.ts'
+
 const truncateRegex = /^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/
 
 export abstract class StringUtils {
@@ -18,5 +20,9 @@ export abstract class StringUtils {
       .map(className => (className ? [className] : []))
       .flat()
       .join(' ')
+  }
+
+  static getNetworkFriendlyName = (chainName: string) => {
+    return NETWORK_NAMES[chainName] ?? 'Unknown network'
   }
 }
