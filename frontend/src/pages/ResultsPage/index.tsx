@@ -5,9 +5,10 @@ import { MascotCard } from '../../components/MascotCard'
 import { TrophyIcon } from '../../components/icons/TrophyIcon.tsx'
 import { PieChart } from '../../components/PieChart'
 import { Table } from '../../components/Table'
-import { POLL_CHOICES } from '../../constants/config.ts'
+import { POLL_CHOICES, VITE_PROPOSAL_START_TIME } from '../../constants/config.ts'
 import { Navigate } from 'react-router-dom'
 import { useAppState } from '../../hooks/useAppState.ts'
+import { DateUtils } from '../../utils/date.utils.ts'
 
 /**
  * TODO: Temp function marked for removal
@@ -82,9 +83,20 @@ export const ResultsPage: FC = () => {
             )}
           </Table>
         </div>
-        <p className={classes.cardFooterText}>
-          Poll opened from March 31/03/2024 (00:00 CET) until 31/12/2024 (00:00 CET).
-        </p>
+        {(!!VITE_PROPOSAL_START_TIME || !!poll?.params.closeTimestamp) && (
+          <p className={classes.cardFooterText}>
+            Poll opened
+            {!!VITE_PROPOSAL_START_TIME && (
+              <>&nbsp;from {DateUtils.intlDateFormat(DateUtils.unixFormatToDate(VITE_PROPOSAL_START_TIME))}</>
+            )}
+            {!!poll?.params.closeTimestamp && (
+              <>
+                &nbsp;until {DateUtils.intlDateFormat(DateUtils.unixFormatToDate(poll.params.closeTimestamp))}
+              </>
+            )}
+            .
+          </p>
+        )}
       </Card>
     </div>
   )
