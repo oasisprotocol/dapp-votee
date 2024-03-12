@@ -5,6 +5,7 @@ import { EIP1193Error } from '../utils/errors'
 import detectEthereumProvider from '@metamask/detect-provider'
 import { EIP1193Context, EIP1193ProviderContext } from './EIP1193Context.ts'
 import { useConfig } from '../hooks/useConfig.ts'
+import { CHAINS } from '../constants/config.ts'
 
 declare global {
   interface Window {
@@ -38,26 +39,15 @@ export const EIP1193ContextProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   const _addNetwork = (chainId = VITE_NETWORK) => {
-    if (chainId === 23294n) {
-      return window.ethereum?.request?.({
-        method: 'wallet_addEthereumChain',
-        params: [
-          {
-            chainId: '0x5afe',
-            chainName: 'Oasis Sapphire',
-            nativeCurrency: {
-              name: 'ROSE',
-              symbol: 'ROSE',
-              decimals: 18,
-            },
-            rpcUrls: ['https://sapphire.oasis.io/', 'wss://sapphire.oasis.io/ws'],
-            blockExplorerUrls: ['https://explorer.oasis.io/mainnet/sapphire'],
-          },
-        ],
-      })
+    if (!CHAINS.has(chainId)) {
+      throw new Error(`Chain configuration for chain id '${chainId}' not found!`)
     }
 
-    throw new Error('Unable to automatically add the network, please do it manually!')
+    const chain = CHAINS.get(chainId)
+    return window.ethereum?.request?.({
+      method: 'wallet_addEthereumChain',
+      params: [chain],
+    })
   }
 
   const switchNetwork = async (toChainId = VITE_NETWORK) => {

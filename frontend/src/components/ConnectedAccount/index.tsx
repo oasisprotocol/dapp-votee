@@ -6,10 +6,10 @@ import { StringUtils } from '../../utils/string.utils.ts'
 
 interface Props {
   address: string
-  networkName: string
+  chainName: string
 }
 
-export const ConnectedAccount: FC<Props> = ({ address, networkName }) => {
+export const ConnectedAccount: FC<Props> = ({ address, chainName }) => {
   const {
     state: { explorerBaseUrl },
   } = useWeb3()
@@ -20,7 +20,7 @@ export const ConnectedAccount: FC<Props> = ({ address, networkName }) => {
     <a href={url} className={classes.connectedAccount} target="_blank" rel="nofollow noreferrer">
       <JazzIcon size={30} address={address} />
       <p className={classes.connectedAccountDetails}>
-        <span className={classes.network}>{networkName}</span>
+        <span className={classes.network}>{chainName}</span>
         <abbr title={address} className={classes.connectedAccountAddress}>
           {StringUtils.truncateAddress(address)}
         </abbr>
