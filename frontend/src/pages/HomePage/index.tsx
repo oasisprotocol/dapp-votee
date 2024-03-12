@@ -8,6 +8,8 @@ import { POLL_CHOICES } from '../../constants/config.ts'
 import { useWeb3 } from '../../hooks/useWeb3.ts'
 import { Alert } from '../../components/Alert'
 import { StringUtils } from '../../utils/string.utils.ts'
+import { useAppState } from '../../hooks/useAppState.ts'
+import { Navigate } from 'react-router-dom'
 
 type MascotChoices = 0 | 1 | 2
 
@@ -17,6 +19,9 @@ export const HomePage: FC = () => {
     vote,
     canVoteOnPoll,
   } = useWeb3()
+  const {
+    state: { poll },
+  } = useAppState()
 
   const [selectedChoice, setSelectedChoice] = useState<MascotChoices | null>(null)
   const [pageStatus, setPageStatus] = useState<
@@ -59,6 +64,10 @@ export const HomePage: FC = () => {
 
   const resetPageState = () => {
     setPageStatus('vote')
+  }
+
+  if (poll?.active === false) {
+    return <Navigate to="/results" replace={true} />
   }
 
   return (
