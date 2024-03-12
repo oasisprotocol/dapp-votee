@@ -6,23 +6,25 @@
   background: var(--white);
   border: 1px var(--palatinate-blue) solid;
 
-  img {
-    border-radius: 6px;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-  }
-
   &.mascotCardSelected {
     border: 3px solid var(--green-sheen);
   }
 
   &.mascotCardVertical {
     flex-direction: column;
+    justify-content: flex-start;
     max-width: 218px;
     padding: 0.75rem 1.125rem 1.25rem;
     text-align: center;
 
     img {
       margin-bottom: 0.75rem;
+      width: 182px;
+      height: 182px;
+    }
+
+    &:not(.mascotCardSelected) {
+      padding: 0.875rem 1.25rem 1.375rem;
     }
   }
 
@@ -30,9 +32,14 @@
     position: relative;
     flex-direction: row;
     gap: 1.3125rem;
-    padding: 17px 28px 24px;
+    padding: 1.0625rem 1.375rem 1.5rem;
     text-align: left;
     align-items: center;
+
+    img {
+      width: 196px;
+      height: auto;
+    }
   }
 }
 
