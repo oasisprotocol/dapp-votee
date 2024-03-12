@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { CaretRightIcon } from '../../components/icons/CaretRightIcon.tsx'
 import { Button } from '../../components/Button'
 import { Card } from '../../components/Card'
@@ -16,7 +16,7 @@ type MascotChoices = 0 | 1 | 2
 
 export const HomePage: FC = () => {
   const {
-    state: { isConnected },
+    state: { isConnected, account },
     vote,
     canVoteOnPoll,
   } = useWeb3()
@@ -30,6 +30,12 @@ export const HomePage: FC = () => {
   >(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    setSelectedChoice(null)
+    setPageStatus(null)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account])
 
   const handleSelectChoice = (choice: MascotChoices) => {
     setSelectedChoice(choice)
