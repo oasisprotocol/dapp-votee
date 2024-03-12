@@ -4,6 +4,7 @@ import { ConfigContext, ConfigProviderContext, ConfigProviderState } from './Con
 const configProviderInitialState: ConfigProviderState = {
   VITE_NETWORK: 0n,
   VITE_WEB3_GATEWAY: '',
+  VITE_PROPOSAL_START_TIME: 0,
   VITE_CONTRACT_ACL_ALLOWALL: '',
   VITE_CONTRACT_ACL_NATIVEBALANCE: '',
   VITE_CONTRACT_POLLMANAGER: '',
@@ -20,6 +21,7 @@ export const ConfigContextProvider: FC<PropsWithChildren> = ({ children }) => {
     const {
       VITE_NETWORK,
       VITE_WEB3_GATEWAY,
+      VITE_PROPOSAL_START_TIME,
       VITE_CONTRACT_ACL_ALLOWALL,
       VITE_CONTRACT_ACL_NATIVEBALANCE,
       VITE_CONTRACT_POLLMANAGER,
@@ -30,6 +32,7 @@ export const ConfigContextProvider: FC<PropsWithChildren> = ({ children }) => {
     setState({
       VITE_NETWORK: BigInt(VITE_NETWORK),
       VITE_WEB3_GATEWAY,
+      VITE_PROPOSAL_START_TIME: Number(VITE_PROPOSAL_START_TIME),
       VITE_CONTRACT_ACL_ALLOWALL,
       VITE_CONTRACT_ACL_NATIVEBALANCE,
       VITE_CONTRACT_POLLMANAGER,

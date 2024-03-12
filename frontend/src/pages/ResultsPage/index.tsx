@@ -8,6 +8,8 @@ import { Table } from '../../components/Table'
 import { POLL_CHOICES } from '../../constants/config.ts'
 import { Navigate } from 'react-router-dom'
 import { useAppState } from '../../hooks/useAppState.ts'
+import { useConfig } from '../../hooks/useConfig.ts'
+import { DateUtils } from '../../utils/date.utils.ts'
 
 /**
  * TODO: Temp function marked for removal
@@ -35,6 +37,9 @@ const [winningDataPoint] = data
 const winningMascot = POLL_CHOICES.find(({ name }) => name === winningDataPoint.name)!
 
 export const ResultsPage: FC = () => {
+  const {
+    state: { VITE_PROPOSAL_START_TIME },
+  } = useConfig()
   const {
     state: { poll },
   } = useAppState()
@@ -82,9 +87,18 @@ export const ResultsPage: FC = () => {
             )}
           </Table>
         </div>
-        <p className={classes.cardFooterText}>
-          Poll opened from March 31/03/2024 (00:00 CET) until 31/12/2024 (00:00 CET).
-        </p>
+        {(!!VITE_PROPOSAL_START_TIME || !!poll?.params.closeTimestamp) && (
+          <p className={classes.cardFooterText}>
+            Poll opened&nbsp;
+            {!!VITE_PROPOSAL_START_TIME && (
+              <>from {DateUtils.intlDateFormat(DateUtils.unixFormatToDate(VITE_PROPOSAL_START_TIME))}</>
+            )}
+            {!!poll?.params.closeTimestamp && (
+              <>until {DateUtils.intlDateFormat(DateUtils.unixFormatToDate(poll?.params.closeTimestamp))}</>
+            )}
+            .
+          </p>
+        )}
       </Card>
     </div>
   )
