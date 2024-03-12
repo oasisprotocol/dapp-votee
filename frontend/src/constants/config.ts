@@ -20,7 +20,7 @@ export const NETWORKS: Map<bigint, NetworkConfiguration> = new Map([
   ],
 ])
 
-export const MAX_GAS_LIMIT = 100000n
+export const MAX_GAS_LIMIT = 150000n
 
 interface PollChoice {
   name: string
