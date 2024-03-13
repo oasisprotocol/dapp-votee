@@ -137,7 +137,7 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
       const network = await sapphireEthProvider.getNetwork()
       _setNetworkSpecificVars(network.chainId, sapphireEthProvider)
 
-      const signer = await sapphireEthProvider.getSigner()
+      const signer = sapphire.wrapEthersSigner(await sapphireEthProvider.getSigner())
       const pollManager = PollManager__factory.connect(VITE_CONTRACT_POLLMANAGER, signer)
 
       setState(prevState => ({
