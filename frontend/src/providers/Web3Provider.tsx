@@ -257,6 +257,16 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     return await getTransaction(txResponse.hash)
   }
 
+  const getVoteCounts = async () => {
+    const { pollManagerVoidSigner } = state
+
+    if (!pollManagerVoidSigner) {
+      throw new Error('[pollManagerVoidSigner] not initialized!')
+    }
+
+    return await pollManagerVoidSigner.getVoteCounts(VITE_PROPOSAL_ID)
+  }
+
   const providerState: Web3ProviderContext = {
     state,
     isProviderAvailable,
@@ -267,6 +277,7 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     getPoll,
     canVoteOnPoll,
     vote,
+    getVoteCounts,
   }
 
   return <Web3Context.Provider value={providerState}>{children}</Web3Context.Provider>
