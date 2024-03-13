@@ -8,6 +8,9 @@ import { POLL_CHOICES } from '../../constants/config.ts'
 import { useWeb3 } from '../../hooks/useWeb3.ts'
 import { Alert } from '../../components/Alert'
 import { StringUtils } from '../../utils/string.utils.ts'
+import { useAppState } from '../../hooks/useAppState.ts'
+import { Navigate } from 'react-router-dom'
+import { DateUtils } from '../../utils/date.utils.ts'
 
 type MascotChoices = 0 | 1 | 2
 
@@ -17,6 +20,9 @@ export const HomePage: FC = () => {
     vote,
     canVoteOnPoll,
   } = useWeb3()
+  const {
+    state: { poll },
+  } = useAppState()
 
   const [selectedChoice, setSelectedChoice] = useState<MascotChoices | null>(null)
   const [pageStatus, setPageStatus] = useState<
@@ -59,6 +65,10 @@ export const HomePage: FC = () => {
 
   const resetPageState = () => {
     setPageStatus('vote')
+  }
+
+  if (poll?.active === false) {
+    return <Navigate to="/results" replace={true} />
   }
 
   return (
@@ -156,8 +166,15 @@ export const HomePage: FC = () => {
           </div>
           <p className={classes.cardFooterText}>
             Please note there is a 100 ROSE threshold in order to cast your vote.
-            <br />
-            Poll closes on March 31st, 2024 at 00:00 CET.
+            {!!poll?.params.closeTimestamp && (
+              <>
+                <br />
+                <span>
+                  Poll closes on&nbsp;
+                  {DateUtils.intlDateFormat(DateUtils.unixFormatToDate(poll.params.closeTimestamp))}
+                </span>
+              </>
+            )}
           </p>
         </Card>
       )}
