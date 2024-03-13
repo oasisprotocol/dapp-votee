@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 import * as sapphire from '@oasisprotocol/sapphire-paratime'
-import { BigNumberish, BrowserProvider, Signer, TransactionResponse } from 'ethers'
+import { BigNumberish, BrowserProvider, TransactionResponse } from 'ethers'
 import { type PollManager } from '@oasisprotocol/dapp-voting-backend/src/contracts'
 import { DefaultReturnType } from '@oasisprotocol/dapp-voting-backend/src/contracts/common.ts'
 import { Poll } from '../types'
@@ -10,11 +10,9 @@ export interface Web3ProviderState {
   isVoidSignerConnected: boolean
   ethProvider: BrowserProvider | null
   sapphireEthProvider: (BrowserProvider & sapphire.SapphireAnnex) | null
-  signer: Signer | null
   account: string | null
   explorerBaseUrl: string | null
   chainName: string | null
-  pollManager: PollManager | null
   pollManagerVoidSigner: PollManager | null
 }
 
