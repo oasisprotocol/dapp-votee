@@ -1,6 +1,6 @@
 import { BigNumberish } from 'ethers'
 
-const dateFormat = new Intl.DateTimeFormat('en-GB', {
+const dateFormat = new Intl.DateTimeFormat('en', {
   timeStyle: 'long',
   dateStyle: 'long',
 })
