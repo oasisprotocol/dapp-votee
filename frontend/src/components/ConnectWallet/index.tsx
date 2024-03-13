@@ -12,7 +12,7 @@ export const ConnectWallet: FC = () => {
   const [, setError] = useState('')
 
   const {
-    state: { isConnected, account, networkName },
+    state: { isConnected, account, chainName },
     connectWallet,
     switchNetwork,
     isProviderAvailable,
@@ -75,7 +75,7 @@ export const ConnectWallet: FC = () => {
           Connect wallet
         </Button>
       )}
-      {isConnected && account && <ConnectedAccount address={account} networkName={networkName!} />}
+      {isConnected && account && <ConnectedAccount address={account} chainName={chainName!} />}
     </>
   )
 }

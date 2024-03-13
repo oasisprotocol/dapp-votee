@@ -13,7 +13,7 @@ export interface Web3ProviderState {
   signer: Signer | null
   account: string | null
   explorerBaseUrl: string | null
-  networkName: string | null
+  chainName: string | null
   pollManager: PollManager | null
   pollManagerVoidSigner: PollManager | null
 }

@@ -6,15 +6,16 @@ import { StringUtils } from '../../utils/string.utils.ts'
 
 interface Props {
   address: string
-  networkName: string
+  chainName: string
 }
 
-export const ConnectedAccount: FC<Props> = ({ address, networkName }) => {
+export const ConnectedAccount: FC<Props> = ({ address, chainName }) => {
   const {
     state: { explorerBaseUrl },
   } = useWeb3()
 
   const url = explorerBaseUrl ? StringUtils.getAccountUrl(explorerBaseUrl, address) : undefined
+  const networkName = StringUtils.getNetworkFriendlyName(chainName)
 
   return (
     <a href={url} className={classes.connectedAccount} target="_blank" rel="nofollow noreferrer">
