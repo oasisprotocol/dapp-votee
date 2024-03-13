@@ -3,7 +3,7 @@ import { AppStateContext } from '../providers/AppStateContext.ts'
 
 export const useAppState = () => {
   const value = useContext(AppStateContext)
-  if (value === undefined) {
+  if (Object.keys(value).length === 0) {
     throw new Error('[useAppState] Component not wrapped within a Provider')
   }
 
