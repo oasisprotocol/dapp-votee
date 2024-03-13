@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { Card } from '../../components/Card'
 import classes from './index.module.css'
 import { MascotCard } from '../../components/MascotCard'
@@ -9,36 +9,73 @@ import { POLL_CHOICES, VITE_PROPOSAL_START_TIME } from '../../constants/config.t
 import { Navigate } from 'react-router-dom'
 import { useAppState } from '../../hooks/useAppState.ts'
 import { DateUtils } from '../../utils/date.utils.ts'
+import { useWeb3 } from '../../hooks/useWeb3.ts'
+import { PollChoice } from '../../types'
 
-/**
- * TODO: Temp function marked for removal
- * @param min
- * @param max
- */
-function getRandomInt(min: number, max: number) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min)
+interface PollChoiceWithValue extends PollChoice {
+  value: bigint
 }
 
-const tableHeaders = ['Answer', 'Votes', '%']
-const data = POLL_CHOICES.map(({ name }) => ({ name, value: getRandomInt(100000, 200000) })).sort(
-  ({ value: valueA }, { value: valueB }) => valueB - valueA
-)
-const dataValueSum = data.reduce((acc, curr) => acc + curr.value, 0)
-
-const dataColorMap: Record<string, string> = {
-  [data[0].name]: '#006dd2',
-  [data[1].name]: '#45f1f4',
-  [data[2].name]: '#bbbbbb',
-}
-
-const [winningDataPoint] = data
-const winningMascot = POLL_CHOICES.find(({ name }) => name === winningDataPoint.name)!
+const TABLE_HEADERS = ['Answer', 'Votes', '%']
+const DATA_COLORS = ['#006dd2', '#45f1f4', '#bbbbbb']
 
 export const ResultsPage: FC = () => {
+  const { getVoteCounts } = useWeb3()
   const {
     state: { poll },
   } = useAppState()
+
+  const [voteCount, setVoteCount] = useState<bigint[]>([])
+
+  useEffect(() => {
+    let shouldUpdate = true
+
+    const init = async () => {
+      const voteCountsResponse = await getVoteCounts()
+      if (shouldUpdate) {
+        setVoteCount(voteCountsResponse)
+      }
+    }
+
+    init()
+
+    return () => {
+      shouldUpdate = false
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const [data, dataValueSum, winningMascot, dataColorMap] = useMemo(() => {
+    if (!voteCount.length) {
+      return [[], 0n, undefined, {} as Record<string, string>]
+    }
+
+    const _data = POLL_CHOICES.map((pollChoice, i) => ({ ...pollChoice, value: voteCount[i] })).sort(
+      ({ value: a }, { value: b }) => {
+        if (a > b) {
+          return -1
+        } else if (a < b) {
+          return 1
+        } else {
+          return 0
+        }
+      }
+    )
+
+    const _dataValueSum = voteCount.reduce((acc, curr) => acc + curr, 0n)
+    const [_winningMascot] = _data
+    const _dataColorMap = _data.reduce(
+      (acc, { name }, i) => ({ ...acc, [name]: DATA_COLORS[i % DATA_COLORS.length] }),
+      {}
+    )
+
+    return [
+      _data as PollChoiceWithValue[],
+      _dataValueSum as bigint,
+      _winningMascot as PollChoiceWithValue,
+      _dataColorMap as Record<string, string>,
+    ]
+  }, [voteCount])
 
   if (poll?.active === true) {
     return <Navigate to="/" replace={true} />
@@ -48,24 +85,26 @@ export const ResultsPage: FC = () => {
     <div>
       <Card>
         <p className={classes.cardHeaderText}>Below are the final results of the mascot poll.</p>
-        <div className={classes.winningMascot}>
-          <MascotCard
-            selected
-            orientation="horizontal"
-            title={winningMascot.name}
-            description={winningMascot.description}
-            image={<img alt={winningMascot.name} src={winningMascot.imagePath} />}
-            actions={
-              <div className={classes.winningMascotBadge}>
-                Winning mascot
-                <TrophyIcon />
-              </div>
-            }
-          />
-        </div>
+        {winningMascot && (
+          <div className={classes.winningMascot}>
+            <MascotCard
+              selected
+              orientation="horizontal"
+              title={winningMascot.name}
+              description={winningMascot.description}
+              image={<img alt={winningMascot.name} src={winningMascot.imagePath} />}
+              actions={
+                <div className={classes.winningMascotBadge}>
+                  Winning mascot
+                  <TrophyIcon />
+                </div>
+              }
+            />
+          </div>
+        )}
         <div className={classes.mascotPollData}>
           <PieChart data={data} colorMap={dataColorMap} />
-          <Table className={classes.mascotResultsTable} headers={tableHeaders} data={data}>
+          <Table className={classes.mascotResultsTable} headers={TABLE_HEADERS} data={data}>
             {({ name, value }) => (
               <tr key={name} style={{ color: dataColorMap[name] }}>
                 <td>

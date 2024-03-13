@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { Poll } from '../types/poll.ts'
+import { Poll } from '../types'
 
 export interface AppStateProviderState {
   isInitialLoading: boolean

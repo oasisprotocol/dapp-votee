@@ -3,7 +3,7 @@ import * as sapphire from '@oasisprotocol/sapphire-paratime'
 import { BigNumberish, BrowserProvider, Signer, TransactionResponse } from 'ethers'
 import { type PollManager } from '@oasisprotocol/dapp-voting-backend/src/contracts'
 import { DefaultReturnType } from '@oasisprotocol/dapp-voting-backend/src/contracts/common.ts'
-import { Poll } from '../types/poll.ts'
+import { Poll } from '../types'
 
 export interface Web3ProviderState {
   isConnected: boolean
@@ -28,6 +28,7 @@ export interface Web3ProviderContext {
   getPoll: () => Promise<DefaultReturnType<[Poll]>>
   canVoteOnPoll: () => Promise<boolean>
   vote: (choiceId: BigNumberish) => Promise<TransactionResponse | null>
+  getVoteCounts: () => Promise<bigint[]>
 }
 
 export const Web3Context = createContext<Web3ProviderContext>({} as Web3ProviderContext)

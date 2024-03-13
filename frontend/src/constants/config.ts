@@ -1,3 +1,5 @@
+import { PollChoice } from '../types'
+
 // EIP-3085: wallet_addEthereumChain RPC Method
 interface AddEthereumChainParameter {
   chainId: string
@@ -47,12 +49,6 @@ export const NETWORK_NAMES: Record<string, string> = {
 }
 
 export const MAX_GAS_LIMIT = 150000n
-
-interface PollChoice {
-  name: string
-  description: string
-  imagePath: string
-}
 
 /**
  * This array indexes correspond to the matching choiceId of the poll
