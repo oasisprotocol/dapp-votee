@@ -2,7 +2,7 @@ import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import * as sapphire from '@oasisprotocol/sapphire-paratime'
 import {
   MAX_GAS_LIMIT,
-  NETWORKS,
+  CHAINS,
   VITE_CONTRACT_POLLMANAGER,
   VITE_NETWORK,
   VITE_PROPOSAL_ID,
@@ -24,7 +24,7 @@ const web3ProviderInitialState: Web3ProviderState = {
   signer: null,
   account: null,
   explorerBaseUrl: null,
-  networkName: null,
+  chainName: null,
   pollManager: null,
   pollManagerVoidSigner: null,
 }
@@ -91,16 +91,17 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
       throw new Error('[Web3Context] Sapphire provider is required!')
     }
 
-    if (!NETWORKS.has(chainId)) {
+    if (!CHAINS.has(chainId)) {
       throw new UnknownNetworkError('Unknown network!')
     }
 
-    const { explorerBaseUrl, networkName } = NETWORKS.get(chainId)!
+    const { blockExplorerUrls, chainName } = CHAINS.get(chainId)!
+    const [explorerBaseUrl] = blockExplorerUrls
 
     setState(prevState => ({
       ...prevState,
       explorerBaseUrl,
-      networkName,
+      chainName,
     }))
   }
 
