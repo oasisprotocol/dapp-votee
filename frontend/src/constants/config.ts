@@ -41,6 +41,11 @@ export const CHAINS: Map<bigint, AddEthereumChainParameter> = new Map([
   ],
 ])
 
+export const NETWORK_NAMES: Record<string, string> = {
+  'Oasis Sapphire': 'Sapphire',
+  'Oasis Sapphire Testnet': 'Sapphire Testnet',
+}
+
 export const MAX_GAS_LIMIT = 150000n
 
 interface PollChoice {

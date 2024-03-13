@@ -15,12 +15,13 @@ export const ConnectedAccount: FC<Props> = ({ address, chainName }) => {
   } = useWeb3()
 
   const url = explorerBaseUrl ? StringUtils.getAccountUrl(explorerBaseUrl, address) : undefined
+  const networkName = StringUtils.getNetworkFriendlyName(chainName)
 
   return (
     <a href={url} className={classes.connectedAccount} target="_blank" rel="nofollow noreferrer">
       <JazzIcon size={30} address={address} />
       <p className={classes.connectedAccountDetails}>
-        <span className={classes.network}>{chainName}</span>
+        <span className={classes.network}>{networkName}</span>
         <abbr title={address} className={classes.connectedAccountAddress}>
           {StringUtils.truncateAddress(address)}
         </abbr>
