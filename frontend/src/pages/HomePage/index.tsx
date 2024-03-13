@@ -119,7 +119,7 @@ export const HomePage: FC = () => {
           Please note there is a 100 ROSE threshold in order to cast your vote.
         </Alert>
       )}
-      {pageStatus === null && (
+      {pageStatus === 'vote' && (
         <Card>
           <p className={classes.cardHeaderText}>
             Select your preferred mascot option. Once you confirm this vote you will not be able to cancel it.
