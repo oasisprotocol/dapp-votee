@@ -96,6 +96,12 @@ importers:
 
   frontend:
     dependencies:
+      '@fontsource-variable/figtree':
+        specifier: ^5.0.20
+        version: 5.0.20
+      '@fontsource-variable/roboto-mono':
+        specifier: ^5.0.18
+        version: 5.0.18
       '@metamask/detect-provider':
         specifier: ^2.0.0
         version: 2.0.0
@@ -779,6 +785,14 @@ packages:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
     dev: true
+
+  /@fontsource-variable/figtree@5.0.20:
+    resolution: {integrity: sha512-FVRPeUfhtIPElJ41kdXXDdVpRglH+ek/U7efU5Hnfi7u17sYuUJiujtTkltCThtl5ALrvvj2yYziHWW5HCQvzw==}
+    dev: false
+
+  /@fontsource-variable/roboto-mono@5.0.18:
+    resolution: {integrity: sha512-AIqr9HYQDqiJjGcs/fHedGc0ZGfEGdixm87O9viAQ4PXfiLEelpCnE2jlviJaYcGi3UHxe9+Nn3SalcHhKFSjw==}
+    dev: false
 
   /@humanwhocodes/config-array@0.11.14:
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
