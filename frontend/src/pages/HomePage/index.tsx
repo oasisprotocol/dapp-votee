@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { CaretRightIcon } from '../../components/icons/CaretRightIcon.tsx'
 import { Button } from '../../components/Button'
 import { Card } from '../../components/Card'
@@ -11,8 +11,8 @@ import { StringUtils } from '../../utils/string.utils.ts'
 import { useAppState } from '../../hooks/useAppState.ts'
 import { Navigate } from 'react-router-dom'
 import { DateUtils } from '../../utils/date.utils.ts'
-
-type MascotChoices = 0 | 1 | 2
+import { MascotChoices } from '../../types'
+import { NumberUtils } from '../../utils/number.utils.ts'
 
 export const HomePage: FC = () => {
   const {
@@ -21,7 +21,8 @@ export const HomePage: FC = () => {
     canVoteOnPoll,
   } = useWeb3()
   const {
-    state: { poll },
+    state: { poll, previousVote },
+    setPreviousVoteForCurrentWallet,
   } = useAppState()
 
   const [selectedChoice, setSelectedChoice] = useState<MascotChoices | null>(null)
@@ -35,6 +36,25 @@ export const HomePage: FC = () => {
     setPageStatus('vote')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
+
+  useEffect(() => {
+    setSelectedChoice(previousVote)
+  }, [previousVote])
+
+  const actionBtnLabelContent = useMemo(() => {
+    if ((isConnected || selectedChoice === null) && !NumberUtils.isValidMascotChoiceId(previousVote)) {
+      return (
+        <>
+          <>Continue</>
+          <CaretRightIcon />
+        </>
+      )
+    } else if (isConnected && NumberUtils.isValidMascotChoiceId(previousVote)) {
+      return <>Amend your vote</>
+    } else if (!isConnected && selectedChoice !== null) {
+      return <>Wallet not connected</>
+    }
+  }, [isConnected, previousVote, selectedChoice])
 
   const handleSelectChoice = (choice: MascotChoices) => {
     setSelectedChoice(choice)
@@ -56,6 +76,7 @@ export const HomePage: FC = () => {
       setPageStatus('loading')
 
       await vote(selectedChoice)
+      setPreviousVoteForCurrentWallet(selectedChoice)
 
       setPageStatus('success')
     } catch (ex) {
@@ -75,6 +96,9 @@ export const HomePage: FC = () => {
   if (poll?.active === false) {
     return <Navigate to="/results" replace={true} />
   }
+
+  const actionBtnDisabled =
+    isLoading || selectedChoice === null || !isConnected || previousVote === selectedChoice
 
   return (
     <>
@@ -155,17 +179,19 @@ export const HomePage: FC = () => {
             ))}
           </div>
           <div className={classes.cardAction}>
-            <Button disabled={isLoading || selectedChoice === null || !isConnected} onClick={handleVote}>
+            {(isConnected || selectedChoice === null) && NumberUtils.isValidMascotChoiceId(previousVote) && (
+              <p className={classes.cardInfoText}>
+                You have already cast your vote. It can be amended below.
+              </p>
+            )}
+
+            <Button disabled={actionBtnDisabled} onClick={handleVote}>
               <label
                 className={StringUtils.clsx(
-                  selectedChoice === null || !isConnected
-                    ? classes.voteBtnLabelDisabled
-                    : classes.voteBtnLabel
+                  actionBtnDisabled ? classes.voteBtnLabelDisabled : classes.voteBtnLabel
                 )}
               >
-                {(isConnected || selectedChoice === null) && <>Continue</>}
-                {!isConnected && selectedChoice !== null && <>Wallet not connected</>}
-                <CaretRightIcon />
+                {actionBtnLabelContent}
               </label>
             </Button>
           </div>

@@ -4,4 +4,10 @@ export abstract class NumberUtils {
     const addr = address.slice(2, 10)
     return parseInt(addr, 16)
   }
+
+  static isValidMascotChoiceId(choiceId: number | null) {
+    if (choiceId === null) return false
+
+    return Number.isInteger(choiceId) && choiceId >= 0 && choiceId <= 2
+  }
 }
