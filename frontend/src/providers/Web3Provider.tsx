@@ -21,11 +21,9 @@ const web3ProviderInitialState: Web3ProviderState = {
   isVoidSignerConnected: false,
   ethProvider: null,
   sapphireEthProvider: null,
-  signer: null,
   account: null,
   explorerBaseUrl: null,
   chainName: null,
-  pollManager: null,
   pollManagerVoidSigner: null,
 }
 
@@ -138,17 +136,12 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
       const network = await sapphireEthProvider.getNetwork()
       _setNetworkSpecificVars(network.chainId, sapphireEthProvider)
 
-      const signer = sapphire.wrapEthersSigner(await sapphireEthProvider.getSigner())
-      const pollManager = PollManager__factory.connect(VITE_CONTRACT_POLLMANAGER, signer)
-
       setState(prevState => ({
         ...prevState,
         isConnected: true,
         ethProvider,
         sapphireEthProvider,
         account,
-        signer,
-        pollManager,
       }))
     } catch (ex) {
       setState(prevState => ({
@@ -238,15 +231,14 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   const vote = async (choiceId: BigNumberish) => {
-    const { pollManager, signer } = state
+    const { sapphireEthProvider } = state
 
-    if (!pollManager) {
-      throw new Error('[pollManager] not initialized!')
+    if (!sapphireEthProvider) {
+      throw new Error('[sapphireEthProvider] not initialized!')
     }
 
-    if (!signer) {
-      throw new Error('[signer] Signer not connected!')
-    }
+    const signer = sapphire.wrapEthersSigner(await sapphireEthProvider.getSigner())
+    const pollManager = PollManager__factory.connect(VITE_CONTRACT_POLLMANAGER, signer)
 
     const unsignedTx = await pollManager.vote.populateTransaction(VITE_PROPOSAL_ID, choiceId, EMPTY_IN_DATA)
     unsignedTx.gasLimit = MAX_GAS_LIMIT
