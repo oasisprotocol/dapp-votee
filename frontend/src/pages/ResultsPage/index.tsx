@@ -28,10 +28,11 @@ export const ResultsPage: FC = () => {
   const [voteCount, setVoteCount] = useState<bigint[]>([])
 
   useEffect(() => {
+    if (poll?.active === true) return
+
     let shouldUpdate = true
 
     const init = async () => {
-      // TODO: Should not be called while pool.active === true
       const voteCountsResponse = await getVoteCounts()
       if (shouldUpdate) {
         setVoteCount(voteCountsResponse)
