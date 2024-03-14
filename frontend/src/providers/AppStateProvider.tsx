@@ -2,7 +2,7 @@ import { FC, PropsWithChildren, useEffect, useState } from 'react'
 import { AppStateContext, AppStateProviderContext, AppStateProviderState } from './AppStateContext.ts'
 import { useWeb3 } from '../hooks/useWeb3.ts'
 import { storage } from '../utils/storage.ts'
-import { StorageKeys } from '../types/storage-keys.ts'
+import { StorageKeys } from '../constants/storage-keys.ts'
 import { MascotChoices } from '../types'
 import { NumberUtils } from '../utils/number.utils.ts'
 
