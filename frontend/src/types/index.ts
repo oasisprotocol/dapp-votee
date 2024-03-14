@@ -1,3 +1,5 @@
 export type { DataEntry } from './data-entry.ts'
 export type { Poll } from './poll.ts'
 export type { PollChoice } from './poll-choice.ts'
+export type { VotesStorage } from './votes-storage.ts'
+export type { MascotChoices } from './mascot-choices.ts'

@@ -31,6 +31,7 @@ export const ResultsPage: FC = () => {
     let shouldUpdate = true
 
     const init = async () => {
+      // TODO: Should not be called while pool.active === true
       const voteCountsResponse = await getVoteCounts()
       if (shouldUpdate) {
         setVoteCount(voteCountsResponse)

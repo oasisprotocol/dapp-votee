@@ -1,21 +1,49 @@
 import { FC, PropsWithChildren, useEffect, useState } from 'react'
 import { AppStateContext, AppStateProviderContext, AppStateProviderState } from './AppStateContext.ts'
 import { useWeb3 } from '../hooks/useWeb3.ts'
+import { storage } from '../utils/storage.ts'
+import { StorageKeys } from '../types/storage-keys.ts'
+import { MascotChoices } from '../types'
+import { NumberUtils } from '../utils/number.utils.ts'
+
+const localStorageStore = storage()
 
 const appStateProviderInitialState: AppStateProviderState = {
   isInitialLoading: true,
   poll: null,
+  previousVotes: localStorageStore.get(StorageKeys.Votes) ?? {},
+  previousVote: null,
 }
 
 export const AppStateContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const {
-    state: { isVoidSignerConnected },
+    state: { isVoidSignerConnected, account },
     getPoll,
   } = useWeb3()
 
   const [state, setState] = useState<AppStateProviderState>({
     ...appStateProviderInitialState,
   })
+
+  useEffect(() => {
+    if (!account) return
+
+    setState(prevState => ({
+      ...prevState,
+      previousVote: NumberUtils.isValidMascotChoiceId(state.previousVotes[account])
+        ? state.previousVotes[account]
+        : null,
+    }))
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account])
+
+  /**
+   * Save previousVotes to storage, upon previousVotes change
+   */
+  useEffect(() => {
+    localStorageStore.set(StorageKeys.Votes, state.previousVotes)
+  }, [state.previousVotes])
 
   useEffect(() => {
     if (!isVoidSignerConnected) return
@@ -41,8 +69,22 @@ export const AppStateContextProvider: FC<PropsWithChildren> = ({ children }) => 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVoidSignerConnected])
 
+  const setPreviousVoteForCurrentWallet = (choiceId: MascotChoices) => {
+    if (!account) return
+    if (!NumberUtils.isValidMascotChoiceId(choiceId)) return
+
+    setState(prevState => ({
+      ...prevState,
+      previousVotes: {
+        ...prevState.previousVotes,
+        [account]: choiceId,
+      },
+    }))
+  }
+
   const providerState: AppStateProviderContext = {
     state,
+    setPreviousVoteForCurrentWallet,
   }
 
   return <AppStateContext.Provider value={providerState}>{children}</AppStateContext.Provider>
