@@ -13,6 +13,7 @@ const appStateProviderInitialState: AppStateProviderState = {
   poll: null,
   previousVotes: localStorageStore.get(StorageKeys.Votes) ?? {},
   previousVote: null,
+  appError: '',
 }
 
 export const AppStateContextProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -82,9 +83,37 @@ export const AppStateContextProvider: FC<PropsWithChildren> = ({ children }) => 
     }))
   }
 
+  const setAppError = (error: Error | object | string) => {
+    if (error === undefined || error === null) return
+
+    let appError = ''
+
+    if (Object.prototype.hasOwnProperty.call(error, 'message')) {
+      appError = (error as Error).message
+    } else if (typeof error === 'object') {
+      appError = JSON.stringify(appError)
+    } else {
+      appError = error
+    }
+
+    setState(prevState => ({
+      ...prevState,
+      appError,
+    }))
+  }
+
+  const clearAppError = () => {
+    setState(prevState => ({
+      ...prevState,
+      appError: '',
+    }))
+  }
+
   const providerState: AppStateProviderContext = {
     state,
     setPreviousVoteForCurrentWallet,
+    setAppError,
+    clearAppError,
   }
 
   return <AppStateContext.Provider value={providerState}>{children}</AppStateContext.Provider>

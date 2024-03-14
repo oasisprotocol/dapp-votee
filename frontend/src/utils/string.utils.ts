@@ -25,4 +25,8 @@ export abstract class StringUtils {
   static getNetworkFriendlyName = (chainName: string) => {
     return NETWORK_NAMES[chainName] ?? 'Unknown network'
   }
+
+  static truncate = (s: string, sliceIndex = 200) => {
+    return s.slice(0, sliceIndex)
+  }
 }
