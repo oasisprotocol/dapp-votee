@@ -9,7 +9,7 @@ import { useWeb3 } from '../../hooks/useWeb3.ts'
 import { Alert } from '../../components/Alert'
 import { StringUtils } from '../../utils/string.utils.ts'
 import { useAppState } from '../../hooks/useAppState.ts'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useSearchParams } from 'react-router-dom'
 import { DateUtils } from '../../utils/date.utils.ts'
 import { MascotChoices } from '../../types'
 import { NumberUtils } from '../../utils/number.utils.ts'
@@ -25,7 +25,14 @@ export const HomePage: FC = () => {
     setPreviousVoteForCurrentWallet,
   } = useAppState()
 
-  const [selectedChoice, setSelectedChoice] = useState<MascotChoices | null>(null)
+  const [searchParams] = useSearchParams()
+  const preselectedMascotChoice = searchParams.get('choice') ?? null
+  const preselectedMascotChoiceNullableInt = NumberUtils.toNullableInt(preselectedMascotChoice)
+  const preselectMascotChoice = NumberUtils.isValidMascotChoiceId(preselectedMascotChoiceNullableInt)
+    ? preselectedMascotChoiceNullableInt
+    : null
+
+  const [selectedChoice, setSelectedChoice] = useState<MascotChoices | null>(preselectMascotChoice)
   const [pageStatus, setPageStatus] = useState<
     'loading' | 'error' | 'success' | 'insufficient-balance' | 'vote'
   >('vote')
@@ -38,7 +45,10 @@ export const HomePage: FC = () => {
   }, [account])
 
   useEffect(() => {
-    setSelectedChoice(previousVote)
+    if (!NumberUtils.isValidMascotChoiceId(selectedChoice)) {
+      setSelectedChoice(previousVote)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [previousVote])
 
   const actionBtnLabelContent = useMemo(() => {
