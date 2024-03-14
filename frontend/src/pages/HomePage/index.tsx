@@ -104,7 +104,7 @@ export const HomePage: FC = () => {
     <>
       {pageStatus === 'loading' && (
         <Alert type="loading" actions={<span>Submitting vote...</span>}>
-          Once you confirm this vote you will not be able to cancel it.
+          Your vote is always private, and can be changed until the poll closes.
         </Alert>
       )}
       {pageStatus === 'error' && error && (
