@@ -1,4 +1,4 @@
-# voTEE
+# Oasis Votee
 
 [![CI build status][github-ci-build-badge]][github-ci-build-link]
 [![CI lint status][github-ci-lint-badge]][github-ci-lint-link]
