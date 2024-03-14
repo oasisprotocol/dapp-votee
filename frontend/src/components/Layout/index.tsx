@@ -5,10 +5,13 @@ import { LogoIcon } from '../icons/LogoIcon'
 import { ConnectWallet } from '../ConnectWallet'
 import { Alert } from '../Alert'
 import { useAppState } from '../../hooks/useAppState.ts'
+import { Button } from '../Button'
+import { StringUtils } from '../../utils/string.utils.ts'
 
 export const Layout: FC = () => {
   const {
-    state: { isInitialLoading },
+    state: { isInitialLoading, appError },
+    clearAppError,
   } = useAppState()
 
   return (
@@ -22,10 +25,22 @@ export const Layout: FC = () => {
           <h1>Oasis Mascot</h1>
         </section>
         <section>
+          {!isInitialLoading && appError && (
+            <Alert
+              type="error"
+              actions={
+                <Button variant="text" onClick={clearAppError}>
+                  &lt; Go back&nbsp;
+                </Button>
+              }
+            >
+              {StringUtils.truncate(appError)}
+            </Alert>
+          )}
           {isInitialLoading && (
             <Alert headerText="Please wait" type="loading" actions={<span>Fetching poll...</span>} />
           )}
-          {!isInitialLoading && <Outlet />}
+          {!isInitialLoading && !appError && <Outlet />}
         </section>
       </main>
     </div>

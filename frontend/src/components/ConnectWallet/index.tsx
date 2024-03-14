@@ -4,12 +4,14 @@ import { METAMASK_HOME_PAGE } from '../../constants/config.ts'
 import { Button } from '../Button'
 import { UnknownNetworkError } from '../../utils/errors.ts'
 import { ConnectedAccount } from '../ConnectedAccount'
+import { useAppState } from '../../hooks/useAppState.ts'
 
 export const ConnectWallet: FC = () => {
+  const { setAppError } = useAppState()
+
   const [isLoading, setIsLoading] = useState(false)
   const [providerAvailable, setProviderAvailable] = useState(true)
   const [isUnknownNetwork, setIsUnknownNetwork] = useState(false)
-  const [, setError] = useState('')
 
   const {
     state: { isConnected, account, chainName },
@@ -35,7 +37,7 @@ export const ConnectWallet: FC = () => {
       await switchNetwork()
       setIsUnknownNetwork(false)
     } catch (ex) {
-      setError((ex as Error)?.message || JSON.stringify(ex))
+      setAppError(ex as Error)
     } finally {
       setIsLoading(false)
     }
@@ -49,7 +51,7 @@ export const ConnectWallet: FC = () => {
       if (ex instanceof UnknownNetworkError) {
         setIsUnknownNetwork(true)
       } else {
-        setError((ex as Error)?.message || JSON.stringify(ex))
+        setAppError(ex as Error)
       }
     } finally {
       setIsLoading(false)

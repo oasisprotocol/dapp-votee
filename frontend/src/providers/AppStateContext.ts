@@ -6,11 +6,14 @@ export interface AppStateProviderState {
   poll: Poll | null
   previousVotes: VotesStorage
   previousVote: MascotChoices | null
+  appError: string
 }
 
 export interface AppStateProviderContext {
   readonly state: AppStateProviderState
   setPreviousVoteForCurrentWallet: (choiceId: MascotChoices) => void
+  setAppError: (error: Error | object | string) => void
+  clearAppError: () => void
 }
 
 export const AppStateContext = createContext<AppStateProviderContext>({} as AppStateProviderContext)
