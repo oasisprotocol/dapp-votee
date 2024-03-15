@@ -1,6 +1,5 @@
 import { cloneElement, FC, ReactElement, SVGProps } from 'react'
-
-type IconSize = 'small' | 'medium' | 'large' | 'xlarge'
+import { IconSize } from '../../types'
 
 interface Props {
   children: ReactElement

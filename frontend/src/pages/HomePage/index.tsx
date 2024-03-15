@@ -4,7 +4,7 @@ import { Button } from '../../components/Button'
 import { Card } from '../../components/Card'
 import classes from './index.module.css'
 import { MascotCard } from '../../components/MascotCard'
-import { POLL_CHOICES } from '../../constants/config.ts'
+import { POLL_CHOICES, VOTING_LANDING_PAGE_URL } from '../../constants/config.ts'
 import { useWeb3 } from '../../hooks/useWeb3.ts'
 import { Alert } from '../../components/Alert'
 import { StringUtils } from '../../utils/string.utils.ts'
@@ -13,6 +13,7 @@ import { Navigate, useSearchParams } from 'react-router-dom'
 import { DateUtils } from '../../utils/date.utils.ts'
 import { MascotChoices } from '../../types'
 import { NumberUtils } from '../../utils/number.utils.ts'
+import { CheckCircleIcon } from '../../components/icons/CheckCircleIcon.tsx'
 
 export const HomePage: FC = () => {
   const {
@@ -161,32 +162,54 @@ export const HomePage: FC = () => {
       {pageStatus === 'vote' && (
         <Card>
           <p className={classes.cardHeaderText}>
-            Select your preferred mascot option. Once you confirm this vote you will not be able to cancel it.
-            Read more about the campaign on our website.
+            Select your preferred mascot option. Once you confirm this vote you will not
+            <br />
+            be able to cancel it. Read more about the campaign{' '}
+            <a
+              className={classes.landingPageLink}
+              href={VOTING_LANDING_PAGE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              on our website
+            </a>
+            .
           </p>
           <div className={classes.mascotCards}>
-            {POLL_CHOICES.map(({ name, description, imagePath }, choiceId) => (
-              <MascotCard
-                key={name}
-                title={name}
-                description={description}
-                image={<img alt={name} src={imagePath} />}
-                selected={choiceId === selectedChoice}
-                actions={
-                  <div className={classes.mascotCardActions}>
-                    <Button
-                      variant="outline"
-                      size="small"
-                      color="secondary"
-                      disabled={isLoading}
-                      onClick={() => handleSelectChoice(choiceId as MascotChoices)}
-                    >
-                      Select
-                    </Button>
-                  </div>
-                }
-              />
-            ))}
+            {POLL_CHOICES.map(({ name, description, imagePath }, choiceId) => {
+              const isSelected = choiceId === selectedChoice
+
+              return (
+                <MascotCard
+                  key={name}
+                  title={name}
+                  description={description}
+                  image={<img alt={name} src={imagePath} />}
+                  selected={isSelected}
+                  actions={
+                    <>
+                      <div className={classes.mascotCardActions}>
+                        <Button
+                          className={classes.mascotCardSelectBtn}
+                          variant={isSelected ? 'solid' : 'outline'}
+                          size="small"
+                          color={isSelected ? 'success' : 'secondary'}
+                          disabled={isLoading}
+                          onClick={() => handleSelectChoice(choiceId as MascotChoices)}
+                        >
+                          Select{isSelected ? 'ed' : ''}
+                        </Button>
+                      </div>
+                      {isSelected && (
+                        <span className={classes.mascotCardSelectedCheckIcon}>
+                          <CheckCircleIcon size="medium" />
+                        </span>
+                      )}
+                    </>
+                  }
+                />
+              )
+            })}
           </div>
           <div className={classes.cardAction}>
             {(isConnected || selectedChoice === null) && NumberUtils.isValidMascotChoiceId(previousVote) && (

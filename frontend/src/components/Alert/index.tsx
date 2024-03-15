@@ -20,7 +20,7 @@ const alertTypeValuesMap: Record<AlertType, AlertTypeValues> = {
   },
   success: {
     header: 'Vote cast',
-    icon: <CheckCircleIcon />,
+    icon: <CheckCircleIcon size="xlarge" />,
   },
   loading: {
     header: 'Casting your vote',

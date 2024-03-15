@@ -3,7 +3,7 @@ import { FC, MouseEventHandler, PropsWithChildren } from 'react'
 import { StringUtils } from '../../utils/string.utils.ts'
 
 type ButtonSize = 'small' | 'medium'
-type ButtonColor = 'primary' | 'secondary'
+type ButtonColor = 'primary' | 'secondary' | 'success'
 type ButtonVariant = 'solid' | 'outline' | 'text'
 
 interface Props extends PropsWithChildren {
@@ -25,6 +25,7 @@ const sizeMap: Record<ButtonSize, string> = {
 const colorMap: Record<ButtonColor, string> = {
   primary: classes.buttonPrimary,
   secondary: classes.buttonSecondary,
+  success: classes.buttonSuccess,
 }
 
 const variantMap: Record<ButtonVariant, string> = {

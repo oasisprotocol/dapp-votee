@@ -3,9 +3,14 @@
 import { FC } from 'react'
 import CheckCircleSvg from '@phosphor-icons/core/assets/fill/check-circle-fill.svg?react'
 import { Icon } from '../Icon'
+import { IconSize } from '../../types'
 
-export const CheckCircleIcon: FC = () => (
-  <Icon size="xlarge">
+interface Props {
+  size: IconSize
+}
+
+export const CheckCircleIcon: FC<Props> = ({ size }) => (
+  <Icon size={size}>
     <CheckCircleSvg />
   </Icon>
 )
