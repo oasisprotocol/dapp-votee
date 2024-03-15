@@ -7,6 +7,8 @@ export interface AppStateProviderState {
   previousVotes: VotesStorage
   previousVote: MascotChoices | null
   appError: string
+  isDesktopScreen: boolean
+  isMobileScreen: boolean
 }
 
 export interface AppStateProviderContext {
