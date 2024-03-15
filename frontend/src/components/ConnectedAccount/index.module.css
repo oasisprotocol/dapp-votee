@@ -3,6 +3,7 @@
   justify-items: center;
   gap: 1rem;
   min-width: 350px;
+  max-height: 3.75rem;
   border-radius: 12px;
   background: var(--white);
   padding: 0.9375rem 0.75rem;

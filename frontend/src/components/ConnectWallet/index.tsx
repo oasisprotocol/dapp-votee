@@ -5,6 +5,7 @@ import { Button } from '../Button'
 import { UnknownNetworkError } from '../../utils/errors.ts'
 import { ConnectedAccount } from '../ConnectedAccount'
 import { useAppState } from '../../hooks/useAppState.ts'
+import classes from './index.module.css'
 
 export const ConnectWallet: FC = () => {
   const { setAppError } = useAppState()
@@ -62,18 +63,28 @@ export const ConnectWallet: FC = () => {
     <>
       {!isConnected && !providerAvailable && (
         <a href={METAMASK_HOME_PAGE} target={'_blank'} rel={'noopener noreferrer'}>
-          <Button color="secondary" disabled={isLoading}>
+          <Button className={classes.connectWalletBtn} color="secondary" disabled={isLoading}>
             Install MetaMask
           </Button>
         </a>
       )}
       {!isConnected && providerAvailable && isUnknownNetwork && (
-        <Button color="secondary" disabled={isLoading} onClick={handleSwitchNetwork}>
+        <Button
+          className={classes.connectWalletBtn}
+          color="secondary"
+          disabled={isLoading}
+          onClick={handleSwitchNetwork}
+        >
           Switch Network
         </Button>
       )}
       {!isConnected && providerAvailable && !isUnknownNetwork && (
-        <Button color="secondary" disabled={isLoading} onClick={handleConnectWallet}>
+        <Button
+          className={classes.connectWalletBtn}
+          color="secondary"
+          disabled={isLoading}
+          onClick={handleConnectWallet}
+        >
           Connect wallet
         </Button>
       )}
