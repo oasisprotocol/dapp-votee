@@ -105,7 +105,7 @@ export const ResultsPage: FC = () => {
           </div>
         )}
         <div className={classes.mascotPollData}>
-          <PieChart data={data} colorMap={dataColorMap} />
+          <PieChart className={classes.mascotPollDataPieChart} data={data} colorMap={dataColorMap} />
           <Table className={classes.mascotResultsTable} headers={TABLE_HEADERS} data={data}>
             {({ name, value }) => (
               <tr key={name} style={{ color: dataColorMap[name] }}>
