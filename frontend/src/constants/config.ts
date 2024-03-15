@@ -58,15 +58,15 @@ export const MAX_GAS_LIMIT = 150000n
  */
 export const POLL_CHOICES: readonly PollChoice[] = Object.freeze([
   {
-    name: 'Desert Owl',
-    description:
-      'A wise owl with scrolls in its claws, symbolizing the knowledge pioneered by the Oasis Network.',
-    imagePath: 'https://fakeimg.pl/182x182',
-  },
-  {
     name: 'Capybara',
     description:
       'A friendly capybara with a rose on its head, symbolizing the interoperability pioneered by the Oasis Network.',
+    imagePath: 'https://fakeimg.pl/182x182',
+  },
+  {
+    name: 'Desert Owl',
+    description:
+      'A wise owl with scrolls in its claws, symbolizing the knowledge pioneered by the Oasis Network.',
     imagePath: 'https://fakeimg.pl/182x182',
   },
   {
