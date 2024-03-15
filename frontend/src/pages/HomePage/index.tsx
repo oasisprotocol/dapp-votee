@@ -22,7 +22,7 @@ export const HomePage: FC = () => {
     canVoteOnPoll,
   } = useWeb3()
   const {
-    state: { poll, previousVote },
+    state: { poll, previousVote, isMobileScreen, isDesktopScreen },
     setPreviousVoteForCurrentWallet,
   } = useAppState()
 
@@ -57,7 +57,7 @@ export const HomePage: FC = () => {
       return (
         <>
           <>Continue</>
-          <CaretRightIcon />
+          {isDesktopScreen && <CaretRightIcon />}
         </>
       )
     } else if (isConnected && NumberUtils.isValidMascotChoiceId(previousVote)) {
@@ -65,7 +65,7 @@ export const HomePage: FC = () => {
     } else if (!isConnected && selectedChoice !== null) {
       return <>Wallet not connected</>
     }
-  }, [isConnected, previousVote, selectedChoice])
+  }, [isConnected, isDesktopScreen, previousVote, selectedChoice])
 
   const handleSelectChoice = (choice: MascotChoices) => {
     setSelectedChoice(choice)
@@ -111,6 +111,27 @@ export const HomePage: FC = () => {
   const actionBtnDisabled =
     isLoading || selectedChoice === null || !isConnected || previousVote === selectedChoice
 
+  const headerText = (
+    <>
+      Select your preferred mascot option. Once you confirm this vote you will not
+      {isDesktopScreen ? <br /> : <>&nbsp;</>}
+      be able to retract it. Read more about the campaign{' '}
+      <a
+        className={classes.landingPageLink}
+        href={VOTING_LANDING_PAGE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        on our website
+      </a>
+      .
+    </>
+  )
+
+  const amendText = (
+    <p className={classes.cardInfoText}>You have already cast your vote. It can be amended below.</p>
+  )
+
   return (
     <>
       {pageStatus === 'loading' && (
@@ -127,7 +148,7 @@ export const HomePage: FC = () => {
             </Button>
           }
         >
-          {error}
+          {StringUtils.truncate(error)}
         </Alert>
       )}
       {pageStatus === 'success' && (
@@ -160,87 +181,75 @@ export const HomePage: FC = () => {
         </Alert>
       )}
       {pageStatus === 'vote' && (
-        <Card>
-          <p className={classes.cardHeaderText}>
-            Select your preferred mascot option. Once you confirm this vote you will not
-            <br />
-            be able to cancel it. Read more about the campaign{' '}
-            <a
-              className={classes.landingPageLink}
-              href={VOTING_LANDING_PAGE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              on our website
-            </a>
-            .
-          </p>
-          <div className={classes.mascotCards}>
-            {POLL_CHOICES.map(({ name, description, imagePath }, choiceId) => {
-              const isSelected = choiceId === selectedChoice
+        <>
+          {isMobileScreen && <p className={classes.headerText}>{headerText}</p>}
+          <Card>
+            {isDesktopScreen && <p className={classes.cardHeaderText}>{headerText}</p>}
+            <div className={classes.mascotCards}>
+              {POLL_CHOICES.map(({ name, description, imagePath }, choiceId) => {
+                const isSelected = choiceId === selectedChoice
 
-              return (
-                <MascotCard
-                  key={name}
-                  title={name}
-                  description={description}
-                  image={<img alt={name} src={imagePath} />}
-                  selected={isSelected}
-                  actions={
-                    <>
-                      <div className={classes.mascotCardActions}>
-                        <Button
-                          className={classes.mascotCardSelectBtn}
-                          variant={isSelected ? 'solid' : 'outline'}
-                          size="small"
-                          color={isSelected ? 'success' : 'secondary'}
-                          disabled={isLoading}
-                          onClick={() => handleSelectChoice(choiceId as MascotChoices)}
-                        >
-                          Select{isSelected ? 'ed' : ''}
-                        </Button>
-                      </div>
-                      {isSelected && (
-                        <span className={classes.mascotCardSelectedCheckIcon}>
-                          <CheckCircleIcon size="medium" />
-                        </span>
-                      )}
-                    </>
-                  }
-                />
-              )
-            })}
-          </div>
-          <div className={classes.cardAction}>
-            {(isConnected || selectedChoice === null) && NumberUtils.isValidMascotChoiceId(previousVote) && (
-              <p className={classes.cardInfoText}>
-                You have already cast your vote. It can be amended below.
-              </p>
-            )}
-
-            <Button disabled={actionBtnDisabled} onClick={handleVote}>
-              <label
-                className={StringUtils.clsx(
-                  actionBtnDisabled ? classes.voteBtnLabelDisabled : classes.voteBtnLabel
-                )}
-              >
-                {actionBtnLabelContent}
-              </label>
-            </Button>
-          </div>
-          <p className={classes.cardFooterText}>
-            Please note there is a 100 ROSE threshold in order to cast your vote.
-            {!!poll?.params.closeTimestamp && (
-              <>
-                <br />
-                <span>
-                  Poll closes on&nbsp;
-                  {DateUtils.intlDateFormat(DateUtils.unixFormatToDate(poll.params.closeTimestamp))}
-                </span>
-              </>
-            )}
-          </p>
-        </Card>
+                return (
+                  <MascotCard
+                    key={name}
+                    title={name}
+                    description={description}
+                    image={<img alt={name} src={imagePath} />}
+                    selected={isSelected}
+                    actions={
+                      <>
+                        <div className={classes.mascotCardActions}>
+                          <Button
+                            className={classes.mascotCardSelectBtn}
+                            variant={isSelected ? 'solid' : 'outline'}
+                            size={isDesktopScreen ? 'small' : 'medium'}
+                            color={isSelected ? 'success' : 'secondary'}
+                            disabled={isLoading}
+                            onClick={() => handleSelectChoice(choiceId as MascotChoices)}
+                            fullWidth={isMobileScreen}
+                          >
+                            Select{isSelected ? 'ed' : ''}
+                          </Button>
+                        </div>
+                        {isSelected && (
+                          <span className={classes.mascotCardSelectedCheckIcon}>
+                            <CheckCircleIcon size="medium" />
+                          </span>
+                        )}
+                      </>
+                    }
+                  />
+                )
+              })}
+            </div>
+            <div className={classes.cardAction}>
+              {(isConnected || selectedChoice === null) &&
+                NumberUtils.isValidMascotChoiceId(previousVote) &&
+                amendText}
+              <Button disabled={actionBtnDisabled} onClick={handleVote}>
+                <label
+                  className={StringUtils.clsx(
+                    actionBtnDisabled ? classes.voteBtnLabelDisabled : classes.voteBtnLabel
+                  )}
+                >
+                  {actionBtnLabelContent}
+                </label>
+              </Button>
+            </div>
+            <p className={classes.cardFooterText}>
+              Please note there is a 100 ROSE threshold in order to cast your vote.
+              {!!poll?.params.closeTimestamp && (
+                <>
+                  {isDesktopScreen ? <br /> : <>&nbsp;</>}
+                  <span>
+                    Poll closes on&nbsp;
+                    {DateUtils.intlDateFormat(DateUtils.unixFormatToDate(poll.params.closeTimestamp))}
+                  </span>
+                </>
+              )}
+            </p>
+          </Card>
+        </>
       )}
     </>
   )

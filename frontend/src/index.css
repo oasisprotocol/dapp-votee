@@ -80,3 +80,19 @@ h3 {
   line-height: 130%;
   letter-spacing: -0.03em;
 }
+
+@media screen and (max-width: 1000px) {
+  h1 {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 140%;
+    letter-spacing: -0.03em;
+  }
+
+  h3 {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 130%;
+    letter-spacing: -0.03em;
+  }
+}
