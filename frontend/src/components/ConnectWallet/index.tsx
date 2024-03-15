@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { useWeb3 } from '../../hooks/useWeb3.ts'
-import { METAMASK_HOME_PAGE } from '../../constants/config.ts'
+import { METAMASK_HOME_PAGE_URL } from '../../constants/config.ts'
 import { Button } from '../Button'
 import { UnknownNetworkError } from '../../utils/errors.ts'
 import { ConnectedAccount } from '../ConnectedAccount'
@@ -62,7 +62,7 @@ export const ConnectWallet: FC = () => {
   return (
     <>
       {!isConnected && !providerAvailable && (
-        <a href={METAMASK_HOME_PAGE} target={'_blank'} rel={'noopener noreferrer'}>
+        <a href={METAMASK_HOME_PAGE_URL} target={'_blank'} rel={'noopener noreferrer'}>
           <Button className={classes.connectWalletBtn} color="secondary" disabled={isLoading}>
             Install MetaMask
           </Button>

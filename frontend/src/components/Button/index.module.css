@@ -23,7 +23,7 @@
   font-size: 14px;
   line-height: 140%;
   font-weight: 400;
-  padding: 0.326rem 1.75rem;
+  padding: 0.4125rem 1.21875rem;
   letter-spacing: 0;
 }
 
@@ -45,6 +45,12 @@
     background-color: var(--white);
     color: var(--palatinate-blue);
   }
+
+  &.buttonSuccess {
+    background: var(--green-sheen);
+    color: var(--white);
+    border: 1px var(--green-sheen) solid;
+  }
 }
 
 .buttonOutline {
@@ -58,6 +64,12 @@
     background-color: var(--white);
     color: var(--palatinate-blue);
     border: 1px var(--palatinate-blue) solid;
+  }
+
+  &.buttonSuccess {
+    background-color: var(--white);
+    color: var(--green-sheen);
+    border: 1px var(--green-sheen) solid;
   }
 }
 
