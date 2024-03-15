@@ -1,8 +1,8 @@
-import classes from './index.module.css'
 import { FC } from 'react'
 import { JazzIcon } from '../JazzIcon'
 import { useWeb3 } from '../../hooks/useWeb3'
 import { StringUtils } from '../../utils/string.utils.ts'
+import classes from './index.module.css'
 
 interface Props {
   address: string
