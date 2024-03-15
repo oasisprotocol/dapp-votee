@@ -1,3 +1,19 @@
 .connectWalletBtn {
   height: 3.75rem;
 }
+
+@media screen and (max-width: 1000px) {
+  .connectWalletBtn {
+    height: 2.125rem;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 140%;
+    letter-spacing: -0.02em;
+    padding: 0.4375rem 0.5625rem;
+    border-radius: 4px;
+  }
+
+  .connectWalletBtnLabel.connectWalletBtnLabel {
+    gap: 0.125rem;
+  }
+}

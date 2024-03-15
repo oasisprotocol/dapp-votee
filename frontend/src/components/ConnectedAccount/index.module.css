@@ -44,3 +44,15 @@
   text-align: left;
   text-transform: capitalize;
 }
+
+@media screen and (max-width: 1000px) {
+  .connectedAccount {
+    width: 32px;
+    min-width: unset;
+    height: 32px;
+    min-height: unset;
+    border-radius: 50%;
+    padding: 6px;
+    margin-bottom: 0.35rem;
+  }
+}
