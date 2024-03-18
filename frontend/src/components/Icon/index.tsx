@@ -4,6 +4,8 @@ import { IconSize } from '../../types'
 interface Props {
   children: ReactElement
   size?: IconSize
+  width?: number | string
+  height?: number | string
 }
 
 const sizeMap: Record<IconSize, Partial<SVGProps<SVGSVGElement>>> = {
@@ -25,8 +27,10 @@ const sizeMap: Record<IconSize, Partial<SVGProps<SVGSVGElement>>> = {
   },
 }
 
-export const Icon: FC<Props> = ({ children, size = 'medium' }) => {
+export const Icon: FC<Props> = ({ children, size = 'medium', width, height }) => {
   return cloneElement(children, {
-    ...sizeMap[size],
+    ...(sizeMap[size] ? sizeMap[size] : {}),
+    ...(width ? { width } : {}),
+    ...(height ? { height } : {}),
   })
 }

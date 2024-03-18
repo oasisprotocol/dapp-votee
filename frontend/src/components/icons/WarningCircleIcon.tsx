@@ -5,7 +5,7 @@ import WarningCircleSvg from '@phosphor-icons/core/assets/fill/warning-circle-fi
 import { Icon } from '../Icon'
 
 export const WarningCircleIcon: FC = () => (
-  <Icon size="xlarge">
+  <Icon width={124} height={124}>
     <WarningCircleSvg />
   </Icon>
 )
