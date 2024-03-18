@@ -60,7 +60,7 @@ export const POLL_CHOICES: readonly PollChoice[] = Object.freeze([
   {
     name: 'Capybara',
     description:
-      'A friendly capybara with a rose on its head, symbolizing the interoperability pioneered by the Oasis Network.',
+      'A friendly capybara with a rose in its hand, symbolizing the interoperability pioneered by the Oasis Network.',
     imagePath: 'https://fakeimg.pl/182x182',
   },
   {
@@ -72,7 +72,7 @@ export const POLL_CHOICES: readonly PollChoice[] = Object.freeze([
   {
     name: 'Fennec Fox',
     description:
-      'A nimble fox with sunglasses on its eyes, symbolizing the integrity pioneered by the Oasis Network.',
+      'A nimble fox with sunglasses on its eyes, symbolizing the privacy pioneered by the Oasis Network.',
     imagePath: 'https://fakeimg.pl/182x182',
   },
 ])
