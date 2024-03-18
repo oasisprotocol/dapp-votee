@@ -10,8 +10,6 @@ import { HardhatUserConfig, task } from 'hardhat/config'
 import '@typechain/hardhat'
 
 import './tasks/deploy'
-import './tasks/create'
-import './tasks/close'
 
 const TASK_EXPORT_ABIS = 'export-abis'
 
