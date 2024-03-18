@@ -78,3 +78,49 @@
 .mascotPollDataPieChart {
   margin-top: -1.175rem;
 }
+
+@media screen and (max-width: 1000px) {
+  .headerText {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: 0;
+    text-align: left;
+    margin-top: 0.625rem;
+    margin-bottom: 2rem;
+  }
+
+  .winningMascotBadge {
+    top: -0.875rem;
+    right: -1rem;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border-radius: 50%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    span {
+      display: none;
+    }
+  }
+
+  .mascotPollData {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .answerColName {
+    &::before {
+      content: none;
+    }
+  }
+
+  .cardFooterText {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: -0.03em;
+  }
+}
