@@ -52,7 +52,7 @@ export const ResultsPage: FC = () => {
       return [[], 0n, undefined, {} as Record<string, string>]
     }
 
-    const _data = POLL_CHOICES.map((pollChoice, i) => ({ ...pollChoice, value: voteCount[i] })).sort(
+    const _data = POLL_CHOICES.map((pollChoice, i) => ({ ...pollChoice, value: voteCount[i] ?? 0n })).sort(
       ({ value: a }, { value: b }) => {
         if (a > b) {
           return -1
@@ -118,7 +118,7 @@ export const ResultsPage: FC = () => {
                     style: 'percent',
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 2,
-                  }).format(value / dataValueSum)}
+                  }).format(Number(value) / Number(dataValueSum))}
                 </td>
               </tr>
             )}
