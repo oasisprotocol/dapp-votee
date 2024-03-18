@@ -78,7 +78,7 @@ export const POLL_CHOICES: readonly PollChoice[] = Object.freeze([
 ])
 
 export const METAMASK_HOME_PAGE_URL = 'https://metamask.io/'
-export const VOTING_LANDING_PAGE_URL = 'https://oasisprotocol.org/blog'
+export const VOTING_LANDING_PAGE_URL = 'https://oasisprotocol.org/oasis-mascot-voting'
 
 const {
   VITE_NETWORK: ENV_VITE_NETWORK,
