@@ -46,10 +46,9 @@ export const HomePage: FC = () => {
   }, [account])
 
   useEffect(() => {
-    if (!NumberUtils.isValidMascotChoiceId(selectedChoice)) {
+    if (NumberUtils.isValidMascotChoiceId(previousVote)) {
       setSelectedChoice(previousVote)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [previousVote])
 
   const actionBtnLabelContent = useMemo(() => {
