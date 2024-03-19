@@ -1,7 +1,8 @@
 import { task } from 'hardhat/config'
 import { existsSync, promises as fs } from 'fs'
 import { HardhatRuntimeEnvironment, HttpNetworkUserConfig } from 'hardhat/types'
-import { AbiCoder, BytesLike, EventLog, parseEther } from 'ethers'
+import { AbiCoder, BytesLike, EventLog } from 'ethers'
+import { MIN_BALANCE } from '../constants'
 
 function maketee(filename?: string) {
   return async function tee(line?: string) {
@@ -90,7 +91,7 @@ task('deploy')
         closeTimestamp: 0,
         acl: addr_NativeBalanceACL,
       },
-      AbiCoder.defaultAbiCoder().encode(['uint256'], [parseEther('99.999999999999999999')])
+      AbiCoder.defaultAbiCoder().encode(['uint256'], [MIN_BALANCE])
     )
 
     const receipt = await tx.wait()
