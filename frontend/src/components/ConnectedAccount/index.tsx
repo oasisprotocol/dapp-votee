@@ -6,11 +6,12 @@ import classes from './index.module.css'
 import { useAppState } from '../../hooks/useAppState.ts'
 
 interface Props {
+  className?: string
   address: string
   chainName: string
 }
 
-export const ConnectedAccount: FC<Props> = ({ address, chainName }) => {
+export const ConnectedAccount: FC<Props> = ({ className, address, chainName }) => {
   const {
     state: { explorerBaseUrl },
   } = useWeb3()
@@ -22,7 +23,12 @@ export const ConnectedAccount: FC<Props> = ({ address, chainName }) => {
   const networkName = StringUtils.getNetworkFriendlyName(chainName)
 
   return (
-    <a href={url} className={classes.connectedAccount} target="_blank" rel="nofollow noreferrer">
+    <a
+      href={url}
+      className={StringUtils.clsx(className, classes.connectedAccount)}
+      target="_blank"
+      rel="nofollow noreferrer"
+    >
       <JazzIcon size={isDesktopScreen ? 30 : 20} address={address} />
       {isDesktopScreen && (
         <p className={classes.connectedAccountDetails}>

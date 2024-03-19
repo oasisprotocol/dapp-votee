@@ -8,7 +8,11 @@ import { useAppState } from '../../hooks/useAppState.ts'
 import classes from './index.module.css'
 import { CaretRightIcon } from '../icons/CaretRightIcon.tsx'
 
-export const ConnectWallet: FC = () => {
+interface Props {
+  mobileSticky: boolean
+}
+
+export const ConnectWallet: FC<Props> = ({ mobileSticky }) => {
   const {
     state: { isDesktopScreen },
     setAppError,
@@ -67,7 +71,11 @@ export const ConnectWallet: FC = () => {
     <>
       {!isConnected && !providerAvailable && (
         <a href={METAMASK_HOME_PAGE_URL} target={'_blank'} rel={'noopener noreferrer'}>
-          <Button className={classes.connectWalletBtn} color="secondary" disabled={isLoading}>
+          <Button
+            className={classes.connectWalletBtn}
+            color={mobileSticky ? 'primary' : 'secondary'}
+            disabled={isLoading}
+          >
             Install MetaMask
           </Button>
         </a>
@@ -75,7 +83,7 @@ export const ConnectWallet: FC = () => {
       {!isConnected && providerAvailable && isUnknownNetwork && (
         <Button
           className={classes.connectWalletBtn}
-          color="secondary"
+          color={mobileSticky ? 'primary' : 'secondary'}
           disabled={isLoading}
           onClick={handleSwitchNetwork}
         >
@@ -85,7 +93,7 @@ export const ConnectWallet: FC = () => {
       {!isConnected && providerAvailable && !isUnknownNetwork && (
         <Button
           className={classes.connectWalletBtn}
-          color="secondary"
+          color={mobileSticky ? 'primary' : 'secondary'}
           disabled={isLoading}
           onClick={handleConnectWallet}
         >
@@ -95,7 +103,13 @@ export const ConnectWallet: FC = () => {
           </label>
         </Button>
       )}
-      {isConnected && account && <ConnectedAccount address={account} chainName={chainName!} />}
+      {isConnected && account && (
+        <ConnectedAccount
+          className={mobileSticky ? classes.stickyConnectedAccount : undefined}
+          address={account}
+          chainName={chainName!}
+        />
+      )}
     </>
   )
 }
