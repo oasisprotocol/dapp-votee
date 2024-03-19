@@ -6,11 +6,14 @@ import { EIP1193ContextProvider } from './providers/EIP1193Provider.tsx'
 import { Web3ContextProvider } from './providers/Web3Provider.tsx'
 import { ResultsPage } from './pages/ResultsPage'
 import { AppStateContextProvider } from './providers/AppStateProvider.tsx'
+import { ErrorBoundary } from './components/ErrorBoundary'
+import { RouterErrorBoundary } from './components/RouterErrorBoundary'
 
 const router = createHashRouter([
   {
     path: '/',
     element: <Layout />,
+    errorElement: <RouterErrorBoundary />,
     children: [
       {
         path: 'results',
@@ -26,12 +29,14 @@ const router = createHashRouter([
 
 export const App: FC = () => {
   return (
-    <EIP1193ContextProvider>
-      <Web3ContextProvider>
-        <AppStateContextProvider>
-          <RouterProvider router={router} />
-        </AppStateContextProvider>
-      </Web3ContextProvider>
-    </EIP1193ContextProvider>
+    <ErrorBoundary>
+      <EIP1193ContextProvider>
+        <Web3ContextProvider>
+          <AppStateContextProvider>
+            <RouterProvider router={router} />
+          </AppStateContextProvider>
+        </Web3ContextProvider>
+      </EIP1193ContextProvider>
+    </ErrorBoundary>
   )
 }

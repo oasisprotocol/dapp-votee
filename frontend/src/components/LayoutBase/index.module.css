@@ -1,0 +1,18 @@
+.layout {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.main {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+@media screen and (max-width: 1000px) {
+  .layout {
+    padding: 0 1.5rem 0.25rem;
+  }
+}
