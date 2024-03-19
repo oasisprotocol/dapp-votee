@@ -90,7 +90,7 @@ task('deploy')
         closeTimestamp: 0,
         acl: addr_NativeBalanceACL,
       },
-      AbiCoder.defaultAbiCoder().encode(['uint256'], [parseEther('100')])
+      AbiCoder.defaultAbiCoder().encode(['uint256'], [parseEther('99.999999999999999999')])
     )
 
     const receipt = await tx.wait()

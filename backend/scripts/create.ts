@@ -31,7 +31,7 @@ async function main() {
       closeTimestamp,
       acl: aclNativeBalanceContract,
     },
-    AbiCoder.defaultAbiCoder().encode(['uint256'], [parseEther('100')])
+    AbiCoder.defaultAbiCoder().encode(['uint256'], [parseEther('99.999999999999999999')])
   )
   unsignedTx.gasLimit = 500000n
   unsignedTx.value = 0n
