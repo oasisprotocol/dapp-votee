@@ -15,6 +15,7 @@
   --table-border-light: rgba(143, 142, 223, 0.39);
   --table-border-dark: rgba(36, 38, 41, 0.8);
   --old-silver: #858486;
+  --logo-blue: #3333cc;
 }
 
 /** Use Figtree for "…" instead of Roboto Mono. */

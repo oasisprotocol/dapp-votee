@@ -19,6 +19,8 @@
   padding-top: 2.8125rem;
   padding-bottom: 1.5625rem;
   border-bottom: 1px solid var(--white);
+  background: transparent;
+  transition: 100ms background-color;
 }
 
 .subHeader {
@@ -29,13 +31,36 @@
 
 @media screen and (max-width: 1000px) {
   .layout {
-    padding: 2.25rem 1.5rem 0.25rem;
+    padding: 0 1.5rem 0.25rem;
+  }
+
+  .inViewPlaceholder {
+    position: absolute;
+    height: 1px;
   }
 
   .header {
-    align-items: flex-start;
-    padding-top: 0;
-    padding-bottom: 0.8375rem;
+    z-index: 1000;
+    position: sticky;
+    top: 0;
+    padding-top: 0.8125rem;
+    padding-bottom: 0.8125rem;
+  }
+
+  .headerSticky {
+    background: var(--white);
+    border-bottom: none;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+
+    .logo {
+      > path {
+        fill: var(--logo-blue);
+      }
+    }
   }
 
   .subHeader {
