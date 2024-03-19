@@ -155,7 +155,7 @@ export const HomePage: FC = () => {
           type="success"
           actions={
             <span>
-              Your vote has successfully submitted.
+              Your vote has been successfully submitted.
               <br />
               Thank you for your participation.
             </span>
