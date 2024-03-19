@@ -3,14 +3,10 @@
 import { FC } from 'react'
 import CaretRightSvg from '@phosphor-icons/core/assets/bold/caret-right-bold.svg?react'
 import { Icon } from '../Icon'
-import { IconSize } from '../../types'
+import { IconProps } from '../../types'
 
-interface Props {
-  size?: IconSize
-}
-
-export const CaretRightIcon: FC<Props> = ({ size }) => (
-  <Icon size={size}>
+export const CaretRightIcon: FC<IconProps> = props => (
+  <Icon {...props}>
     <CaretRightSvg />
   </Icon>
 )

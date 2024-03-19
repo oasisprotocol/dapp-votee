@@ -1,11 +1,9 @@
 import { cloneElement, FC, ReactElement, SVGProps } from 'react'
 import { IconSize } from '../../types'
+import { IconProps } from '../../types/icon-props.ts'
 
-interface Props {
+interface Props extends IconProps {
   children: ReactElement
-  size?: IconSize
-  width?: number | string
-  height?: number | string
 }
 
 const sizeMap: Record<IconSize, Partial<SVGProps<SVGSVGElement>>> = {
