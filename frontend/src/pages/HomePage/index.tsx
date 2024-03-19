@@ -113,9 +113,8 @@ export const HomePage: FC = () => {
 
   const headerText = (
     <>
-      Select your preferred mascot option. Once you confirm this vote you will not
-      {isDesktopScreen ? <br /> : <>&nbsp;</>}
-      be able to retract it. Read more about the campaign{' '}
+      Select your preferred mascot option. Once you confirm this vote you will not be able to retract it. Read
+      more about the campaign&nbsp;
       <a
         className={classes.landingPageLink}
         href={VOTING_LANDING_PAGE_URL}
