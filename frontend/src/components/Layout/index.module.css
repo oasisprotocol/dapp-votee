@@ -26,3 +26,21 @@
   text-align: center;
   padding: 1.875rem 0;
 }
+
+@media screen and (max-width: 1000px) {
+  .layout {
+    padding: 2.25rem 1.5rem 0.25rem;
+  }
+
+  .header {
+    align-items: flex-start;
+    padding-top: 0;
+    padding-bottom: 0.8375rem;
+  }
+
+  .subHeader {
+    text-align: left;
+    padding: 0;
+    margin: 0.875rem 0;
+  }
+}

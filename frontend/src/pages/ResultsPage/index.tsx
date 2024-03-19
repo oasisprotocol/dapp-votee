@@ -19,10 +19,12 @@ interface PollChoiceWithValue extends PollChoice {
 const TABLE_HEADERS = ['Answer', 'Votes', '%']
 const DATA_COLORS = ['#006dd2', '#45f1f4', '#bbbbbb']
 
+const HEADER_TEXT = 'Below are the final results of the mascot poll.'
+
 export const ResultsPage: FC = () => {
   const { getVoteCounts } = useWeb3()
   const {
-    state: { poll },
+    state: { poll, isDesktopScreen, isMobileScreen },
   } = useAppState()
 
   const [voteCount, setVoteCount] = useState<bigint[]>([])
@@ -85,20 +87,25 @@ export const ResultsPage: FC = () => {
 
   return (
     <div>
+      {isMobileScreen && <p className={classes.headerText}>{HEADER_TEXT}</p>}
       <Card>
-        <p className={classes.cardHeaderText}>Below are the final results of the mascot poll.</p>
+        {isDesktopScreen && <p className={classes.cardHeaderText}>{HEADER_TEXT}</p>}
         {winningMascot && (
           <div className={classes.winningMascot}>
             <MascotCard
               selected
-              orientation="horizontal"
+              orientation={isDesktopScreen ? 'horizontal' : 'vertical'}
               title={winningMascot.name}
               description={winningMascot.description}
               image={<img alt={winningMascot.name} src={winningMascot.imagePath} />}
               actions={
                 <div className={classes.winningMascotBadge}>
-                  Winning mascot
-                  <TrophyIcon />
+                  <span>Winning mascot</span>
+                  <TrophyIcon
+                    size={isDesktopScreen ? 'small' : undefined}
+                    width={isDesktopScreen ? undefined : 18}
+                    height={isDesktopScreen ? undefined : 18}
+                  />
                 </div>
               }
             />

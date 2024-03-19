@@ -90,3 +90,38 @@
     color: var(--white);
   }
 }
+
+@media screen and (max-width: 1000px) {
+  .alert {
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 150%;
+      letter-spacing: -0.03em;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5625rem;
+    }
+
+    p {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 17px;
+      letter-spacing: 0;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .icon {
+      margin-bottom: 2rem;
+    }
+
+    .actions {
+      span {
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 122%;
+        letter-spacing: -0.03em;
+      }
+    }
+  }
+}

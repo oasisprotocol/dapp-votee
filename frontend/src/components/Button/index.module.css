@@ -10,12 +10,21 @@
   user-select: none;
   text-transform: none;
   text-align: center;
+  font-family: 'Figtree Variable', system-ui, sans-serif;
 
   > label {
     display: flex;
     vertical-align: middle;
     align-items: center;
     gap: 0.75rem;
+  }
+
+  > * {
+    font-family: 'Figtree Variable', system-ui, sans-serif;
+  }
+
+  &:not(.buttonDisabled) > * {
+    cursor: pointer;
   }
 }
 

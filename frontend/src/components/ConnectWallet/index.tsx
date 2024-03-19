@@ -6,9 +6,13 @@ import { UnknownNetworkError } from '../../utils/errors.ts'
 import { ConnectedAccount } from '../ConnectedAccount'
 import { useAppState } from '../../hooks/useAppState.ts'
 import classes from './index.module.css'
+import { CaretRightIcon } from '../icons/CaretRightIcon.tsx'
 
 export const ConnectWallet: FC = () => {
-  const { setAppError } = useAppState()
+  const {
+    state: { isDesktopScreen },
+    setAppError,
+  } = useAppState()
 
   const [isLoading, setIsLoading] = useState(false)
   const [providerAvailable, setProviderAvailable] = useState(true)
@@ -85,7 +89,10 @@ export const ConnectWallet: FC = () => {
           disabled={isLoading}
           onClick={handleConnectWallet}
         >
-          Connect wallet
+          <label className={classes.connectWalletBtnLabel}>
+            Connect wallet
+            <CaretRightIcon size={isDesktopScreen ? 'medium' : 'small'} />
+          </label>
         </Button>
       )}
       {isConnected && account && <ConnectedAccount address={account} chainName={chainName!} />}

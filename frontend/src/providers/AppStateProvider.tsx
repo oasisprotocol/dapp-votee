@@ -5,6 +5,7 @@ import { storage } from '../utils/storage.ts'
 import { StorageKeys } from '../constants/storage-keys.ts'
 import { MascotChoices } from '../types'
 import { NumberUtils } from '../utils/number.utils.ts'
+import { useMediaQuery } from 'react-responsive'
 
 const localStorageStore = storage()
 
@@ -14,9 +15,12 @@ const appStateProviderInitialState: AppStateProviderState = {
   previousVotes: localStorageStore.get(StorageKeys.Votes) ?? {},
   previousVote: null,
   appError: '',
+  isMobileScreen: false,
+  isDesktopScreen: false,
 }
 
 export const AppStateContextProvider: FC<PropsWithChildren> = ({ children }) => {
+  const isDesktopScreen = useMediaQuery({ query: '(min-width: 1000px)' })
   const {
     state: { isVoidSignerConnected, account },
     getPoll,
@@ -25,6 +29,14 @@ export const AppStateContextProvider: FC<PropsWithChildren> = ({ children }) => 
   const [state, setState] = useState<AppStateProviderState>({
     ...appStateProviderInitialState,
   })
+
+  useEffect(() => {
+    setState(prevState => ({
+      ...prevState,
+      isDesktopScreen,
+      isMobileScreen: !isDesktopScreen,
+    }))
+  }, [isDesktopScreen])
 
   useEffect(() => {
     if (!account) return
