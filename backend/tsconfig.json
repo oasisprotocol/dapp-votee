@@ -1,5 +1,5 @@
 {
-  "include": ["src", "tasks", "scripts", "test"],
+  "include": ["src", "tasks", "scripts", "test", "constants"],
   "files": ["hardhat.config.ts"],
   "compilerOptions": {
     "noEmit": true,
