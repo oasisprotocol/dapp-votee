@@ -1,8 +1,5 @@
 import { Component, PropsWithChildren } from 'react'
-import { LayoutBase } from '../LayoutBase'
-import { StringUtils } from '../../utils/string.utils.ts'
-import { Alert } from '../Alert'
-import classes from './index.module.css'
+import { ErrorBoundaryLayout } from '../ErrorBoundaryLayout'
 
 interface Props {
   hasError: boolean
@@ -22,13 +19,7 @@ export class ErrorBoundary extends Component<PropsWithChildren, Props> {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <LayoutBase>
-          <Alert className={classes.errorAlert} type="error">
-            {StringUtils.truncate((this.state.error as Error).message ?? JSON.stringify(this.state.error))}
-          </Alert>
-        </LayoutBase>
-      )
+      return <ErrorBoundaryLayout error={this.state.error} />
     }
 
     return this.props.children

@@ -13,6 +13,6 @@
 
 @media screen and (max-width: 1000px) {
   .layout {
-    padding: 2.25rem 1.5rem 0.25rem;
+    padding: 0 1.5rem 0.25rem;
   }
 }
