@@ -5,6 +5,7 @@ import { WarningCircleIcon } from '../icons/WarningCircleIcon.tsx'
 import { CheckCircleIcon } from '../icons/CheckCircleIcon.tsx'
 import { SpinnerIcon } from '../icons/SpinnerIcon.tsx'
 import { PiggyBankSvgIcon } from '../icons/PiggyBankIcon.tsx'
+import { StringUtils } from '../../utils/string.utils.ts'
 
 type AlertType = 'error' | 'success' | 'loading' | 'insufficient-balance'
 
@@ -43,13 +44,14 @@ interface Props extends PropsWithChildren {
   type: AlertType
   actions?: ReactElement
   headerText?: string
+  className?: string
 }
 
-export const Alert: FC<Props> = ({ children, type, actions, headerText }) => {
+export const Alert: FC<Props> = ({ children, className, type, actions, headerText }) => {
   const { header, icon } = alertTypeValuesMap[type]
 
   return (
-    <Card className={alertTypeClassMap[type]}>
+    <Card className={StringUtils.clsx(className, alertTypeClassMap[type])}>
       <div className={classes.alert}>
         <h2>{headerText ?? header}</h2>
         <p>{children}</p>
