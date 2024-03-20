@@ -11,6 +11,7 @@ import { useAppState } from '../../hooks/useAppState.ts'
 import { DateUtils } from '../../utils/date.utils.ts'
 import { useWeb3 } from '../../hooks/useWeb3.ts'
 import { PollChoice } from '../../types'
+import { toErrorString } from '../../utils/errors.ts'
 
 interface PollChoiceWithValue extends PollChoice {
   value: bigint
@@ -25,6 +26,7 @@ export const ResultsPage: FC = () => {
   const { getVoteCounts } = useWeb3()
   const {
     state: { poll, isDesktopScreen, isMobileScreen },
+    setAppError,
   } = useAppState()
 
   const [voteCount, setVoteCount] = useState<bigint[]>([])
@@ -35,9 +37,13 @@ export const ResultsPage: FC = () => {
     let shouldUpdate = true
 
     const init = async () => {
-      const voteCountsResponse = await getVoteCounts()
-      if (shouldUpdate) {
-        setVoteCount(voteCountsResponse)
+      try {
+        const voteCountsResponse = (await getVoteCounts())!
+        if (shouldUpdate) {
+          setVoteCount(voteCountsResponse)
+        }
+      } catch (ex) {
+        setAppError(toErrorString(ex as Error))
       }
     }
 

@@ -6,6 +6,7 @@ import { StorageKeys } from '../constants/storage-keys.ts'
 import { MascotChoices } from '../types'
 import { NumberUtils } from '../utils/number.utils.ts'
 import { useMediaQuery } from 'react-responsive'
+import { toErrorString } from '../utils/errors.ts'
 
 const localStorageStore = storage()
 
@@ -62,20 +63,27 @@ export const AppStateContextProvider: FC<PropsWithChildren> = ({ children }) => 
     if (!isVoidSignerConnected) return
 
     const init = async () => {
-      const poll = await getPoll()
-      const {
-        params: { numChoices },
-      } = poll
+      try {
+        const poll = (await getPoll())!
 
-      if (numChoices !== 3n) {
-        console.warn('[numChoices] Unexpected number of poll choices, this dApp may not behave as expected!')
+        const {
+          params: { numChoices },
+        } = poll
+
+        if (numChoices !== 3n) {
+          console.warn(
+            '[numChoices] Unexpected number of poll choices, this dApp may not behave as expected!'
+          )
+        }
+
+        setState(prevState => ({
+          ...prevState,
+          isInitialLoading: false,
+          poll,
+        }))
+      } catch (ex) {
+        setAppError(toErrorString(ex as Error))
       }
-
-      setState(prevState => ({
-        ...prevState,
-        isInitialLoading: false,
-        poll,
-      }))
     }
 
     init()
@@ -98,19 +106,9 @@ export const AppStateContextProvider: FC<PropsWithChildren> = ({ children }) => 
   const setAppError = (error: Error | object | string) => {
     if (error === undefined || error === null) return
 
-    let appError = ''
-
-    if (Object.prototype.hasOwnProperty.call(error, 'message')) {
-      appError = (error as Error).message
-    } else if (typeof error === 'object') {
-      appError = JSON.stringify(appError)
-    } else {
-      appError = error
-    }
-
     setState(prevState => ({
       ...prevState,
-      appError,
+      appError: toErrorString(error as Error),
     }))
   }
 

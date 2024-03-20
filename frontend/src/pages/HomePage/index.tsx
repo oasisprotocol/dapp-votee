@@ -14,6 +14,7 @@ import { DateUtils } from '../../utils/date.utils.ts'
 import { MascotChoices } from '../../types'
 import { NumberUtils } from '../../utils/number.utils.ts'
 import { CheckCircleIcon } from '../../components/icons/CheckCircleIcon.tsx'
+import { toErrorString } from '../../utils/errors.ts'
 
 export const HomePage: FC = () => {
   const {
@@ -70,28 +71,39 @@ export const HomePage: FC = () => {
     setSelectedChoice(choice)
   }
 
+  /**
+   * Returns null in case user is not eligible to vote
+   */
+  const handleCanVoteOnPoll = async () => {
+    const canVote = await canVoteOnPoll()
+
+    if (!canVote) {
+      setPageStatus('insufficient-balance')
+
+      return null
+    }
+  }
+
   const handleVote = async () => {
     if (selectedChoice === null) return
 
     setIsLoading(true)
 
     try {
-      const canVote = await canVoteOnPoll()
+      setPageStatus('loading')
 
-      if (!canVote) {
-        setPageStatus('insufficient-balance')
+      const canVote = await handleCanVoteOnPoll()
+      if (canVote === null) {
+        setIsLoading(false)
         return
       }
-
-      setPageStatus('loading')
 
       await vote(selectedChoice)
       setPreviousVoteForCurrentWallet(selectedChoice)
 
       setPageStatus('success')
     } catch (ex) {
-      console.error(ex)
-      setError((ex as Error).message ?? JSON.stringify(ex))
+      setError(toErrorString(ex as Error))
 
       setPageStatus('error')
     } finally {
