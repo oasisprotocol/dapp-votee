@@ -88,7 +88,7 @@ task('deploy')
       {
         ipfsHash: new Uint8Array([]),
         numChoices: 3,
-        closeTimestamp: 0,
+        closeTimestamp: 1711551600,
         acl: addr_NativeBalanceACL,
       },
       AbiCoder.defaultAbiCoder().encode(['uint256'], [MIN_BALANCE])
