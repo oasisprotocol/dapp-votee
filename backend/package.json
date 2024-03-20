@@ -18,7 +18,8 @@
     "build:compile": "hardhat compile --quiet",
     "build": "npm-run-all build:compile",
     "test": "hardhat test",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "verify": "hardhat verify --network sapphire-testnet 0xdAB5845136b3102E63023BB2A2405cb71608605d '0x8e29375FE5Db7eBb1b5eF24B7D397bBF0B01De09'"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.5",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^3.0.5",
+    "@nomicfoundation/hardhat-verify": "^2.0.5",
     "@oasisprotocol/sapphire-contracts": "^0.2.7",
     "@oasisprotocol/sapphire-hardhat": "^2.19.4",
     "@typechain/ethers-v6": "^0.5.1",
