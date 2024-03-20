@@ -40,18 +40,6 @@ export const ConnectWallet: FC<Props> = ({ mobileSticky }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleSwitchNetwork = async () => {
-    setIsLoading(true)
-    try {
-      await switchNetwork()
-      setIsUnknownNetwork(false)
-    } catch (ex) {
-      setAppError(ex as Error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   const handleConnectWallet = async () => {
     setIsLoading(true)
     try {
@@ -62,6 +50,19 @@ export const ConnectWallet: FC<Props> = ({ mobileSticky }) => {
       } else {
         setAppError(ex as Error)
       }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSwitchNetwork = async () => {
+    setIsLoading(true)
+    try {
+      await switchNetwork()
+      setIsUnknownNetwork(false)
+      handleConnectWallet()
+    } catch (ex) {
+      setAppError(ex as Error)
     } finally {
       setIsLoading(false)
     }
