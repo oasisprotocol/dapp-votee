@@ -110,8 +110,11 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const _chainChanged = useCallback(() => {
     // TODO: Integrate seamlessly, so that page reload is not needed
-    window.location.reload()
-  }, [])
+
+    if (state.isConnected) {
+      window.location.reload()
+    }
+  }, [state.isConnected])
 
   const _connect = useCallback(() => _connectionChanged(true), [])
   const _disconnect = useCallback(() => _connectionChanged(false), [])
