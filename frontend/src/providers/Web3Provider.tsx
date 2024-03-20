@@ -8,7 +8,12 @@ import {
   VITE_PROPOSAL_ID,
   VITE_WEB3_GATEWAY,
 } from '../constants/config'
-import { UnknownNetworkError } from '../utils/errors'
+import {
+  handleKnownContractCallExceptionErrors,
+  handleKnownErrors,
+  handleKnownEthersErrors,
+  UnknownNetworkError,
+} from '../utils/errors'
 import { Web3Context, Web3ProviderContext, Web3ProviderState } from './Web3Context'
 import { useEIP1193 } from '../hooks/useEIP1193.ts'
 import { BigNumberish, BrowserProvider, JsonRpcProvider, toBeHex } from 'ethers'
@@ -210,7 +215,7 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
       throw new Error('[pollManagerWithoutSigner] not initialized!')
     }
 
-    return await pollManagerVoidSigner.PROPOSALS(toBeHex(VITE_PROPOSAL_ID))
+    return await pollManagerVoidSigner.PROPOSALS(toBeHex(VITE_PROPOSAL_ID)).catch(handleKnownErrors)
   }
 
   const canVoteOnPoll = async () => {
@@ -227,7 +232,12 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     return await pollManagerVoidSigner
       .canVoteOnPoll(VITE_PROPOSAL_ID, account, EMPTY_IN_DATA)
       .then(canVoteBigint => Promise.resolve(canVoteBigint === 1n))
-      .catch(() => Promise.resolve(false))
+      .catch(ex => {
+        handleKnownErrors(ex)
+        handleKnownContractCallExceptionErrors(ex, Promise.resolve(false))
+
+        return Promise.resolve(false)
+      })
   }
 
   const vote = async (choiceId: BigNumberish) => {
@@ -244,7 +254,7 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     unsignedTx.gasLimit = MAX_GAS_LIMIT
     unsignedTx.value = 0n
 
-    const txResponse = await signer.sendTransaction(unsignedTx)
+    const txResponse = await signer.sendTransaction(unsignedTx).catch(handleKnownEthersErrors)
 
     return await getTransaction(txResponse.hash)
   }
@@ -256,7 +266,7 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
       throw new Error('[pollManagerVoidSigner] not initialized!')
     }
 
-    return await pollManagerVoidSigner.getVoteCounts(VITE_PROPOSAL_ID)
+    return await pollManagerVoidSigner.getVoteCounts(VITE_PROPOSAL_ID).catch(handleKnownErrors)
   }
 
   const providerState: Web3ProviderContext = {
