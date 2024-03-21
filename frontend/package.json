@@ -7,7 +7,7 @@
   "scripts": {
     "checkTs": "tsc --noEmit",
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && node ./internals/scripts/build.mjs",
     "preview": "vite preview"
   },
   "packageManager": "pnpm@8.15.4",

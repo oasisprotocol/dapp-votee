@@ -1,13 +1,21 @@
 import { BigNumberish } from 'ethers'
 
-const dateFormat = new Intl.DateTimeFormat('en', {
+const dateFormatLong = new Intl.DateTimeFormat('en', {
   timeStyle: 'long',
   dateStyle: 'long',
 })
 
+const dateFormatShort = new Intl.DateTimeFormat('en', {
+  dateStyle: 'long',
+})
+
 export abstract class DateUtils {
-  static intlDateFormat(date: Date | number) {
-    return dateFormat.format(date)
+  static intlDateFormat(date: Date | number, { longFormat } = { longFormat: true }) {
+    if (longFormat) {
+      return dateFormatLong.format(date)
+    }
+
+    return dateFormatShort.format(date)
   }
 
   static unixFormatToDate(unixFormat: BigNumberish) {
