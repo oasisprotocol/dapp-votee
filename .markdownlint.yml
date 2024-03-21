@@ -11,7 +11,7 @@ default: true
 line-length:
   # Line length checking is not strict by default.
   strict: true
-  line_length: 80
+  line_length: 120
   # Allow longer lines for code blocks.
   code_block_line_length: 100
 
@@ -21,4 +21,4 @@ fenced-code-language: false
 
 # Allow <details> and <section> HTML elements
 no-inline-html:
-  allowed_elements: ['details', 'summary']
+  allowed_elements: ['details', 'summary', 'a', 'br', 'div', 'h2', 'p', 'strong']
