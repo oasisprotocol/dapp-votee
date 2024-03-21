@@ -1,9 +1,11 @@
-# Oasis voTEE
-
 <a name="readme-top"></a>
 
+<h1 align="center">Oasis voTEE</h1>
+
+<center>
 [![CI build status][github-ci-build-badge]][github-ci-build-link]
 [![CI lint status][github-ci-lint-badge]][github-ci-lint-link]
+</center>
 
 <!-- PROJECT BASIC INFORMATION -->
 <br />
