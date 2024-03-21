@@ -4,8 +4,8 @@
 
 <div align="center">
 
-  [![CI build status][github-ci-build-badge]][github-ci-build-link]
-  [![CI lint status][github-ci-lint-badge]][github-ci-lint-link]
+[![CI build status][github-ci-build-badge]][github-ci-build-link]
+[![CI lint status][github-ci-lint-badge]][github-ci-lint-link]
 
 </div>
 
@@ -81,6 +81,14 @@ Contracts are developed using [Hardhat](https://hardhat.org/docs). To ensure tha
 features function correctly, it is necessary to deploy the contract to
 the [Oasis Sapphire network](https://docs.oasis.io/dapp/sapphire/). The network may be a localnet, testnet, or mainnet.
 
+To compile contracts in the Hardhat project, execute the following command inside 'backend' folder:
+
+```sh
+pnpm run build
+```
+
+The above step, is also required for frontend dApp development and build process.
+
 #### Deployment Process
 
 For the deployment of the contract, please execute the following command:
@@ -111,7 +119,7 @@ npx hardhat run ./scripts/create.ts
 - close poll
 
 ```sh
-# Example usage of create poll script
+# Example usage of close poll script
 HARDHAT_NETWORK=sapphire-testnet \
 HARDHAT_POLL_MANAGER_CONTRACT=0xdAB5845136b3102E63023BB2A2405cb71608605d \
 HARDHAT_PROPOSAL_ID=0x91a86550e12752aac5353d3dae5f59867acb9058055bc9e9331db99f7e7f5627 \
