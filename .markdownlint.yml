@@ -21,4 +21,7 @@ fenced-code-language: false
 
 # Allow <details> and <section> HTML elements
 no-inline-html:
-  allowed_elements: ['details', 'summary', 'a', 'br', 'div', 'h2', 'p', 'strong']
+  allowed_elements: ['details', 'summary', 'a', 'br', 'div', 'h1', 'h2', 'p', 'strong', 'center']
+
+# Due to feature to link back to top
+first-line-h1: false
