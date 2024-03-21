@@ -1,0 +1,67 @@
+name: 🔥 UX/UI Design Change Report
+description: Use this template for tracking UX/UI Design changes.
+title: '[UX]: '
+labels: ['ux/design']
+assignees: ['donouwens', 'kaja-osojnik']
+
+body:
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: IMPACT
+      description: Define or estimate how many users will be faced with this issue.
+      options:
+        - label: High
+        - label: Medium
+        - label: Low
+  - type: checkboxes
+    id: urgency
+    attributes:
+      label: URGENCY
+      description: What is the expected speed this needs to be resolved?
+      options:
+        - label: Critical
+        - label: Major
+        - label: Medium
+        - label: Minor
+  - type: input
+    id: product-where
+    attributes:
+      label: PRODUCT ENVIRONMENT
+      description: Provide all relevant information below as to where the issue occurs within the product
+      placeholder: Write here
+  - type: textarea
+    id: description
+    attributes:
+      label: DESCRIPTION OF ISSUE
+      description: Describe the issue itself. Be as detailed as possible, preferably add a screenshot or recording to explain the issue further
+      placeholder: |
+        Describe here
+
+        Tip: You can attach images by clicking this area to highlight it and then dragging files in.
+    validations:
+      required: true
+  - type: checkboxes
+    id: viewport
+    attributes:
+      label: DEVICE / VIEWPORT
+      description: Share whether this occurs on desktop, mobile or both
+      options:
+        - label: Desktop
+        - label: Mobile
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: STEPS TO REPRODUCE
+      description: Describe exactly how to reproduce the issue
+      placeholder: |
+        1. Open https://... in Chrome
+        2. Click...
+        3. See...
+        Tip: You can attach images by clicking this area to highlight it and then dragging files in.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: ALTERNATIVES AND SUGGESTIONS
+      description: Share any suggestions on how to solve the issue
+      placeholder: Write here
