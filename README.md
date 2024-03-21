@@ -1,3 +1,5 @@
+# Oasis voTEE
+
 <a name="readme-top"></a>
 
 [![CI build status][github-ci-build-badge]][github-ci-build-link]
@@ -5,12 +7,9 @@
 
 <!-- PROJECT BASIC INFORMATION -->
 <br />
-<div align="center">
-  <h2 align="center">Oasis voTEE</h2>
-
-  <p align="center">
-    The Community Vote gives ROSE holders the power to choose the Oasis Network’s first mascot, 
-    a character that will appear in new communications from the Oasis Network. 
+<p align="center">
+    The Community Vote gives ROSE holders the power to choose the Oasis Network’s first mascot,
+    a character that will appear in new communications from the Oasis Network.
     This project aligns with our mission to build a decentralized internet defined by privacy, security, and usability.
     <br />
     <a href="https://oasisprotocol.org/oasis-mascot-voting"><strong>Learn more »</strong></a>
@@ -21,8 +20,7 @@
     <a href="https://github.com/oasisprotocol/dapp-votee/issues/new/choose">Report Bug</a>
     ⟐
     <a href="https://github.com/oasisprotocol/dapp-votee/issues/new/choose">Request Feature</a>
-  </p>
-</div>
+</p>
 
 <!-- ABOUT THE PROJECT -->
 
@@ -37,12 +35,12 @@ harnesses the power of [Oasis Sapphire ParaTime](https://docs.oasis.io/dapp/sapp
 The poll, created by the contract, provides three mascots for participants to vote for. Each mascot symbolizes a
 different aspect of the Oasis Network as follows:
 
-* Capybara symbolizes *Interoperability*
-* Desert Owl represents *Knowledge*
-* Fennec Fox stands for *Privacy*
+- Capybara symbolizes _Interoperability_
+- Desert Owl represents _Knowledge_
+- Fennec Fox stands for _Privacy_
 
-The voting process is open to all Sapphire wallets holding a minimum of 100 ROSE tokens. The vote commences on *March
-20, 2024, at 4:00:00 PM GMT+1* and concludes on *March 27, 2024, at 4:00:00 PM GMT+1*. At the closure of the vote, the
+The voting process is open to all Sapphire wallets holding a minimum of 100 ROSE tokens. The vote commences on _March
+20, 2024, at 4:00:00 PM GMT+1_ and concludes on _March 27, 2024, at 4:00:00 PM GMT+1_. At the closure of the vote, the
 results will be promptly available and no further voting will be permitted.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -84,7 +82,7 @@ the [Oasis Sapphire network](https://docs.oasis.io/dapp/sapphire/). The network 
 For the deployment of the contract, please execute the following command:
 
 ```sh
-# Upon successful deployment of the contract, this script will automatically generate a poll. 
+# Upon successful deployment of the contract, this script will automatically generate a poll.
 npx hardhat deploy --network sapphire-testnet
 ```
 
@@ -100,15 +98,22 @@ There are 2 scripts available for poll manipulation after the contract has been 
 
 ```sh
 # Example usage of create poll script
-HARDHAT_NETWORK=sapphire-testnet HARDHAT_POLL_MANAGER_CONTRACT=0xdAB5845136b3102E63023BB2A2405cb71608605d HARDHAT_ACL_NATIVE_BALANCE_CONTRACT=0x8e29375FE5Db7eBb1b5eF24B7D397bBF0B01De09 npx hardhat run ./scripts/create.ts
+HARDHAT_NETWORK=sapphire-testnet \
+HARDHAT_POLL_MANAGER_CONTRACT=0xdAB5845136b3102E63023BB2A2405cb71608605d \
+HARDHAT_ACL_NATIVE_BALANCE_CONTRACT=0x8e29375FE5Db7eBb1b5eF24B7D397bBF0B01De09 \
+npx hardhat run ./scripts/create.ts
 ```
 
 - close poll
 
 ```sh
 # Example usage of create poll script
-HARDHAT_NETWORK=sapphire-testnet HARDHAT_POLL_MANAGER_CONTRACT=0xdAB5845136b3102E63023BB2A2405cb71608605d HARDHAT_PROPOSAL_ID=0x91a86550e12752aac5353d3dae5f59867acb9058055bc9e9331db99f7e7f5627 npx hardhat run ./scripts/close.ts
+HARDHAT_NETWORK=sapphire-testnet \
+HARDHAT_POLL_MANAGER_CONTRACT=0xdAB5845136b3102E63023BB2A2405cb71608605d \
+HARDHAT_PROPOSAL_ID=0x91a86550e12752aac5353d3dae5f59867acb9058055bc9e9331db99f7e7f5627 \
+npx hardhat run ./scripts/close.ts
 ```
+
 > [!IMPORTANT]  
 > **The poll needs to be manually closed**, after the `closeTimestamp` condition has been met.
 
@@ -128,6 +133,7 @@ pnpm run dev
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the Apache 2.0 License. See `LICENSE` for more information.
