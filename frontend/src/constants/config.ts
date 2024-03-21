@@ -79,6 +79,7 @@ export const POLL_CHOICES: readonly PollChoice[] = Object.freeze([
 
 export const METAMASK_HOME_PAGE_URL = 'https://metamask.io/'
 export const VOTING_LANDING_PAGE_URL = 'https://oasisprotocol.org/oasis-mascot-voting'
+export const GITHUB_REPOSITORY_URL = 'https://github.com/oasisprotocol/dapp-votee/'
 
 const {
   VITE_NETWORK: ENV_VITE_NETWORK,
@@ -89,10 +90,13 @@ const {
   VITE_CONTRACT_POLLMANAGER,
   VITE_CONTRACT_POLLMANAGER_ACL,
   VITE_PROPOSAL_ID,
+  VITE_REACT_APP_BUILD_VERSION,
+  VITE_REACT_APP_BUILD_DATETIME: ENV_VITE_REACT_APP_BUILD_DATETIME,
 } = import.meta.env
 
 const VITE_NETWORK = BigInt(ENV_VITE_NETWORK) ?? 0n
 const VITE_PROPOSAL_START_TIME = Number(ENV_VITE_PROPOSAL_START_TIME) ?? 0
+const VITE_REACT_APP_BUILD_DATETIME = Number(ENV_VITE_REACT_APP_BUILD_DATETIME) ?? 0
 
 export {
   VITE_NETWORK,
@@ -103,4 +107,6 @@ export {
   VITE_CONTRACT_POLLMANAGER,
   VITE_CONTRACT_POLLMANAGER_ACL,
   VITE_PROPOSAL_ID,
+  VITE_REACT_APP_BUILD_VERSION,
+  VITE_REACT_APP_BUILD_DATETIME,
 }
