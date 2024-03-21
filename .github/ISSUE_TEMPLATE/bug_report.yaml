@@ -1,7 +1,7 @@
 name: 🐛 Bug report
 description: Tell us what doesn’t work as it should.
-title: "[Bug]: "
-labels: ["bug"]
+title: '[Bug]: '
+labels: ['bug']
 
 body:
   - type: checkboxes
@@ -9,8 +9,8 @@ body:
       label: Is there an existing issue for this?
       description: Please search to see if an issue already exists for this bug.
       options:
-      - label: I have searched the existing issues
-        required: true
+        - label: I have searched the existing issues
+          required: true
   - type: input
     id: summary
     attributes:

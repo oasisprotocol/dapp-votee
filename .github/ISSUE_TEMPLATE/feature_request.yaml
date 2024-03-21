@@ -1,7 +1,7 @@
 name: ✨ Feature request
 description: Suggest an idea for this project.
-title: "[Feature]: "
-labels: ["feature"]
+title: '[Feature]: '
+labels: ['feature']
 
 body:
   - type: checkboxes
@@ -9,8 +9,8 @@ body:
       label: Is there an existing issue for this?
       description: Please search to see if an issue already exists for your request.
       options:
-      - label: I have searched the existing issues
-        required: true
+        - label: I have searched the existing issues
+          required: true
   - type: input
     id: summary
     attributes:
