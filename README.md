@@ -49,6 +49,18 @@ results will be promptly available and no further voting will be permitted.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- ROADMAP -->
+
+## Roadmap
+
+VoTEE dApp is conceptualized as a dApp allowing for participatory voting on a myriad of decisions
+related to Oasis, with the Oasis mascot vote serving merely as one such instance out of many potential future ones. As
+per the envisaged evolution of this project, this repository is subject to change in the future.
+
+_Stay tuned for future updates._
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- GETTING STARTED -->
 
 ## Getting Started
@@ -104,7 +116,7 @@ key/s - it is strongly advised not to utilize those in a testnet or production e
 
 #### Scripts
 
-There are 2 scripts available for poll manipulation after the contract has been successfully deploy.
+There are 2 scripts available for poll manipulation after the contract has been successfully deployed.
 
 - create poll
 
