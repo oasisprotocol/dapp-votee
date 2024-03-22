@@ -80,3 +80,11 @@
     letter-spacing: 0;
   }
 }
+
+@media screen and (min-width: 1000px) {
+  .mascotCard {
+    &.mascotCardVertical {
+      height: 415px;
+    }
+  }
+}
