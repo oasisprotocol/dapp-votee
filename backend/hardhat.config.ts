@@ -1,5 +1,6 @@
 import '@oasisprotocol/sapphire-hardhat'
 import '@nomicfoundation/hardhat-ethers'
+import '@nomicfoundation/hardhat-verify'
 import { promises as fs } from 'fs'
 import path from 'path'
 
@@ -90,6 +91,24 @@ const config: HardhatUserConfig = {
   mocha: {
     require: ['ts-node/register/files'],
     timeout: 50_000,
+  },
+  sourcify: {
+    enabled: true,
+  },
+  etherscan: {
+    apiKey: {
+      'Oasis Sapphire Testnet': 'abc',
+    },
+    customChains: [
+      {
+        network: 'Oasis Sapphire Testnet',
+        chainId: 23295,
+        urls: {
+          apiURL: 'https://testnet.sapphire.oasis.dev/',
+          browserURL: 'https://explorer.oasis.io/testnet/sapphire',
+        },
+      },
+    ],
   },
 }
 
