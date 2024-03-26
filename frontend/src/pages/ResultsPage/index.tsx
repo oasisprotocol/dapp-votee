@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { FC, Fragment, useEffect, useMemo, useState } from 'react'
 import { Card } from '../../components/Card'
 import classes from './index.module.css'
 import { MascotCard } from '../../components/MascotCard'
@@ -12,6 +12,9 @@ import { DateUtils } from '../../utils/date.utils.ts'
 import { useWeb3 } from '../../hooks/useWeb3.ts'
 import { PollChoice } from '../../types'
 import { toErrorString } from '../../utils/errors.ts'
+import { MascotTieCard } from '../../components/MascotTieCard'
+import { NumberUtils } from '../../utils/number.utils.ts'
+import { MascotTieSplit } from '../../components/MascotTieSplit'
 
 interface PollChoiceWithValue extends PollChoice {
   value: bigint
@@ -55,9 +58,9 @@ export const ResultsPage: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const [data, dataValueSum, winningMascot, dataColorMap] = useMemo(() => {
+  const [data, dataValueSum, winningMascots, dataColorMap] = useMemo(() => {
     if (!voteCount.length) {
-      return [[], 0n, undefined, {} as Record<string, string>]
+      return [[], 0n, [], {} as Record<string, string>]
     }
 
     const _data = POLL_CHOICES.map((pollChoice, i) => ({ ...pollChoice, value: voteCount[i] ?? 0n })).sort(
@@ -74,6 +77,7 @@ export const ResultsPage: FC = () => {
 
     const _dataValueSum = voteCount.reduce((acc, curr) => acc + curr, 0n)
     const [_winningMascot] = _data
+    const _winningMascots = _data.filter(({ value }) => _winningMascot.value === value)
     const _dataColorMap = _data.reduce(
       (acc, { name }, i) => ({ ...acc, [name]: DATA_COLORS[i % DATA_COLORS.length] }),
       {}
@@ -82,41 +86,74 @@ export const ResultsPage: FC = () => {
     return [
       _data as PollChoiceWithValue[],
       _dataValueSum as bigint,
-      _winningMascot as PollChoiceWithValue,
+      _winningMascots as PollChoiceWithValue[],
       _dataColorMap as Record<string, string>,
     ]
   }, [voteCount])
+
+  const winningMascotsEl = useMemo(() => {
+    if (winningMascots.length <= 0) {
+      return null
+    }
+
+    if (winningMascots.length === 1) {
+      const [winningMascot] = winningMascots
+      const { name, description, imagePath } = winningMascot
+
+      return (
+        <div className={classes.winningMascot}>
+          <MascotCard
+            selected
+            orientation={isDesktopScreen ? 'horizontal' : 'vertical'}
+            title={name}
+            description={description}
+            image={<img alt={name} src={imagePath} />}
+            actions={
+              <div className={classes.winningMascotBadge}>
+                <span>Winning mascot</span>
+                <TrophyIcon
+                  size={isDesktopScreen ? 'small' : undefined}
+                  width={isDesktopScreen ? undefined : 18}
+                  height={isDesktopScreen ? undefined : 18}
+                />
+              </div>
+            }
+          />
+        </div>
+      )
+    }
+
+    return (
+      <div className={classes.winningMascots}>
+        {winningMascots.map(({ name, imagePath, value }, index) => {
+          return (
+            <Fragment key={name}>
+              {index !== 0 && <MascotTieSplit isLargeIcon={isDesktopScreen && winningMascots.length === 2} />}
+              <MascotTieCard
+                title={name}
+                image={<img alt={name} src={imagePath} />}
+                value={NumberUtils.toPercentageString(Number(value) / Number(dataValueSum))}
+              />
+            </Fragment>
+          )
+        })}
+      </div>
+    )
+  }, [dataValueSum, isDesktopScreen, winningMascots])
 
   if (poll?.active === true) {
     return <Navigate to="/" replace={true} />
   }
 
+  const isATieResult = winningMascots.length > 1
+
   return (
     <div>
       {isMobileScreen && <p className={classes.headerText}>{HEADER_TEXT}</p>}
       <Card>
+        {isATieResult && <h2 className={classes.tieHeaderText}>It's a tie!</h2>}
         {isDesktopScreen && <p className={classes.cardHeaderText}>{HEADER_TEXT}</p>}
-        {winningMascot && (
-          <div className={classes.winningMascot}>
-            <MascotCard
-              selected
-              orientation={isDesktopScreen ? 'horizontal' : 'vertical'}
-              title={winningMascot.name}
-              description={winningMascot.description}
-              image={<img alt={winningMascot.name} src={winningMascot.imagePath} />}
-              actions={
-                <div className={classes.winningMascotBadge}>
-                  <span>Winning mascot</span>
-                  <TrophyIcon
-                    size={isDesktopScreen ? 'small' : undefined}
-                    width={isDesktopScreen ? undefined : 18}
-                    height={isDesktopScreen ? undefined : 18}
-                  />
-                </div>
-              }
-            />
-          </div>
-        )}
+        {winningMascotsEl}
         <div className={classes.mascotPollData}>
           <PieChart className={classes.mascotPollDataPieChart} data={data} colorMap={dataColorMap} />
           <Table className={classes.mascotResultsTable} headers={TABLE_HEADERS} data={data}>
@@ -126,13 +163,7 @@ export const ResultsPage: FC = () => {
                   <span className={classes.answerColName}>{name}</span>
                 </td>
                 <td>{value.toLocaleString()}</td>
-                <td>
-                  {new Intl.NumberFormat(undefined, {
-                    style: 'percent',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 2,
-                  }).format(Number(value) / Number(dataValueSum))}
-                </td>
+                <td>{NumberUtils.toPercentageString(Number(value) / Number(dataValueSum))}</td>
               </tr>
             )}
           </Table>

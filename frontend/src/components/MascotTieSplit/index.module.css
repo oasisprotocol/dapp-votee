@@ -1,0 +1,27 @@
+.mascotTieSplit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 3.75rem;
+  margin: 0 2.375rem;
+
+  svg {
+    color: var(--deep-lemon);
+  }
+}
+
+.mascotTieSplitText {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 150%;
+  text-align: center;
+  color: rgba(36, 38, 41, 0.4);
+}
+
+@media screen and (max-width: 1000px) {
+  .mascotTieSplit {
+    gap: 0;
+    padding-top: 0;
+    margin: 1rem 0;
+  }
+}

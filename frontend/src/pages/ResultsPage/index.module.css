@@ -12,6 +12,15 @@
   margin-bottom: 2rem;
 }
 
+.winningMascots {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0 0.75rem;
+  border: 3px solid var(--deep-lemon);
+  border-radius: 6px;
+  margin-bottom: 2rem;
+}
+
 .winningMascotBadge {
   position: absolute;
   top: 1.0625rem;
@@ -79,6 +88,11 @@
   margin-top: -1.175rem;
 }
 
+.tieHeaderText {
+  color: var(--palatinate-blue);
+  text-align: center;
+}
+
 @media screen and (max-width: 1000px) {
   .headerText {
     font-size: 16px;
@@ -122,5 +136,14 @@
     font-weight: 400;
     line-height: 130%;
     letter-spacing: -0.03em;
+  }
+
+  .winningMascots {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tieHeaderText {
+    margin-bottom: 0.5rem;
   }
 }
