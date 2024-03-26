@@ -1,0 +1,39 @@
+.mascotTieCard {
+  display: flex;
+  flex-direction: column;
+
+  img {
+    width: 130px;
+    height: auto;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+  }
+}
+
+.mascotTieCardTitle {
+  text-align: center;
+  color: var(--palatinate-blue);
+  margin-top: 0.75rem;
+}
+
+.mascotTieCardValue {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 130%;
+  letter-spacing: -0.03em;
+  text-align: center;
+  color: rgba(36, 38, 41, 0.8);
+  margin-top: 0.5rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .mascotTieCard {
+    img {
+      width: 195px;
+    }
+  }
+
+  .mascotTieCardValue {
+    margin-top: 0.125rem;
+  }
+}
