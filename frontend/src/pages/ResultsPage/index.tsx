@@ -2,18 +2,18 @@ import { FC, Fragment, useEffect, useMemo, useState } from 'react'
 import { Card } from '../../components/Card'
 import classes from './index.module.css'
 import { MascotCard } from '../../components/MascotCard'
-import { TrophyIcon } from '../../components/icons/TrophyIcon.tsx'
+import { TrophyIcon } from '../../components/icons/TrophyIcon'
 import { PieChart } from '../../components/PieChart'
 import { Table } from '../../components/Table'
-import { POLL_CHOICES, VITE_PROPOSAL_START_TIME } from '../../constants/config.ts'
+import { POLL_CHOICES, VITE_PROPOSAL_START_TIME } from '../../constants/config'
 import { Navigate } from 'react-router-dom'
-import { useAppState } from '../../hooks/useAppState.ts'
-import { DateUtils } from '../../utils/date.utils.ts'
-import { useWeb3 } from '../../hooks/useWeb3.ts'
+import { useAppState } from '../../hooks/useAppState'
+import { DateUtils } from '../../utils/date.utils'
+import { useWeb3 } from '../../hooks/useWeb3'
 import { PollChoice } from '../../types'
-import { toErrorString } from '../../utils/errors.ts'
+import { toErrorString } from '../../utils/errors'
 import { MascotTieCard } from '../../components/MascotTieCard'
-import { NumberUtils } from '../../utils/number.utils.ts'
+import { NumberUtils } from '../../utils/number.utils'
 import { MascotTieSplit } from '../../components/MascotTieSplit'
 
 interface PollChoiceWithValue extends PollChoice {
@@ -40,17 +40,15 @@ export const ResultsPage: FC = () => {
     let shouldUpdate = true
 
     const init = async () => {
-      try {
-        const voteCountsResponse = (await getVoteCounts())!
-        if (shouldUpdate) {
-          setVoteCount(voteCountsResponse)
-        }
-      } catch (ex) {
-        setAppError(toErrorString(ex as Error))
+      const voteCountsResponse = (await getVoteCounts())!
+      if (shouldUpdate) {
+        setVoteCount(voteCountsResponse)
       }
     }
 
-    init()
+    init().catch(ex => {
+      setAppError(toErrorString(ex as Error))
+    })
 
     return () => {
       shouldUpdate = false

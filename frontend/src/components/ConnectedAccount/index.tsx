@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import { JazzIcon } from '../JazzIcon'
 import { useWeb3 } from '../../hooks/useWeb3'
-import { StringUtils } from '../../utils/string.utils.ts'
+import { StringUtils } from '../../utils/string.utils'
 import classes from './index.module.css'
-import { useAppState } from '../../hooks/useAppState.ts'
+import { useAppState } from '../../hooks/useAppState'
 
 interface Props {
   className?: string

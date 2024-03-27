@@ -1,8 +1,8 @@
 import { FC, ReactElement } from 'react'
 import Tilt from 'react-parallax-tilt'
-import { StringUtils } from '../../utils/string.utils.ts'
+import { StringUtils } from '../../utils/string.utils'
 import classes from './index.module.css'
-import { useAppState } from '../../hooks/useAppState.ts'
+import { useAppState } from '../../hooks/useAppState'
 
 type MascotCardOrientation = 'vertical' | 'horizontal'
 

@@ -1,11 +1,11 @@
 import { FC, PropsWithChildren, ReactElement } from 'react'
 import classes from './index.module.css'
 import { Card } from '../Card'
-import { WarningCircleIcon } from '../icons/WarningCircleIcon.tsx'
-import { CheckCircleIcon } from '../icons/CheckCircleIcon.tsx'
-import { SpinnerIcon } from '../icons/SpinnerIcon.tsx'
-import { PiggyBankSvgIcon } from '../icons/PiggyBankIcon.tsx'
-import { StringUtils } from '../../utils/string.utils.ts'
+import { WarningCircleIcon } from '../icons/WarningCircleIcon'
+import { CheckCircleIcon } from '../icons/CheckCircleIcon'
+import { SpinnerIcon } from '../icons/SpinnerIcon'
+import { PiggyBankIcon } from '../icons/PiggyBankIcon'
+import { StringUtils } from '../../utils/string.utils'
 
 type AlertType = 'error' | 'success' | 'loading' | 'insufficient-balance'
 
@@ -29,7 +29,7 @@ const alertTypeValuesMap: Record<AlertType, AlertTypeValues> = {
   },
   'insufficient-balance': {
     header: 'Insufficient balance',
-    icon: <PiggyBankSvgIcon />,
+    icon: <PiggyBankIcon />,
   },
 }
 

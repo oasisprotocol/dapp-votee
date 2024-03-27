@@ -1,4 +1,4 @@
-import { NETWORK_NAMES } from '../constants/config.ts'
+import { NETWORK_NAMES } from '../constants/config'
 
 const truncateRegex = /^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/
 

@@ -1,6 +1,6 @@
 import classes from './index.module.css'
 import { FC, MouseEventHandler, PropsWithChildren } from 'react'
-import { StringUtils } from '../../utils/string.utils.ts'
+import { StringUtils } from '../../utils/string.utils'
 
 type ButtonSize = 'small' | 'medium'
 type ButtonColor = 'primary' | 'secondary' | 'success'

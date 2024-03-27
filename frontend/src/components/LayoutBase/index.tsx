@@ -4,8 +4,8 @@ import {
   GITHUB_REPOSITORY_URL,
   VITE_REACT_APP_BUILD_DATETIME,
   VITE_REACT_APP_BUILD_VERSION,
-} from '../../constants/config.ts'
-import { DateUtils } from '../../utils/date.utils.ts'
+} from '../../constants/config'
+import { DateUtils } from '../../utils/date.utils'
 import { useMediaQuery } from 'react-responsive'
 
 export const LayoutBase: FC<PropsWithChildren> = ({ children }) => {

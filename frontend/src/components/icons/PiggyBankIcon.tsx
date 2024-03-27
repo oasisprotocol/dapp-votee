@@ -5,7 +5,7 @@ import PiggyBankSvg from '@phosphor-icons/core/assets/regular/piggy-bank.svg?rea
 import { Icon } from '../Icon'
 import { IconProps } from '../../types'
 
-export const PiggyBankSvgIcon: FC<IconProps> = ({ size = 'large', ...restProps }) => (
+export const PiggyBankIcon: FC<IconProps> = ({ size = 'large', ...restProps }) => (
   <Icon size={size} {...restProps}>
     <PiggyBankSvg />
   </Icon>

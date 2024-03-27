@@ -15,7 +15,7 @@ import {
   UnknownNetworkError,
 } from '../utils/errors'
 import { Web3Context, Web3ProviderContext, Web3ProviderState } from './Web3Context'
-import { useEIP1193 } from '../hooks/useEIP1193.ts'
+import { useEIP1193 } from '../hooks/useEIP1193'
 import { BigNumberish, BrowserProvider, JsonRpcProvider, toBeHex } from 'ethers'
 import { PollManager__factory } from '@oasisprotocol/dapp-voting-backend/src/contracts'
 
@@ -165,16 +165,6 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }
 
-  const getBalance = async () => {
-    const { account, sapphireEthProvider } = state
-
-    if (!account || !sapphireEthProvider) {
-      throw new Error('[Web3Context] Unable to fetch balance!')
-    }
-
-    return await sapphireEthProvider.getBalance(account)
-  }
-
   const isProviderAvailable = async () => {
     return isEIP1193ProviderAvailable()
   }
@@ -277,7 +267,6 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     isProviderAvailable,
     connectWallet,
     switchNetwork,
-    getBalance,
     getTransaction,
     getPoll,
     canVoteOnPoll,

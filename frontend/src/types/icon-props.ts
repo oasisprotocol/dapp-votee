@@ -1,4 +1,4 @@
-import { IconSize } from './icon-size.ts'
+import { IconSize } from './icon-size'
 
 export interface IconProps {
   size?: IconSize
