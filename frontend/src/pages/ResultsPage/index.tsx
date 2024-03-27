@@ -40,17 +40,15 @@ export const ResultsPage: FC = () => {
     let shouldUpdate = true
 
     const init = async () => {
-      try {
-        const voteCountsResponse = (await getVoteCounts())!
-        if (shouldUpdate) {
-          setVoteCount(voteCountsResponse)
-        }
-      } catch (ex) {
-        setAppError(toErrorString(ex as Error))
+      const voteCountsResponse = (await getVoteCounts())!
+      if (shouldUpdate) {
+        setVoteCount(voteCountsResponse)
       }
     }
 
-    init()
+    init().catch(ex => {
+      setAppError(toErrorString(ex as Error))
+    })
 
     return () => {
       shouldUpdate = false

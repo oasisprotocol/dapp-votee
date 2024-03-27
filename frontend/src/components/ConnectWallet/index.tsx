@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { useWeb3 } from '../../hooks/useWeb3.ts'
 import { METAMASK_HOME_PAGE_URL } from '../../constants/config.ts'
 import { Button } from '../Button'
-import { UnknownNetworkError } from '../../utils/errors.ts'
+import { toErrorString, UnknownNetworkError } from '../../utils/errors.ts'
 import { ConnectedAccount } from '../ConnectedAccount'
 import { useAppState } from '../../hooks/useAppState.ts'
 import classes from './index.module.css'
@@ -36,7 +36,9 @@ export const ConnectWallet: FC<Props> = ({ mobileSticky }) => {
       setIsLoading(false)
     }
 
-    init()
+    init().catch(ex => {
+      setAppError(toErrorString(ex as Error))
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -60,7 +62,7 @@ export const ConnectWallet: FC<Props> = ({ mobileSticky }) => {
     try {
       await switchNetwork()
       setIsUnknownNetwork(false)
-      handleConnectWallet()
+      await handleConnectWallet()
     } catch (ex) {
       setAppError(ex as Error)
     } finally {

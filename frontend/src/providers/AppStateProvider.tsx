@@ -63,30 +63,26 @@ export const AppStateContextProvider: FC<PropsWithChildren> = ({ children }) => 
     if (!isVoidSignerConnected) return
 
     const init = async () => {
-      try {
-        const poll = (await getPoll())!
+      const poll = (await getPoll())!
 
-        const {
-          params: { numChoices },
-        } = poll
+      const {
+        params: { numChoices },
+      } = poll
 
-        if (numChoices !== 3n) {
-          console.warn(
-            '[numChoices] Unexpected number of poll choices, this dApp may not behave as expected!'
-          )
-        }
-
-        setState(prevState => ({
-          ...prevState,
-          isInitialLoading: false,
-          poll,
-        }))
-      } catch (ex) {
-        setAppError(toErrorString(ex as Error))
+      if (numChoices !== 3n) {
+        console.warn('[numChoices] Unexpected number of poll choices, this dApp may not behave as expected!')
       }
+
+      setState(prevState => ({
+        ...prevState,
+        isInitialLoading: false,
+        poll,
+      }))
     }
 
-    init()
+    init().catch(ex => {
+      setAppError(toErrorString(ex as Error))
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVoidSignerConnected])
 
