@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from 'react'
 import classes from './index.module.css'
-import { StringUtils } from '../../utils/string.utils.ts'
+import { StringUtils } from '../../utils/string.utils'
 
 interface Props extends PropsWithChildren {
   className?: string

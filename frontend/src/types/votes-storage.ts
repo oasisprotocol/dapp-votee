@@ -1,4 +1,4 @@
-import { MascotChoices } from './mascot-choices.ts'
+import { MascotChoices } from './mascot-choices'
 
 /**
  * Represents a storage for storing previous votes.

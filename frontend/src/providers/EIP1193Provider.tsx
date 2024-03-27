@@ -3,9 +3,9 @@ import { BrowserProvider, type Eip1193Provider, toBeHex } from 'ethers'
 import * as sapphire from '@oasisprotocol/sapphire-paratime'
 import { EIP1193Error } from '../utils/errors'
 import detectEthereumProvider from '@metamask/detect-provider'
-import { EIP1193Context, EIP1193ProviderContext } from './EIP1193Context.ts'
-import { VITE_NETWORK } from '../constants/config.ts'
-import { CHAINS } from '../constants/config.ts'
+import { EIP1193Context, EIP1193ProviderContext } from './EIP1193Context'
+import { VITE_NETWORK } from '../constants/config'
+import { CHAINS } from '../constants/config'
 
 declare global {
   interface Window {

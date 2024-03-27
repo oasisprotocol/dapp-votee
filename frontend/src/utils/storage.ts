@@ -1,4 +1,4 @@
-import { StorageKeys } from '../constants/storage-keys.ts'
+import { StorageKeys } from '../constants/storage-keys'
 import { VotesStorage } from '../types'
 
 interface StorageType {

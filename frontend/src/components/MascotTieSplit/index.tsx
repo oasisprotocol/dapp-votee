@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import classes from './index.module.css'
-import { LightningIcon } from '../icons/LightningIcon.tsx'
+import { LightningIcon } from '../icons/LightningIcon'
 
 interface Props {
   isLargeIcon?: boolean

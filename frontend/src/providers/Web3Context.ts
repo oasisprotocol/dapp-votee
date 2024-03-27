@@ -2,7 +2,7 @@ import { createContext } from 'react'
 import * as sapphire from '@oasisprotocol/sapphire-paratime'
 import { BigNumberish, BrowserProvider, TransactionResponse } from 'ethers'
 import { type PollManager } from '@oasisprotocol/dapp-voting-backend/src/contracts'
-import { DefaultReturnType } from '@oasisprotocol/dapp-voting-backend/src/contracts/common.ts'
+import { DefaultReturnType } from '@oasisprotocol/dapp-voting-backend/src/contracts/common'
 import { Poll } from '../types'
 
 export interface Web3ProviderState {

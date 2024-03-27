@@ -15,7 +15,7 @@ import {
   UnknownNetworkError,
 } from '../utils/errors'
 import { Web3Context, Web3ProviderContext, Web3ProviderState } from './Web3Context'
-import { useEIP1193 } from '../hooks/useEIP1193.ts'
+import { useEIP1193 } from '../hooks/useEIP1193'
 import { BigNumberish, BrowserProvider, JsonRpcProvider, toBeHex } from 'ethers'
 import { PollManager__factory } from '@oasisprotocol/dapp-voting-backend/src/contracts'
 

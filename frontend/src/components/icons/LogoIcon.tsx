@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { useAppState } from '../../hooks/useAppState.ts'
+import { useAppState } from '../../hooks/useAppState'
 
 const logoSizeMap: Record<'large' | 'small', { width: number; height: number }> = {
   large: {

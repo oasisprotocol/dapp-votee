@@ -2,7 +2,7 @@ import { ReactElement, useMemo } from 'react'
 import classes from './index.module.css'
 import { Cell, Pie, PieChart as RechartsPieChart, ResponsiveContainer } from 'recharts'
 import { DataEntry } from '../../types'
-import { StringUtils } from '../../utils/string.utils.ts'
+import { StringUtils } from '../../utils/string.utils'
 
 interface Props<T extends DataEntry> {
   data: T[]

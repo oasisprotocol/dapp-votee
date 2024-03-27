@@ -1,12 +1,12 @@
 import { FC, PropsWithChildren, useEffect, useState } from 'react'
-import { AppStateContext, AppStateProviderContext, AppStateProviderState } from './AppStateContext.ts'
-import { useWeb3 } from '../hooks/useWeb3.ts'
-import { storage } from '../utils/storage.ts'
-import { StorageKeys } from '../constants/storage-keys.ts'
+import { AppStateContext, AppStateProviderContext, AppStateProviderState } from './AppStateContext'
+import { useWeb3 } from '../hooks/useWeb3'
+import { storage } from '../utils/storage'
+import { StorageKeys } from '../constants/storage-keys'
 import { MascotChoices } from '../types'
-import { NumberUtils } from '../utils/number.utils.ts'
+import { NumberUtils } from '../utils/number.utils'
 import { useMediaQuery } from 'react-responsive'
-import { toErrorString } from '../utils/errors.ts'
+import { toErrorString } from '../utils/errors'
 
 const localStorageStore = storage()
 

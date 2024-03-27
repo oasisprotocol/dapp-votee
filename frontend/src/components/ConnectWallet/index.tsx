@@ -1,12 +1,12 @@
 import { FC, useEffect, useState } from 'react'
-import { useWeb3 } from '../../hooks/useWeb3.ts'
-import { METAMASK_HOME_PAGE_URL } from '../../constants/config.ts'
+import { useWeb3 } from '../../hooks/useWeb3'
+import { METAMASK_HOME_PAGE_URL } from '../../constants/config'
 import { Button } from '../Button'
-import { toErrorString, UnknownNetworkError } from '../../utils/errors.ts'
+import { toErrorString, UnknownNetworkError } from '../../utils/errors'
 import { ConnectedAccount } from '../ConnectedAccount'
-import { useAppState } from '../../hooks/useAppState.ts'
+import { useAppState } from '../../hooks/useAppState'
 import classes from './index.module.css'
-import { CaretRightIcon } from '../icons/CaretRightIcon.tsx'
+import { CaretRightIcon } from '../icons/CaretRightIcon'
 
 interface Props {
   mobileSticky: boolean

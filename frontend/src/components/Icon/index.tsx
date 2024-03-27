@@ -1,6 +1,5 @@
 import { cloneElement, FC, ReactElement, SVGProps } from 'react'
-import { IconSize } from '../../types'
-import { IconProps } from '../../types/icon-props.ts'
+import { IconSize, IconProps } from '../../types'
 
 interface Props extends IconProps {
   children: ReactElement
