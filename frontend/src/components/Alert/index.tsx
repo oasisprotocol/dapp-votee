@@ -4,7 +4,7 @@ import { Card } from '../Card'
 import { WarningCircleIcon } from '../icons/WarningCircleIcon.tsx'
 import { CheckCircleIcon } from '../icons/CheckCircleIcon.tsx'
 import { SpinnerIcon } from '../icons/SpinnerIcon.tsx'
-import { PiggyBankSvgIcon } from '../icons/PiggyBankIcon.tsx'
+import { PiggyBankIcon } from '../icons/PiggyBankIcon.tsx'
 import { StringUtils } from '../../utils/string.utils.ts'
 
 type AlertType = 'error' | 'success' | 'loading' | 'insufficient-balance'
@@ -29,7 +29,7 @@ const alertTypeValuesMap: Record<AlertType, AlertTypeValues> = {
   },
   'insufficient-balance': {
     header: 'Insufficient balance',
-    icon: <PiggyBankSvgIcon />,
+    icon: <PiggyBankIcon />,
   },
 }
 
