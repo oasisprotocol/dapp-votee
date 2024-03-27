@@ -20,7 +20,6 @@ export interface Web3ProviderContext {
   readonly state: Web3ProviderState
   connectWallet: () => Promise<void>
   switchNetwork: (chainId?: bigint) => Promise<void>
-  getBalance: () => Promise<bigint>
   getTransaction: (txHash: string) => Promise<TransactionResponse | null>
   isProviderAvailable: () => Promise<boolean>
   getPoll: () => Promise<DefaultReturnType<[Poll]> | void>
