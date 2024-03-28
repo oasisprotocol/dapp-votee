@@ -14,17 +14,22 @@ export default defineConfig({
           if (id.includes('ethers')) {
             return 'ethers'
           }
-          if (id.includes('recharts')) {
-            return 'recharts'
-          }
           if (id.includes('lodash')) {
             return 'lodash'
+          }
+          if (id.includes('recharts')) {
+            return 'recharts'
           }
           if (id.includes('react-dom')) {
             return 'react-dom'
           }
         },
       },
+    },
+  },
+  esbuild: {
+    supported: {
+      'top-level-await': true, // recent browsers can handle top-level-await features
     },
   },
 })

@@ -1,8 +1,10 @@
 import { ReactElement, useMemo } from 'react'
 import classes from './index.module.css'
-import { Cell, Pie, PieChart as RechartsPieChart, ResponsiveContainer } from 'recharts'
 import { DataEntry } from '../../types'
 import { StringUtils } from '../../utils/string.utils'
+
+const recharts = await import('recharts')
+const { Cell, Pie, PieChart: RechartsPieChart, ResponsiveContainer } = recharts
 
 interface Props<T extends DataEntry> {
   data: T[]
