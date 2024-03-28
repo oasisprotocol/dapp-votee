@@ -12,11 +12,12 @@ import {
   handleKnownContractCallExceptionErrors,
   handleKnownErrors,
   handleKnownEthersErrors,
+  UpcomingPollError,
   UnknownNetworkError,
 } from '../utils/errors'
 import { Web3Context, Web3ProviderContext, Web3ProviderState } from './Web3Context'
 import { useEIP1193 } from '../hooks/useEIP1193'
-import { BigNumberish, BrowserProvider, JsonRpcProvider, toBeHex } from 'ethers'
+import { BigNumberish, BrowserProvider, JsonRpcProvider, toBeHex, ZeroAddress } from 'ethers'
 import { PollManager__factory } from '@oasisprotocol/dapp-voting-backend/src/contracts'
 
 const EMPTY_IN_DATA = new Uint8Array([])
@@ -206,6 +207,11 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
     if (!pollManagerVoidSigner) {
       throw new Error('[pollManagerWithoutSigner] not initialized!')
+    }
+
+    // TODO: Special case for zero address proposalId
+    if (VITE_PROPOSAL_ID === ZeroAddress) {
+      throw new UpcomingPollError()
     }
 
     return await pollManagerVoidSigner.PROPOSALS(toBeHex(VITE_PROPOSAL_ID)).catch(handleKnownErrors)

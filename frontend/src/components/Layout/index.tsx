@@ -9,10 +9,11 @@ import { Button } from '../Button'
 import { StringUtils } from '../../utils/string.utils'
 import { useInView } from 'react-intersection-observer'
 import { LayoutBase } from '../LayoutBase'
+import { UpcomingVotePage } from '../../pages/UpcomingVotePage'
 
 export const Layout: FC = () => {
   const {
-    state: { isInitialLoading, appError, isMobileScreen },
+    state: { isInitialLoading, appError, isMobileScreen, isUpcomingVote },
     clearAppError,
   } = useAppState()
 
@@ -32,7 +33,7 @@ export const Layout: FC = () => {
           )}
         >
           <LogoIcon className={classes.logo} />
-          <ConnectWallet mobileSticky={isMobileScreen && !inView} />
+          {!isInitialLoading && !isUpcomingVote && <ConnectWallet mobileSticky={isMobileScreen && !inView} />}
         </header>
         <section className={classes.subHeader}>
           <h1>Oasis Mascot</h1>
@@ -53,7 +54,8 @@ export const Layout: FC = () => {
           {isInitialLoading && (
             <Alert headerText="Please wait" type="loading" actions={<span>Fetching poll...</span>} />
           )}
-          {!isInitialLoading && !appError && <Outlet />}
+          {!isInitialLoading && !appError && !isUpcomingVote && <Outlet />}
+          {!isInitialLoading && !appError && isUpcomingVote && <UpcomingVotePage />}
         </section>
       </LayoutBase>
     </>

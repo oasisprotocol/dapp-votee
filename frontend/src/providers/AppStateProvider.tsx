@@ -6,7 +6,7 @@ import { StorageKeys } from '../constants/storage-keys'
 import { MascotChoices } from '../types'
 import { NumberUtils } from '../utils/number.utils'
 import { useMediaQuery } from 'react-responsive'
-import { toErrorString } from '../utils/errors'
+import { UpcomingPollError, toErrorString } from '../utils/errors'
 
 const localStorageStore = storage()
 
@@ -18,6 +18,7 @@ const appStateProviderInitialState: AppStateProviderState = {
   appError: '',
   isMobileScreen: false,
   isDesktopScreen: false,
+  isUpcomingVote: false,
 }
 
 export const AppStateContextProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -81,7 +82,15 @@ export const AppStateContextProvider: FC<PropsWithChildren> = ({ children }) => 
     }
 
     init().catch(ex => {
-      setAppError(toErrorString(ex as Error))
+      if (ex instanceof UpcomingPollError) {
+        setState(prevState => ({
+          ...prevState,
+          isInitialLoading: false,
+          isUpcomingVote: true,
+        }))
+      } else {
+        setAppError(toErrorString(ex as Error))
+      }
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVoidSignerConnected])

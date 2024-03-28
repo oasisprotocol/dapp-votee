@@ -9,6 +9,7 @@ export interface AppStateProviderState {
   appError: string
   isDesktopScreen: boolean
   isMobileScreen: boolean
+  isUpcomingVote: boolean
 }
 
 export interface AppStateProviderContext {
