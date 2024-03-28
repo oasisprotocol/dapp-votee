@@ -13,6 +13,7 @@ interface Props {
   actions?: ReactElement
   selected?: boolean
   orientation?: MascotCardOrientation
+  className?: string
 }
 
 const orientationMap: Record<MascotCardOrientation, string> = {
@@ -27,6 +28,7 @@ export const MascotCard: FC<Props> = ({
   actions,
   selected,
   orientation = 'vertical',
+  className,
 }) => {
   const {
     state: { isDesktopScreen },
@@ -36,6 +38,7 @@ export const MascotCard: FC<Props> = ({
     <Tilt tiltReverse tiltMaxAngleX={2} tiltMaxAngleY={10} {...(isDesktopScreen ? { scale: 1.05 } : {})}>
       <div
         className={StringUtils.clsx(
+          className,
           classes.mascotCard,
           selected ? classes.mascotCardSelected : undefined,
           orientationMap[orientation]

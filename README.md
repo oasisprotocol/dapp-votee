@@ -43,10 +43,6 @@ different aspect of the Oasis Network as follows:
 - Desert Owl represents _Knowledge_
 - Fennec Fox stands for _Privacy_
 
-The voting process is open to all Sapphire wallets holding a minimum of 100 ROSE tokens. The vote commences on _March
-20, 2024, at 4:00:00 PM GMT+1_ and concludes on _March 27, 2024, at 4:00:00 PM GMT+1_. At the closure of the vote, the
-results will be promptly available and no further voting will be permitted.
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ROADMAP -->

@@ -8,6 +8,12 @@ export class UnknownNetworkError extends Error {
   }
 }
 
+export class UpcomingPollError extends Error {
+  constructor(message = '') {
+    super(message)
+  }
+}
+
 export interface EIP1193Error extends Error {
   code: number
 }
