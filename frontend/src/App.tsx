@@ -1,13 +1,14 @@
 import { FC } from 'react'
 import { Layout } from './components/Layout'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
-import { HomePage } from './pages/HomePage'
 import { EIP1193ContextProvider } from './providers/EIP1193Provider'
 import { Web3ContextProvider } from './providers/Web3Provider'
-import { ResultsPage } from './pages/ResultsPage'
 import { AppStateContextProvider } from './providers/AppStateProvider'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { RouterErrorBoundary } from './components/RouterErrorBoundary'
+
+const { HomePage } = await import('./pages/HomePage')
+const { ResultsPage } = await import('./pages/ResultsPage')
 
 const router = createHashRouter([
   {
