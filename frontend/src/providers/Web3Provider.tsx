@@ -253,9 +253,7 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     unsignedTx.gasLimit = MAX_GAS_LIMIT
     unsignedTx.value = 0n
 
-    const txResponse = await signer.sendTransaction(unsignedTx).catch(handleKnownEthersErrors)
-
-    return await getTransaction(txResponse.hash)
+    return await signer.sendTransaction(unsignedTx).catch(handleKnownEthersErrors)
   }
 
   const getVoteCounts = async () => {
