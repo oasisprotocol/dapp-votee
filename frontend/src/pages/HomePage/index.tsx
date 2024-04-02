@@ -20,6 +20,7 @@ export const HomePage: FC = () => {
   const {
     state: { isConnected, account },
     vote,
+    getTransaction,
     canVoteOnPoll,
   } = useWeb3()
   const {
@@ -90,15 +91,16 @@ export const HomePage: FC = () => {
     setIsLoading(true)
 
     try {
-      setPageStatus('loading')
-
       const canVote = await handleCanVoteOnPoll()
       if (canVote === null) {
         setIsLoading(false)
         return
       }
 
-      await vote(selectedChoice)
+      const txResponse = (await vote(selectedChoice))!
+      setPageStatus('loading')
+      await getTransaction(txResponse.hash)
+
       setPreviousVoteForCurrentWallet(selectedChoice)
 
       setPageStatus('success')
