@@ -26,6 +26,7 @@ export interface Web3ProviderContext {
   canVoteOnPoll: () => Promise<boolean>
   vote: (choiceId: BigNumberish) => Promise<TransactionResponse | null>
   getVoteCounts: () => Promise<bigint[] | void>
+  verifyMinBalanceOfNativeBalanceACL: () => Promise<boolean>
 }
 
 export const Web3Context = createContext<Web3ProviderContext>({} as Web3ProviderContext)
