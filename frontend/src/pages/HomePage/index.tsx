@@ -22,6 +22,7 @@ export const HomePage: FC = () => {
     vote,
     getTransaction,
     canVoteOnPoll,
+    verifyMinBalanceOfNativeBalanceACL,
   } = useWeb3()
   const {
     state: { poll, previousVote, isMobileScreen, isDesktopScreen },
@@ -76,9 +77,21 @@ export const HomePage: FC = () => {
    * Returns null in case user is not eligible to vote
    */
   const handleCanVoteOnPoll = async () => {
-    const canVote = await canVoteOnPoll()
+    const [hasEnoughBalanceResult, canVoteResult] = await Promise.allSettled([
+      // Manually check if the wallet has enough balance left to vote, after paying for transaction fees
+      verifyMinBalanceOfNativeBalanceACL(),
+      // Double-check on the contract itself, if the wallet is eligible to vote
+      canVoteOnPoll(),
+    ])
 
-    if (!canVote) {
+    if (
+      hasEnoughBalanceResult.status === 'fulfilled' &&
+      hasEnoughBalanceResult.value === true &&
+      canVoteResult.status === 'fulfilled' &&
+      canVoteResult.value === true
+    ) {
+      return true
+    } else {
       setPageStatus('insufficient-balance')
 
       return null
@@ -189,7 +202,8 @@ export const HomePage: FC = () => {
             </div>
           }
         >
-          Please note there is a 100 ROSE threshold in order to cast your vote.
+          Please note there is a 100 ROSE threshold in order to cast your vote. Furthermore, additionally to
+          the 100 ROSE, make sure you have enough balance to pay for transaction fee.
         </Alert>
       )}
       {pageStatus === 'vote' && (

@@ -94,6 +94,12 @@ task('deploy')
       AbiCoder.defaultAbiCoder().encode(['uint256'], [MIN_BALANCE])
     )
 
+    await tee('')
+    await tee(
+      '# Enables frontend check to ensure wallet has enough balance for MIN_BALANCE + gas (0 = DISABLED)'
+    )
+    await tee(`VITE_ACL_NATIVEBALANCE_MIN_BALANCE_WEI=${MIN_BALANCE}`)
+
     const receipt = await tx.wait()
     const createEvent = receipt!.logs.find(
       event => (event as EventLog).fragment.name === 'ProposalCreated'

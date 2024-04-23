@@ -7,6 +7,7 @@ import {
   VITE_NETWORK,
   VITE_PROPOSAL_ID,
   VITE_WEB3_GATEWAY,
+  VITE_ACL_NATIVEBALANCE_MIN_BALANCE_WEI,
 } from '../constants/config'
 import {
   handleKnownContractCallExceptionErrors,
@@ -266,6 +267,34 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     return await pollManagerVoidSigner.getVoteCounts(VITE_PROPOSAL_ID).catch(handleKnownErrors)
   }
 
+  const _getBalance = async () => {
+    const { account, sapphireEthProvider } = state
+
+    if (!account || !sapphireEthProvider) {
+      throw new Error('[Web3Context] Unable to fetch balance!')
+    }
+
+    return await sapphireEthProvider.getBalance(account)
+  }
+
+  const verifyMinBalanceOfNativeBalanceACL = async (): Promise<boolean> => {
+    // Skip in case minBalance is unset, the contract can be using a different ACL
+    if (VITE_ACL_NATIVEBALANCE_MIN_BALANCE_WEI === 0n) {
+      return true
+    }
+
+    const { pollManagerVoidSigner } = state
+
+    if (!pollManagerVoidSigner) {
+      throw new Error('[pollManagerVoidSigner] not initialized!')
+    }
+
+    const gasPrice = await pollManagerVoidSigner.vote.estimateGas(VITE_PROPOSAL_ID, 0n, EMPTY_IN_DATA)
+    const fee = MAX_GAS_LIMIT * gasPrice
+    const balance = await _getBalance()
+    return balance - fee > VITE_ACL_NATIVEBALANCE_MIN_BALANCE_WEI
+  }
+
   const providerState: Web3ProviderContext = {
     state,
     isProviderAvailable,
@@ -276,6 +305,7 @@ export const Web3ContextProvider: FC<PropsWithChildren> = ({ children }) => {
     canVoteOnPoll,
     vote,
     getVoteCounts,
+    verifyMinBalanceOfNativeBalanceACL,
   }
 
   return <Web3Context.Provider value={providerState}>{children}</Web3Context.Provider>
