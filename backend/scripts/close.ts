@@ -32,7 +32,7 @@ async function main() {
   const [{ args }] = events
   const [hash] = args
 
-  console.log(`Closed proposal with ID: "${hash}"`)
+  console.log('\x1b[32m', `Closed proposal with ID: "${hash}"`)
 }
 
 main().catch(error => {

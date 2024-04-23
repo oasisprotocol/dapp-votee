@@ -47,7 +47,16 @@ async function main() {
   const [{ args }] = events
   const [hash] = args
 
-  console.log(`Created proposal with ID: "${hash}"`)
+  console.log(
+    '\x1b[32m',
+    `
+Created proposal with ID: "${hash}"
+  
+Update .env:
+VITE_PROPOSAL_ID=${hash}
+VITE_ACL_NATIVEBALANCE_MIN_BALANCE_WEI=${MIN_BALANCE}
+  `
+  )
 }
 
 main().catch(error => {
