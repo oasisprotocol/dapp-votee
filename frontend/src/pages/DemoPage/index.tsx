@@ -2,25 +2,27 @@ import { FC } from 'react'
 import { Card } from '../../components/Card'
 import classes from './index.module.css'
 import { MascotCard } from '../../components/MascotCard'
-import { POLL_CHOICES, VOTING_LANDING_PAGE_URL } from '../../constants/config'
+import { GITHUB_REPOSITORY_URL, POLL_CHOICES } from '../../constants/config'
 import { useAppState } from '../../hooks/useAppState'
 
 // TODO: Mark this page for removal
-export const UpcomingVotePage: FC = () => {
+export const DemoPage: FC = () => {
   const {
     state: { isMobileScreen, isDesktopScreen },
   } = useAppState()
 
   const headerText = (
     <>
-      Read more about the campaign&nbsp;
+      You arrived on our demo Oasis Mascot dApp. You can use it as a ready reference or inspiration for your
+      own confidential voting dApp. In case you want to dive deeper and understand our solution more
+      thoroughly, you have the option to fork this project on{' '}
       <a
-        className={classes.landingPageLink}
-        href={VOTING_LANDING_PAGE_URL}
+        className={classes.githubPageLink}
+        href={GITHUB_REPOSITORY_URL}
         target="_blank"
         rel="noopener noreferrer"
       >
-        on our website
+        GitHub
       </a>
       .
     </>
@@ -42,10 +44,6 @@ export const UpcomingVotePage: FC = () => {
             />
           ))}
         </div>
-        <p className={classes.cardFooterText}>
-          Thank you for your vote! We’re running a second ballot in April. Please stay tuned as we announce
-          the new voting period.
-        </p>
       </Card>
     </>
   )

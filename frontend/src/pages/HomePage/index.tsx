@@ -4,7 +4,7 @@ import { Button } from '../../components/Button'
 import { Card } from '../../components/Card'
 import classes from './index.module.css'
 import { MascotCard } from '../../components/MascotCard'
-import { POLL_CHOICES, VOTING_LANDING_PAGE_URL } from '../../constants/config'
+import { POLL_CHOICES } from '../../constants/config'
 import { useWeb3 } from '../../hooks/useWeb3'
 import { Alert } from '../../components/Alert'
 import { StringUtils } from '../../utils/string.utils'
@@ -138,19 +138,7 @@ export const HomePage: FC = () => {
     isLoading || selectedChoice === null || !isConnected || previousVote === selectedChoice
 
   const headerText = (
-    <>
-      Select your preferred mascot option. Once you confirm this vote you will not be able to retract it. Read
-      more about the campaign&nbsp;
-      <a
-        className={classes.landingPageLink}
-        href={VOTING_LANDING_PAGE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        on our website
-      </a>
-      .
-    </>
+    <>Select your preferred mascot option. Once you confirm this vote you will not be able to retract it.</>
   )
 
   const amendText = (
