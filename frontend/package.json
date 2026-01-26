@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "visualize:bundle": "npx vite-bundle-visualizer"
   },
-  "packageManager": "pnpm@8.15.4",
+  "packageManager": "pnpm@8.15.9",
   "engines": {
     "node": ">=20"
   },
