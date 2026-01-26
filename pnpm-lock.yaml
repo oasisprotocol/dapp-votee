@@ -42,7 +42,7 @@ importers:
   backend:
     dependencies:
       '@openzeppelin/contracts':
-        specifier: ^4.9.5
+        specifier: ^4.9.6
         version: 4.9.6
       ethers:
         specifier: 6.10.0
