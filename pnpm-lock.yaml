@@ -52,8 +52,8 @@ importers:
         specifier: ^3.0.5
         version: 3.0.5(ethers@6.10.0)(hardhat@2.21.0)
       '@oasisprotocol/sapphire-contracts':
-        specifier: ^0.2.7
-        version: 0.2.7
+        specifier: ^0.2.18
+        version: 0.2.18
       '@oasisprotocol/sapphire-hardhat':
         specifier: ^2.19.4
         version: 2.19.4(hardhat@2.21.0)
@@ -1197,8 +1197,11 @@ packages:
       bsaes: 0.0.2
       uint32: 0.2.1
 
-  /@oasisprotocol/sapphire-contracts@0.2.7:
-    resolution: {integrity: sha512-jMCRA/l9dWKDmvjYzfK+u87/GhTYrEdnmTxG924KHNTAGeJs9y9rpihPEVMhQfe8DeHEdaLULormCsebJVxfdA==}
+  /@oasisprotocol/sapphire-contracts@0.2.18:
+    resolution: {integrity: sha512-2DcMp4EKMdqbIWeDra7E8pBfSACVFBxZ/Uzs+AprpHH18dMZGj7vLWmp3978hZ1f0HA0cggkuWDw/LjZurJyng==}
+    dependencies:
+      '@openzeppelin/contracts': 5.4.0
+      '@openzeppelin/contracts-upgradeable': 5.4.0(@openzeppelin/contracts@5.4.0)
     dev: true
 
   /@oasisprotocol/sapphire-hardhat@2.19.4(hardhat@2.21.0):
@@ -1226,9 +1229,21 @@ packages:
       - bufferutil
       - utf-8-validate
 
+  /@openzeppelin/contracts-upgradeable@5.4.0(@openzeppelin/contracts@5.4.0):
+    resolution: {integrity: sha512-STJKyDzUcYuB35Zub1JpWW58JxvrFFVgQ+Ykdr8A9PGXgtq/obF5uoh07k2XmFyPxfnZdPdBdhkJ/n2YxJ87HQ==}
+    peerDependencies:
+      '@openzeppelin/contracts': 5.4.0
+    dependencies:
+      '@openzeppelin/contracts': 5.4.0
+    dev: true
+
   /@openzeppelin/contracts@4.9.6:
     resolution: {integrity: sha512-xSmezSupL+y9VkHZJGDoCBpmnB2ogM13ccaYDWqJTfS3dbuHkgjuwDFUmaFauBCboQMGB/S5UqUl2y54X99BmA==}
     dev: false
+
+  /@openzeppelin/contracts@5.4.0:
+    resolution: {integrity: sha512-eCYgWnLg6WO+X52I16TZt8uEjbtdkgLC0SUX/xnAksjjrQI4Xfn4iBRoI5j55dmlOhDv1Y7BoR3cU7e3WWhC6A==}
+    dev: true
 
   /@phosphor-icons/core@2.0.8:
     resolution: {integrity: sha512-I9MdTtqjqZDXwo6bbG5lRWZUJMWgXc70hZAVG1OVNVmb6j7039slVXLDH4VEok3U3h1Yhotxe8G5l4sPHJBDzQ==}
