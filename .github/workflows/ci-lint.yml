@@ -27,15 +27,15 @@ jobs:
       - name: Set up Python 3
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.14.7'
       - name: Set up Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '20.20.2'
       - uses: pnpm/action-setup@v3
         name: Install pnpm
         with:
-          version: 8
+          version: 8.15.9
           run_install: false
       - name: Set workflow variables
         # Id is needed to access output in a next step.
