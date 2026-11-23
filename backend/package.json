@@ -21,7 +21,7 @@
     "prepublishOnly": "pnpm build"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.9.5",
+    "@openzeppelin/contracts": "^4.9.6",
     "ethers": "6.10.0"
   },
   "devDependencies": {
